@@ -1,0 +1,98 @@
+.hero {
+  text-align: center;
+  padding: 150px 0 50px 0;
+  background: #ffecec;
+  position: relative;
+  overflow: visible; /* Changed to visible to avoid clipping scroll */
+}
+
+.parallax-bg {
+  background: linear-gradient(120deg, #ffecec 0%, #fffde4 100%);
+  background-attachment: fixed;
+}
+
+.hero-content h1 {
+  font-size: 2.8rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.hero-content p {
+  max-width: 600px;
+  margin: 0 auto 30px auto;
+  font-size: 1.1rem;
+  color: #444;
+}
+
+.hero-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+
+.hero-btn {
+  border: none;
+  padding: 18px 38px;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  cursor: pointer;
+  font-weight: 600;
+  margin: 0;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 160px;
+}
+
+.hero-btn.primary {
+  background: linear-gradient(135deg, #ff4747 0%, #ff6b6b 100%);
+  color: white;
+  box-shadow: 0 8px 25px rgba(255, 71, 71, 0.3);
+}
+
+.hero-btn.primary:hover {
+  background: linear-gradient(135deg, #e03737 0%, #ff4747 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 35px rgba(255, 71, 71, 0.4);
+}
+
+.hero-btn.secondary {
+  background: transparent;
+  color: #ff4747;
+  border: 2px solid #ff4747;
+  box-shadow: 0 4px 15px rgba(255, 71, 71, 0.1);
+}
+
+.hero-btn.secondary:hover {
+  background: #ff4747;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 71, 71, 0.3);
+}
+
+.hero-collage {
+  margin-top: 54px;
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  max-width: 100%;
+  overflow: visible; /* Ensure the video container does not hide overflowing content */
+}
+
+.hero-collage video {
+  border-radius: 20px; /* smooth curved edges */
+  width: 500px;
+  max-width: 90vw;
+  box-shadow: 0 8px 48px rgba(0, 0, 0, 0.09);
+  object-fit: cover;
+  display: block;
+  /* Prevent video from blocking scroll */
+  pointer-events: auto; 
+  /* Enable smooth hardware accelerated transformations if adding animations */
+  will-change: transform;
+}
