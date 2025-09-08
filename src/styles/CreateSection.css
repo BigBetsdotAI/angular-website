@@ -1,0 +1,210 @@
+.create-hero {
+  background: #fff;
+  text-align: center;
+  padding-top: 40px;
+}
+
+.create-label {
+  display: inline-block;
+  background: #ffeaea;
+  color: #ff4747;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  padding: 4px 15px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  margin-bottom: 22px;
+}
+
+.create-heading {
+  font-size: 2.75rem;
+  font-weight: 700;
+  margin: 26px 0 20px 0;
+  line-height: 1.18;
+}
+
+.tab-bar {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 60px;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  font-size: 1.22rem;
+  font-weight: 500;
+  color: #bbb;
+  cursor: not-allowed;
+  opacity: 0.55;
+  position: relative;
+  transition: color 0.2s;
+  gap: 9px;
+}
+
+.tab.active {
+  color: #ff4747;
+  opacity: 1;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.tab-icon {
+  font-size: 1em;
+}
+
+.tab-underline {
+  position: absolute;
+  bottom: -8px;
+  left: 12%;
+  right: 12%;
+  height: 5px;
+  border-radius: 4px;
+  background: #ff4747;
+}
+
+.create-bg {
+  width: 100vw;
+  margin-left: 50%;
+  transform: translateX(-50%);
+  background: #ffeaea;
+  padding: 54px 0;
+  box-sizing: border-box;
+}
+
+.create-feature {
+  max-width: 1100px;
+  margin: 0 auto;
+  background: #ffeaea;
+  border-radius: 16px;
+  padding: 48px 46px 52px 56px;
+  display: flex;
+  align-items: center;
+  gap: 60px;
+  box-shadow: 0 5px 32px rgba(130, 80, 80, 0.055);
+}
+
+.create-feature-left {
+  flex: 1.15 1 400px;
+}
+
+.create-feature-left h3 {
+  font-size: 2.05rem;
+  font-weight: 600;
+  margin-bottom: 17px;
+}
+
+.create-feature-left b {
+  font-size: 1.13rem;
+  display: block;
+  margin-bottom: 19px;
+}
+
+.create-feature-left p {
+  color: #484848;
+  margin-bottom: 34px;
+  font-size: 1.14rem;
+  line-height: 1.6;
+}
+
+.create-btn {
+  background: #ff4747;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 1.2em 2em;
+  font-size: 1.18rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(255, 71, 71, 0.11);
+  transition: background 0.2s;
+}
+
+.create-btn:hover {
+  background: #e33636;
+}
+
+.create-feature-right {
+  flex: 1 1 370px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.create-feature-right img {
+  border-radius: 12px;
+  width: 390px;
+  max-width: 100%;
+  min-width: 0;
+  box-shadow: 0 8px 32px rgba(60,60,60,0.13);
+  background: #fff;
+}
+
+/* Responsive (optional): */
+@media (max-width: 1100px) {
+  .create-feature {
+    flex-direction: column;
+    text-align: left;
+    padding: 42px 14vw;
+    gap: 34px;
+  }
+  .create-feature-right img {
+    width: 90vw;
+    max-width: 390px;
+    margin-top: 18px;
+  }
+}
+@media (max-width: 700px) {
+  .create-feature {
+    padding: 32px 3vw 40px 3vw;
+  }
+  .create-heading {
+    font-size: 2rem;
+  }
+}
+
+.tab-list {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 60px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  font-size: 1.22rem;
+  font-weight: 500;
+  color: #bbb;
+  position: relative;
+  gap: 9px;
+  cursor: pointer;
+  opacity: 0.85;
+  min-width: 90px;
+  justify-content: center;
+  background: none;
+  border: none;
+}
+
+.tab.active {
+  color: #ff4747;
+  font-weight: 700;
+  opacity: 1;
+}
+
+.tab-underline {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: #ff4747;
+  border-radius: 3px 3px 0 0;
+  bottom: -11px;
+  z-index: 1;
+}
+/* Existing create-feature, create-bg, etc. CSS stays unchanged */
+
