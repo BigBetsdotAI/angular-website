@@ -29,13 +29,13 @@
   height: auto;
   display: block;
   padding: 0 10px;
+  margin-left: 4rem;
 }
 
 nav ul {
   list-style: none;
   display: flex;
   gap: 40px;
-  margin-right: 6%;
 }
 
 nav a {
@@ -62,6 +62,7 @@ nav a:hover {
   color: #f82d19;
   cursor: pointer;
   transition: 0.3s ease;
+  margin-right: 8rem;
 }
 .login-btn:hover {
   background-color: #f82d19;
