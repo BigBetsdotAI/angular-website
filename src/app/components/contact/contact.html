@@ -1,0 +1,151 @@
+<app-header></app-header>
+
+<section class="contact-section">
+  <div class="container">
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <span>GET IN TOUCH</span>
+    </div>
+    
+    <!-- Header -->
+    <div class="contact-header">
+      <h1>Let's Start a Conversation</h1>
+      <p>Have a project in mind? We'd love to hear from you. Send us a message and we'll respond as soon as possible.</p>
+    </div>
+    
+    <!-- Contact Content -->
+    <div class="contact-content">
+      <!-- Contact Information -->
+      <div class="contact-info">
+        <h3>Contact Information</h3>
+        
+        <div class="info-item">
+          <div class="icon email-icon">
+            <i class="fas fa-envelope"></i>
+          </div>
+          <div class="info-details">
+            <h4>Email</h4>
+            <p>hello@bigbets.one</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="icon phone-icon">
+            <i class="fas fa-phone"></i>
+          </div>
+          <div class="info-details">
+            <h4>Phone</h4>
+            <p>+1 (555) 123-4567</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="icon address-icon">
+            <i class="fas fa-map-marker-alt"></i>
+          </div>
+          <div class="info-details">
+            <h4>Address</h4>
+            <p>123 Innovation Street<br>Tech City, TC 12345</p>
+          </div>
+        </div>
+        
+        <div class="info-item">
+          <div class="icon time-icon">
+            <i class="fas fa-clock"></i>
+          </div>
+          <div class="info-details">
+            <h4>Business Hours</h4>
+            <p>Mon - Fri: 9:00 AM - 6:00 PM<br>Sat - Sun: Closed</p>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Welcome Message -->
+      <div class="welcome-message">
+        <h3>Ready to Start Your Project?</h3>
+        <p>We're here to help you bring your ideas to life. Whether you have a specific project in mind or just want to explore possibilities, our team is ready to assist you.</p>
+        
+        <div class="contact-features">
+          <div class="feature-item">
+            <i class="fas fa-rocket"></i>
+            <h4>Quick Response</h4>
+            <p>We respond to all inquiries within 24 hours</p>
+          </div>
+          
+          <div class="feature-item">
+            <i class="fas fa-users"></i>
+            <h4>Expert Team</h4>
+            <p>Work with experienced professionals</p>
+          </div>
+          
+          <div class="feature-item">
+            <i class="fas fa-star"></i>
+            <h4>Quality Service</h4>
+            <p>Delivering excellence in every project</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Contact Us Button at Bottom -->
+  <div class="contact-us-section">
+    <button class="contact-us-btn" (click)="openContactForm()">
+      <span>Contact Us</span>
+      <i class="fas fa-arrow-right"></i>
+    </button>
+  </div>
+</section>
+
+<!-- Contact Form Modal -->
+<div class="contact-modal" [style.display]="isModalOpen ? 'flex' : 'none'" id="contactModal">
+  <div class="modal-overlay" (click)="closeContactForm()"></div>
+  <div class="modal-content">
+    <div class="modal-header">
+      <h2>Get In Touch</h2>
+      <button class="close-btn" (click)="closeContactForm()">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    
+    <div class="modal-body">
+      <form class="quick-contact-form" (submit)="onSubmitQuickForm($event)">
+        <div class="form-row">
+          <div class="form-group half-width">
+            <label for="quickName">Full Name *</label>
+            <input type="text" id="quickName" name="quickName" placeholder="Enter your name" required>
+          </div>
+          <div class="form-group half-width">
+            <label for="quickEmail">Email Address *</label>
+            <input type="email" id="quickEmail" name="quickEmail" placeholder="Enter your email" required>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="quickPhone">Phone Number</label>
+          <input type="tel" id="quickPhone" name="quickPhone" placeholder="Enter your phone number">
+        </div>
+        
+        <div class="form-group">
+          <label for="quickSubject">Subject *</label>
+          <input type="text" id="quickSubject" name="quickSubject" placeholder="What's this regarding?" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="quickMessage">Message *</label>
+          <textarea id="quickMessage" name="quickMessage" placeholder="Tell us about your project or inquiry..." rows="4" required></textarea>
+        </div>
+        
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" (click)="closeContactForm()">Cancel</button>
+          <button type="submit" class="submit-modal-btn">
+            <span>Send Message</span>
+            <i class="fas fa-paper-plane"></i>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

@@ -1,50 +1,103 @@
 .brands-section {
-  box-shadow: var(--drop-shadow-500-box-shadow, 0px 4px 4px -4px rgba(12, 12, 13, 0.05), 0px 16px 16px -8px rgba(12, 12, 13, 0.1));
-  padding: 60px 0;
+  background-color: #f8f9fa;
+  padding: 80px 0;
   text-align: center;
 }
 
-.brands-logos {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 40px;
-  margin-top: 30px;
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 
-.brands-logos img {
-  max-height: 50px;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
+.brands-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 60px;
+  text-align: center;
 }
 
-.brands-logos img:hover {
-  opacity: 1;
-}
-.image-scroller {
+.brands-carousel {
   width: 100%;
   overflow: hidden;
-  margin: 20px 0;
+  position: relative;
 }
 
-.image-track {
+.brands-track {
   display: flex;
+  align-items: center;
+  gap: 80px;
   width: max-content;
-  animation: scroll-left 20s linear infinite;
+  animation: scroll-right-to-left 30s linear infinite;
 }
 
-.image-track img {
-  height: 60px;
-  margin: 0 30px;
+.brand-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s ease, opacity 0.3s ease;
   flex-shrink: 0;
-  object-fit: contain;
 }
 
-@keyframes scroll-left {
+.brand-item img {
+  max-height: 50px;
+  max-width: 120px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  opacity: 0.9;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.brand-item:hover img {
+  opacity: 1;
+  transform: scale(1.1);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .brands-logos {
+    gap: 40px;
+  }
+  
+  .brands-title {
+    font-size: 2rem;
+    margin-bottom: 40px;
+  }
+  
+  .brand-item img {
+    max-height: 40px;
+    max-width: 100px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brands-logos {
+    gap: 30px;
+  }
+  
+  .brands-title {
+    font-size: 1.8rem;
+  }
+  
+  .brand-item img {
+    max-height: 35px;
+    max-width: 80px;
+  }
+}
+
+/* Animation for moving brands from right to left */
+@keyframes scroll-right-to-left {
   0% {
     transform: translateX(0);
   }
   100% {
     transform: translateX(-50%);
   }
+}
+
+/* Pause animation on hover */
+.brands-carousel:hover .brands-track {
+  animation-play-state: paused;
 }

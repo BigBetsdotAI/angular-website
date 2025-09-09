@@ -34,10 +34,29 @@ nav a {
   color: #111827;
   font-weight: 500;
   transition: color 0.3s ease;
+  cursor: pointer;
 }
 
 nav a:hover {
   color: #f82d19;
+}
+
+.logo {
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.contact-link {
+  color: #f82d19 !important;
+  font-weight: 600 !important;
+}
+
+.contact-link:hover {
+  color: #d42d19 !important;
 }
 .login-btn{
     width: 7%;
