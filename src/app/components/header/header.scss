@@ -36,9 +36,13 @@ nav a {
   transition: color 0.3s ease;
   cursor: pointer;
 }
-
 nav a:hover {
-  color: #f82d19;
+  color: #f82d19; /* hover */
+}
+
+
+.contact-link.visited {
+  color: #f82d19; /* your visited color */
 }
 
 .logo {
@@ -48,15 +52,6 @@ nav a:hover {
 
 .logo:hover {
   opacity: 0.8;
-}
-
-.contact-link {
-  color: #f82d19 !important;
-  font-weight: 600 !important;
-}
-
-.contact-link:hover {
-  color: #d42d19 !important;
 }
 .login-btn{
     width: 7%;
