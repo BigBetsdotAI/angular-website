@@ -157,7 +157,7 @@
   font-size: 15px;
   font-weight: 400;
   position: absolute;
-  left: 103px;
+  left: 1130px;
   top: 64px;
 }
 .brands {
@@ -229,10 +229,10 @@
   border-style: solid;
   border-color: rgba(248, 45, 25, 0.34);
   border-width: 5px 0 0 0;
-  width: 518px;
+  width: 529px;
   height: 0px;
   position: absolute;
-  left: 823px;
+  left: 820px;
   top: 165px;
   transform-origin: 0 0;
   transform: rotate(0deg) scale(1, 1);
@@ -284,7 +284,7 @@
   width: 529px;
   height: 0px;
   position: absolute;
-  left: 823px;
+  left: 820px;
   top: 633.9px;
   transform-origin: 0 0;
   transform: rotate(-0.098deg) scale(1, 1);
@@ -570,7 +570,7 @@ img.x-logo1 {
   color: #671d1d;
   text-align: left;
   font-family: "PlayfairDisplay-Regular", sans-serif;
-  font-size: 50px;
+  font-size: 45px;
   font-weight: 400;
   position: absolute;
   left: 100px;
@@ -601,7 +601,7 @@ img.x-logo1 {
   color: #671d1d;
   text-align: left;
   font-family: "PlayfairDisplay-Regular", sans-serif;
-  font-size: 50px;
+  font-size: 45px;
   line-height: 145.04%;
   font-weight: 400;
   position: absolute;
@@ -945,7 +945,7 @@ img.x-logo1 {
 }
 .follow-me4 {
   position: absolute;
-  left: 151px;
+  left: 147px;
   top: 503px;
   cursor: pointer ;
 }
@@ -955,7 +955,11 @@ img.x-logo1 {
   font-family: "Laila-SemiBold", sans-serif;
   font-size: 15px;
   font-weight: 600;
-  
+  text-decoration: none;
+}
+.followme {
+  background: none;
+  border: none;
 }
 .followme a:hover{
     color: #f82d19;

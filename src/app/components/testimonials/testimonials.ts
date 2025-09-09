@@ -9,8 +9,6 @@ import { RouterLink } from '@angular/router';
 })
 export class Testimonials {
 
-  openPortfolioInNewTab() {
-    window.open('/portfolio', '_blank');
-  }
+ 
 
 }
