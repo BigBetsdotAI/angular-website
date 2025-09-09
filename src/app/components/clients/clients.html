@@ -1,5 +1,5 @@
-  <h2 appFadeIn>Our Clients Success Stories</h2>
-  <section class="profiles-section">
+<h2 appFadeIn>Our Clients Success Stories</h2>
+<section class="profiles-section">
   <!-- Parallax Background -->
 
   <!-- Parallax Foreground Content -->
@@ -14,7 +14,7 @@
         <b>Ankur Arora Murder Case</b>, she steadily built her career through
         consistency and versatility.
       </p>
-      <button class="read-btn"><a href="#portfolio"> Read More</a></button>
+      <button class="read-btn" (click)="openKhushbooPortfolio()">Read More</button>
     </div>
 
     <div class="profile-card">
@@ -41,3 +41,88 @@
     </div>
   </div>
 </section>
+
+<!-- Khushboo Kamal Portfolio Modal -->
+<div class="portfolio-modal-overlay" *ngIf="isPortfolioModalOpen" (click)="closePortfolioModal()">
+  <div class="portfolio-modal-content" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closePortfolioModal()">
+      <i class="fas fa-times"></i>
+    </button>
+    
+    <div class="portfolio-header">
+      <img src="assets/images/khushbooclient.png" alt="Khushboo Kamal" class="portfolio-profile-img">
+      <div class="portfolio-info">
+        <h1>Khushboo Kamal</h1>
+        <p class="profession">Actress & Model</p>
+        <p class="location">Mumbai, India</p>
+      </div>
+    </div>
+
+    <div class="portfolio-body">
+      <div class="portfolio-section">
+        <h3>About</h3>
+        <p>Born in Kanpur, Khushboo Kamal followed her passion for acting to Mumbai and carved her niche in both films and television. Starting with small roles in Dabangg and Ankur Arora Murder Case, she steadily built her career through consistency and versatility.</p>
+      </div>
+
+      <div class="portfolio-section">
+        <h3>Notable Works</h3>
+        <div class="work-grid">
+          <div class="work-item">
+            <h4>Dabangg</h4>
+            <p>Supporting Role - Bollywood Film</p>
+          </div>
+          <div class="work-item">
+            <h4>Ankur Arora Murder Case</h4>
+            <p>Featured Role - Drama Film</p>
+          </div>
+          <div class="work-item">
+            <h4>Television Series</h4>
+            <p>Multiple appearances in popular shows</p>
+          </div>
+          <div class="work-item">
+            <h4>Brand Campaigns</h4>
+            <p>Fashion and lifestyle endorsements</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h3>Skills & Expertise</h3>
+        <div class="skills">
+          <span class="skill-tag">Method Acting</span>
+          <span class="skill-tag">Television Drama</span>
+          <span class="skill-tag">Commercial Films</span>
+          <span class="skill-tag">Brand Modeling</span>
+          <span class="skill-tag">Theatre</span>
+          <span class="skill-tag">Dance</span>
+        </div>
+      </div>
+
+      <div class="portfolio-section">
+        <h3>Social Media</h3>
+        <div class="social-links">
+          <div class="social-item">
+            <i class="fab fa-instagram"></i>
+            <span>@khushbookamal</span>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-facebook"></i>
+            <span>Khushboo Kamal Official</span>
+          </div>
+          <div class="social-item">
+            <i class="fab fa-twitter"></i>
+            <span>@khushbookamal</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="portfolio-section quote-section">
+        <blockquote>
+          <i class="fas fa-quote-left"></i>
+          Every role teaches you something new about yourself and your craft. I believe in bringing authenticity to every character I portray.
+          <i class="fas fa-quote-right"></i>
+        </blockquote>
+      </div>
+    </div>
+  </div>
+</div>
