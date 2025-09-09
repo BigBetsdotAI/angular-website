@@ -1,16 +1,19 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-testimonials',
-  imports: [RouterLink],
+  imports: [],
   templateUrl: './testimonials.html',
   styleUrl: './testimonials.scss'
 })
 export class Testimonials {
 
-  openPortfolioInNewTab() {
-    window.open('/portfolio', '_blank');
+  constructor(private router: Router) {}
+
+  openPortfolio() {
+    console.log('Testimonials Read More button clicked!');
+    this.router.navigate(['/portfolio']);
   }
 
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-clients',
@@ -8,8 +9,13 @@ import { Component } from '@angular/core';
 })
 export class Clients {
 
-  openPortfolioInNewTab() {
-    window.open('/portfolio', '_blank');
+  constructor(private router: Router) {}
+
+  openPortfolio() {
+    console.log('Read More button clicked!');
+    console.log('Navigating to portfolio page...');
+    // Navigate to portfolio page in the same tab
+    this.router.navigate(['/portfolio']);
   }
 
 }
