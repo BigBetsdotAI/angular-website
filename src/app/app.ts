@@ -9,6 +9,7 @@ import { Services } from './components/services/services';
 import { Testimonials } from './components/testimonials/testimonials';
 import { FadeInDirective } from './directives/fade-in';
 import { ParallaxDirective } from './directives/parallax';
+import { Portfolio } from './portfolio/portfolio';
 
 @Component({
   selector: 'app-root',
@@ -23,7 +24,8 @@ import { ParallaxDirective } from './directives/parallax';
     Clients,
     Footer,
     ParallaxDirective,
-    FadeInDirective
+    FadeInDirective,
+    Portfolio
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
