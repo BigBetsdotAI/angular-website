@@ -88,7 +88,11 @@
       font-size: 20px;
       cursor: pointer;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      a{
+        color: white;
+      }
     }
+
   }
 
   .testimonial-text {
@@ -100,7 +104,7 @@
     .platform {
       font-size: 14px;
       font-weight: bold;
-      color: #e91e63;
+      color: #f82d19;
       margin-bottom: 10px;
 
       i {

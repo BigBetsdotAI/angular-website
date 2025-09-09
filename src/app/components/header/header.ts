@@ -11,11 +11,15 @@ import { isPlatformBrowser } from '@angular/common';
 })
 export class Header {
 isVisited = false;
+menuOpen = false;
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
+toggleMenu() {
+  this.menuOpen = !this.menuOpen;
+}
 markVisited(event: Event) {
   console.log('yesyes yeah');
   event.preventDefault();
