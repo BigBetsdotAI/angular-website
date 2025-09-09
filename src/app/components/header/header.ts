@@ -10,10 +10,21 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './header.scss'
 })
 export class Header {
+isVisited = false;
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
+
+markVisited(event: Event) {
+  console.log('yesyes yeah');
+  event.preventDefault();
+  console.log('oh yeah');
+  this.isVisited = true;
+  console.log('oh nooo');
+  this.navigateToContact();
+  console.log('oh shit');
+}
 
   navigateToSection(sectionId: string) {
     // Check if we're currently on the contact page
@@ -34,9 +45,6 @@ export class Header {
     this.router.navigate(['/contact']).then(() => {
       // Scroll to top after navigation
       if (isPlatformBrowser(this.platformId)) {
-        setTimeout(() => {
-          window.scrollTo(0, 0);
-        }, 0);
       }
     });
   }
