@@ -1,0 +1,132 @@
+.brands-feature-section {
+  width: 100%;
+  background: #fff;
+  padding: 64px 0 0 0;
+}
+
+.brands-title {
+  text-align: center;
+  font-size: 2.15rem;
+  font-weight: 700;
+  margin-bottom: 38px;
+}
+
+.brands-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 48px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+.brands-row img {
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.feature-row {
+  margin: 0 auto 80px auto;
+  margin-top: 0;
+  display: flex;
+  max-width: 960px;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 2px 18px rgba(140,130,130,0.07);
+  align-items: stretch;
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.feature-text {
+  flex: 1.07 1 390px;
+  padding: 46px 40px 46px 36px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.feature-label {
+  display: inline-block;
+  background: #ffeaea;
+  color: #ff4747;
+  border-radius: 12px;
+  font-size: 0.98rem;
+  padding: 2px 14px;
+  margin-bottom: 19px;
+  letter-spacing: 1.1px;
+}
+
+.feature-text h3 {
+  font-size: 2rem;
+  font-weight: 500;
+  margin-bottom: 13px;
+  line-height: 1.21;
+}
+
+.feature-text h3 b {
+  font-weight: 700;
+}
+
+.feature-text p {
+  color: #444;
+  font-size: 1.15rem;
+  margin: 0 0 16px 0;
+}
+
+.feature-btn {
+  background: #ff4747;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 14px 32px;
+  font-size: 1.06rem;
+  font-weight: 600;
+  box-shadow: 0 2px 12px rgba(255,71,71,0.09);
+  cursor: pointer;
+  margin-top: 18px;
+  width: fit-content;
+}
+
+.feature-btn:hover {
+  background: #e03737;
+}
+
+.feature-image {
+  flex: 1 1 300px;
+  min-width: 240px;
+  display: flex;
+  align-items: stretch;
+  justify-content: flex-end;
+  background: #fff;
+}
+
+.feature-image img {
+  display: block;
+  width: 98%;
+  height: 98%;
+  max-width: 370px;
+  object-fit: cover;
+  border-radius: 0 0 18px 0;
+}
+
+/* Typewriter animation styles */
+.typewriter-text {
+  display: inline;
+  font-family: inherit;
+}
+
+.typewriter-text span {
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 50% { opacity: 1; }
+  51%, 100% { opacity: 0; }
+}
+
+/* Ensure proper line height for typewriter text */
+.feature-text p .typewriter-text {
+  line-height: 1.5;
+}
