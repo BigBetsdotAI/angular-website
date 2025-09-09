@@ -8,4 +8,8 @@ import { Component } from '@angular/core';
 })
 export class Clients {
 
+  openPortfolioInNewTab() {
+    window.open('/portfolio', '_blank');
+  }
+
 }

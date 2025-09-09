@@ -123,6 +123,22 @@
       font-size: 14px;
       color: #777;
     }
+
+    .read-more-btn {
+      background: #f44336;
+      color: #fff;
+      padding: 8px 16px;
+      border: none;
+      border-radius: 20px;
+      font-size: 14px;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+
+      &:hover {
+        background: #d32f2f;
+      }
+    }
   }
 }
 
