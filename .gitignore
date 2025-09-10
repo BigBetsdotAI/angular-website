@@ -40,3 +40,21 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+
+# Backend environment variables and sensitive files
+backend/.env
+backend/node_modules/
+*.log
+
+# Gmail integration and OAuth files
+**/gmail-integration.js
+**/gmail.config.ts
+**/gmail*.js
+**/oauth*.json
+
+# Any files containing credentials
+**/*credential*
+**/*secret*
+**/*key*
+!**/package.json
+!**/package-lock.json
