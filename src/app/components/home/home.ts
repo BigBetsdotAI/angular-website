@@ -7,14 +7,12 @@ import { Clients } from '../clients/clients';
 import { Footer } from '../footer/footer';
 import { Services } from '../services/services';
 import { Testimonials } from '../testimonials/testimonials';
-import { OurBrand } from '../our-brand/ourBrand';
 
 @Component({
   selector: 'app-home',
   imports: [
     Header,
     Hero,
-    OurBrand,
     Brands,
     About,
     Services,
