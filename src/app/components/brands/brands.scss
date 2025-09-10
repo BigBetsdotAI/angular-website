@@ -1,5 +1,5 @@
 .brands-section {
-  background-color: #f8f9fa;
+  // background-color: #f8f9fa;
   padding: 80px 0;
   text-align: center;
 }
@@ -54,7 +54,20 @@
   opacity: 1;
   transform: scale(1.1);
 }
-
+.line{
+  border-style: solid;
+    border-color: #000000;
+    border-width: 1px 0 0 0;
+    opacity: 0.1;
+    width: 80%;
+    height: 0px;
+    position: absolute;
+    left: 10%;
+    margin-top: 5%;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    transform-origin: 0 0;
+    transform: rotate(0deg) scale(1, 1);
+}
 /* Responsive Design */
 @media (max-width: 768px) {
   .brands-logos {
