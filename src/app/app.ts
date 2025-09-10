@@ -8,6 +8,7 @@ import { Clients } from './components/clients/clients';
 import { Footer } from './components/footer/footer';
 import { Services } from './components/services/services';
 import { Testimonials } from './components/testimonials/testimonials';
+import { OurBrand } from './components/our-brand/ourBrand';
 import { FadeInDirective } from './directives/fade-in';
 import { ParallaxDirective } from './directives/parallax';
 import { Portfolio } from './portfolio/portfolio';
@@ -25,6 +26,7 @@ import { Portfolio } from './portfolio/portfolio';
     Testimonials,
     Clients,
     Footer,
+    OurBrand,
     ParallaxDirective,
     FadeInDirective,
     Portfolio

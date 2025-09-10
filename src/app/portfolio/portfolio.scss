@@ -90,34 +90,49 @@ header .login-btn:hover {
 }
 
 .btn, .btn-outline {
+  border: solid 1px #f82d19;
+  padding: 6px 15px;
+  border-radius: 15px;
+  background: #f82d19;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
   margin: 15px;
-    padding: 8px 25px;
-    border-radius: 30px;
-    font-size: 15px;
-    text-decoration: none;
-    transition: all 0.3s;
+  font-size: 15px;
+  text-decoration: none;
+  display: inline-block;
 }
 
 .btn {
+  border: solid 1px #f82d19;
+  padding: 6px 15px;
+  border-radius: 15px;
   background: #f82d19;
-  color: #fff;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .btn-outline {
-  border: 2px solid #f82d19;
-  position: absolute;
-  color: #f82d19;
+  border: solid 1px #f82d19;
+  padding: 6px 15px;
+  border-radius: 15px;
+  background: #f82d19;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
 }
 
 .btn:hover {
-  background: #c92c3d;
-  transform: scale(1.05);
+  color: #f82d19;
+  background-color: white;
+  transform: none;
 }
 
 .btn-outline:hover {
-  background: #f82d19;
-  color: #fff;
-  transform: scale(1.05);
+  color: #f82d19;
+  background-color: white;
+  transform: none;
 }
 
 .hero-img img {
@@ -332,12 +347,20 @@ footer ul li a:hover {
   padding: 30px 0;
 }
 .btn-small{
-      background: #f82d19;
-    color: #fff;
-    text-decoration: none;
-    padding: 8px 25px;
-    border-radius: 25px;
-    font-size: 15px;
+  border: solid 1px #f82d19;
+  padding: 6px 15px;
+  border-radius: 15px;
+  background: #f82d19;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+  text-decoration: none;
+  font-size: 15px;
+  display: inline-block;
+}
+.btn-small:hover {
+  color: #f82d19;
+  background-color: white;
 }
 .article-text{
   color: #671d1d;
@@ -384,6 +407,13 @@ footer ul li a:hover {
   }
   .btn-outline{
     position: relative;
+    border: solid 1px #f82d19;
+    padding: 6px 15px;
+    border-radius: 15px;
+    background: #f82d19;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
   }
   .hero{
     padding: 4rem 2rem;
@@ -402,7 +432,13 @@ footer ul li a:hover {
     font-size: 1.8rem;
   }
   .btn, .btn-outline {
-    padding: 0.6rem 1.2rem;
+    border: solid 1px #f82d19;
+    padding: 6px 15px;
+    border-radius: 15px;
+    background: #f82d19;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
   }
   .impact,.articles, .story, .events, .follow{
     padding: 4rem 2rem;
@@ -419,5 +455,12 @@ footer ul li a:hover {
   }
   .btn-outline{
     position: relative;
+    border: solid 1px #f82d19;
+    padding: 6px 15px;
+    border-radius: 15px;
+    background: #f82d19;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
   }
 }

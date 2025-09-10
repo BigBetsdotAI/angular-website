@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Footer } from '../components/footer/footer';
 import { Header } from '../components/header/header';
 
@@ -8,6 +8,11 @@ import { Header } from '../components/header/header';
   templateUrl: './portfolio.html',
   styleUrl: './portfolio.scss'
 })
-export class Portfolio {
+export class Portfolio implements OnInit {
+
+  ngOnInit() {
+    // Scroll to top when portfolio component is initialized
+    window.scrollTo(0, 0);
+  }
 
 }

@@ -58,16 +58,17 @@
   box-shadow: 0 6px 18px rgba(0,0,0,0.1);
 }
 .cta-btn{
-        width: 20%;
-    margin-right: 6%;
-    border: solid;
-    border-color: #f82d19;
-    padding: 6px;
+    border: solid 1px #f82d19;
+    padding: 6px 15px;
     border-radius: 15px;
-    background: white;
-    color: #f82d19;
+    background: #f82d19;
+    color: #ffffff;
+    cursor: pointer;
+    transition: 0.3s ease;
+    width: auto;
+    margin-right: 6%;
 }
 .cta-btn:hover{
-    background-color: #f82d19;
-    color: #fff;
+    color: #f82d19;
+    background-color: white;
 }

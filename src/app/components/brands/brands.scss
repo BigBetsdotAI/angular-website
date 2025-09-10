@@ -27,9 +27,12 @@
 .brands-track {
   display: flex;
   align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
   gap: 80px;
-  width: max-content;
-  animation: scroll-right-to-left 30s linear infinite;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 .brand-item {
@@ -70,7 +73,7 @@
 }
 /* Responsive Design */
 @media (max-width: 768px) {
-  .brands-logos {
+  .brands-track {
     gap: 40px;
   }
   
@@ -86,7 +89,7 @@
 }
 
 @media (max-width: 480px) {
-  .brands-logos {
+  .brands-track {
     gap: 30px;
   }
   
@@ -98,19 +101,4 @@
     max-height: 35px;
     max-width: 80px;
   }
-}
-
-/* Animation for moving brands from right to left */
-@keyframes scroll-right-to-left {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-/* Pause animation on hover */
-.brands-carousel:hover .brands-track {
-  animation-play-state: paused;
 }
