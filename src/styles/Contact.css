@@ -129,12 +129,52 @@
   font-family: inherit;
 }
 
+.form-group input.error,
+.form-group textarea.error {
+  border-color: #ff4757;
+  background: #fff5f5;
+}
+
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
   border-color: #ff4747;
   box-shadow: 0 0 0 3px rgba(255, 71, 71, 0.1);
   background: white;
+}
+
+.error-message {
+  color: #ff4757;
+  font-size: 0.875rem;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: 500;
+}
+
+.form-buttons {
+  display: flex;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.cancel-btn {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 18px 30px;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  flex: 1;
+}
+
+.cancel-btn:hover {
+  background: #5a6268;
+  transform: translateY(-2px);
 }
 
 .form-group textarea {
@@ -156,7 +196,7 @@
   justify-content: center;
   gap: 10px;
   transition: all 0.3s ease;
-  width: 100%;
+  flex: 2;
   margin-top: 10px;
 }
 

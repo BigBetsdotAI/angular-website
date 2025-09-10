@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject, PLATFORM_ID } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
@@ -7,21 +7,33 @@ import { isPlatformBrowser } from '@angular/common';
 
 @Component({
   selector: 'app-contact',
-  imports: [FormsModule, CommonModule, Header, Footer],
+  imports: [ReactiveFormsModule, CommonModule, Header, Footer],
   templateUrl: './contact.html',
   styleUrl: './contact.scss'
 })
 export class Contact implements OnInit {
   isModalOpen = false;
+  contactForm: FormGroup;
+  quickContactForm: FormGroup;
   
-  formData = {
-    fullName: '',
-    email: '',
-    subject: '',
-    message: ''
-  };
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private fb: FormBuilder
+  ) {
+    // Initialize reactive forms with validation
+    this.contactForm = this.fb.group({
+      fullName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      email: ['', [Validators.required, Validators.email]],
+      message: ['', [Validators.required, Validators.minLength(10)]]
+    });
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+    this.quickContactForm = this.fb.group({
+      quickName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s]+$/)]],
+      quickEmail: ['', [Validators.required, Validators.email]],
+      quickPhone: ['', [Validators.pattern(/^[\d\s\+\-\(\)]+$/), Validators.minLength(10)]],
+      quickMessage: ['', [Validators.required, Validators.minLength(10)]]
+    });
+  }
 
   ngOnInit() {
     // Scroll to top when component loads
@@ -44,50 +56,72 @@ export class Contact implements OnInit {
     }
   }
 
-  onSubmitQuickForm(event: Event) {
-    event.preventDefault();
-    const form = event.target as HTMLFormElement;
-    const formData = new FormData(form);
-    
-    const contactData = {
-      name: formData.get('quickName') as string,
-      email: formData.get('quickEmail') as string,
-      phone: formData.get('quickPhone') as string,
-      subject: formData.get('quickSubject') as string,
-      message: formData.get('quickMessage') as string
-    };
-
-    console.log('Quick contact form submitted:', contactData);
-    alert('Thank you for your message! We\'ll get back to you soon.');
-    
-    // Reset form and close modal
-    form.reset();
-    this.closeContactForm();
-  }
-
-  onSubmit() {
-    if (this.isFormValid()) {
-      console.log('Form submitted:', this.formData);
-      // Here you can add your form submission logic
-      // For example, send data to a backend service
+  onSubmitQuickForm() {
+    if (this.quickContactForm.valid) {
+      const contactData = this.quickContactForm.value;
+      console.log('Quick contact form submitted:', contactData);
       alert('Thank you for your message! We\'ll get back to you soon.');
-      this.resetForm();
+      
+      // Reset form and close modal
+      this.quickContactForm.reset();
+      this.closeContactForm();
+    } else {
+      // Mark all fields as touched to show validation errors
+      this.markFormGroupTouched(this.quickContactForm);
     }
   }
 
-  private isFormValid(): boolean {
-    return !!(this.formData.fullName && 
-             this.formData.email && 
-             this.formData.subject && 
-             this.formData.message);
+  onSubmit() {
+    if (this.contactForm.valid) {
+      console.log('Form submitted:', this.contactForm.value);
+      alert('Thank you for your message! We\'ll get back to you soon.');
+      this.contactForm.reset();
+    } else {
+      // Mark all fields as touched to show validation errors
+      this.markFormGroupTouched(this.contactForm);
+    }
   }
 
-  private resetForm() {
-    this.formData = {
-      fullName: '',
-      email: '',
-      subject: '',
-      message: ''
+  // Helper method to check if a field has errors and is touched
+  isFieldInvalid(form: FormGroup, fieldName: string): boolean {
+    const field = form.get(fieldName);
+    return !!(field && field.invalid && field.touched);
+  }
+
+  // Get error message for a field
+  getErrorMessage(form: FormGroup, fieldName: string): string {
+    const field = form.get(fieldName);
+    if (field && field.errors && field.touched) {
+      if (field.errors['required']) return `${this.getFieldDisplayName(fieldName)} is required`;
+      if (field.errors['email']) return 'Please enter a valid email address';
+      if (field.errors['minlength']) return `${this.getFieldDisplayName(fieldName)} must be at least ${field.errors['minlength'].requiredLength} characters long`;
+      if (field.errors['pattern']) {
+        if (fieldName.includes('Name')) return 'Name should contain only letters and spaces';
+        if (fieldName.includes('Phone')) return 'Please enter a valid phone number';
+      }
+    }
+    return '';
+  }
+
+  // Helper to get display name for field
+  private getFieldDisplayName(fieldName: string): string {
+    const names: {[key: string]: string} = {
+      fullName: 'Full Name',
+      quickName: 'Name',
+      email: 'Email',
+      quickEmail: 'Email',
+      quickPhone: 'Phone Number',
+      message: 'Message',
+      quickMessage: 'Message'
     };
+    return names[fieldName] || fieldName;
+  }
+
+  // Mark all fields in form group as touched
+  private markFormGroupTouched(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
   }
 }
