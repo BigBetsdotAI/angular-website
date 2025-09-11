@@ -10,24 +10,35 @@ import { isPlatformBrowser } from '@angular/common';
   styleUrl: './header.scss'
 })
 export class Header {
-isVisited = false;
-menuOpen = false;
+  isVisited = false;
+  menuOpen = false;
+  isMobileMenuOpen = false;
+  
   constructor(
     private router: Router,
     @Inject(PLATFORM_ID) private platformId: Object
   ) {}
 
-toggleMenu() {
-  this.menuOpen = !this.menuOpen;
-}
-markVisited(event: Event) {
-  console.log('yesyes yeah');
-  event.preventDefault();
-  console.log('oh yeah');
-  this.isVisited = true;
-  console.log('oh nooo');
-  this.navigateToContact();
-  console.log('oh shit');
+  toggleMenu() {
+    this.menuOpen = !this.menuOpen;
+  }
+  
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+  
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
+  }
+  
+  markVisited(event: Event) {
+    console.log('yesyes yeah');
+    event.preventDefault();
+    console.log('oh yeah');
+    this.isVisited = true;
+    console.log('oh nooo');
+    this.navigateToContact();
+    console.log('oh shit');
 }
 
   navigateToSection(sectionId: string) {

@@ -48,3 +48,6 @@ html, body {
   z-index: -1;
   will-change: transform;
 }
+
+// Import mobile responsive styles
+@import 'styles/mobile-responsive.scss';

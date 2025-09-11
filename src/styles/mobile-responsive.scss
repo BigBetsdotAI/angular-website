@@ -1,0 +1,338 @@
+/* ====== GLOBAL RESPONSIVE FIXES ====== */
+
+/* Prevent horizontal scrolling */
+html, body {
+  overflow-x: hidden !important;
+  max-width: 100vw !important;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Make all images responsive */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ====== MOBILE-FIRST RESPONSIVE DESIGN ====== */
+
+/* Extra Small Devices (phones, 320px - 480px) */
+@media (max-width: 480px) {
+  
+  /* Typography adjustments */
+  h1 { font-size: 1.5rem !important; line-height: 1.3; }
+  h2 { font-size: 1.3rem !important; line-height: 1.3; }
+  h3 { font-size: 1.1rem !important; }
+  p { font-size: 0.9rem; line-height: 1.5; }
+  
+  /* Header/Navbar */
+  .navbar {
+    padding: 8px 15px !important;
+  }
+  
+  .logo-img {
+    width: 30px !important;
+    margin-left: 0.5rem !important;
+  }
+  
+  .menu-toggle {
+    display: flex !important;
+  }
+  
+  .desktop-login {
+    display: none !important;
+  }
+  
+  /* Hero Section */
+  .hero {
+    padding: 2rem 1rem !important;
+    margin-top: 20% !important;
+    flex-direction: column !important;
+    text-align: center !important;
+  }
+  
+  .hero-text h1 {
+    font-size: 1.6rem !important;
+  }
+  
+  .hero-text {
+    order: 2;
+    max-width: 100% !important;
+  }
+  
+  .hero-img {
+    order: 1;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-img img {
+    width: 150px !important;
+    height: 150px !important;
+  }
+  
+  .hero-buttons {
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+  }
+  
+  .btn, .btn-outline {
+    font-size: 13px !important;
+    padding: 8px 12px !important;
+    margin: 5px !important;
+  }
+  
+  /* Services Section */
+  .services-section {
+    padding: 0px 3% !important;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 20px !important;
+  }
+  
+  .services-section h2 {
+    font-size: 24px !important;
+  }
+  
+  .card {
+    padding: 20px 15px !important;
+  }
+  
+  /* Portfolio sections */
+  .impact, .story, .events, .articles, .follow {
+    padding: 2rem 1rem !important;
+  }
+  
+  .story, .events {
+    flex-direction: column !important;
+    gap: 1.5rem !important;
+  }
+  
+  .story-text, .events-text {
+    max-width: 100% !important;
+  }
+  
+  .story-img img {
+    width: 180px !important;
+    height: 250px !important;
+  }
+  
+  /* Stats grid */
+  .stats-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  /* Articles */
+  .articles-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+  
+  /* Contact modal */
+  .modal-content {
+    max-width: 95% !important;
+    width: 90% !important;
+    padding: 20px 15px !important;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.2rem !important;
+  }
+  
+  .quick-contact-form .form-row {
+    flex-direction: column !important;
+  }
+  
+  /* Footer */
+  .footer-grid {
+    flex-direction: column !important;
+    text-align: center !important;
+    gap: 1.5rem !important;
+  }
+  
+  /* Brands */
+  .brands-title {
+    font-size: 1.6rem !important;
+  }
+  
+  .brand-item img {
+    max-height: 30px !important;
+    max-width: 70px !important;
+  }
+}
+
+/* Small Devices (tablets, 481px - 768px) */
+@media (min-width: 481px) and (max-width: 768px) {
+  
+  /* Typography */
+  h1 { font-size: 1.8rem !important; }
+  h2 { font-size: 1.5rem !important; }
+  
+  /* Header */
+  .navbar {
+    padding: 10px 20px !important;
+  }
+  
+  .logo-img {
+    width: 35px !important;
+    margin-left: 1rem !important;
+  }
+  
+  /* Hero */
+  .hero {
+    padding: 3rem 2rem !important;
+    margin-top: 18% !important;
+    flex-direction: column !important;
+  }
+  
+  .hero-text h1 {
+    font-size: 1.9rem !important;
+  }
+  
+  .hero-img img {
+    width: 200px !important;
+    height: 200px !important;
+  }
+  
+  /* Services */
+  .services-section {
+    padding: 0px 4% !important;
+  }
+  
+  .services-grid {
+    grid-template-columns: 1fr !important;
+    gap: 25px !important;
+  }
+  
+  /* Portfolio sections */
+  .impact, .story, .events, .articles, .follow {
+    padding: 3rem 2rem !important;
+  }
+  
+  .story, .events {
+    flex-direction: column !important;
+  }
+  
+  /* Contact modal */
+  .modal-content {
+    max-width: 85% !important;
+    width: 80% !important;
+  }
+}
+
+/* Medium Devices (laptops, 769px - 1024px) */
+@media (min-width: 769px) and (max-width: 1024px) {
+  
+  /* Header */
+  .navbar {
+    padding: 12px 25px !important;
+  }
+  
+  .logo-img {
+    width: 40px !important;
+    margin-left: 2rem !important;
+  }
+  
+  /* Hero */
+  .hero {
+    padding: 3rem 4rem !important;
+    margin-top: 10% !important;
+  }
+  
+  .hero-text h1 {
+    font-size: 2.2rem !important;
+  }
+  
+  /* Services */
+  .services-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+  
+  /* Portfolio sections */
+  .impact, .story, .events, .articles, .follow {
+    padding: 3rem 4rem !important;
+  }
+}
+
+/* ====== NAVIGATION RESPONSIVE ====== */
+@media (max-width: 768px) {
+  .nav-links {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    background: white;
+    flex-direction: column;
+    width: 280px;
+    padding: 80px 20px 20px 20px;
+    gap: 25px;
+    box-shadow: 4px 0 12px rgba(0,0,0,0.1);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 1001;
+  }
+
+  .nav-links.active {
+    transform: translateX(0);
+  }
+
+  .menu-toggle {
+    display: flex !important;
+    flex-direction: column;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 1002;
+  }
+
+  .menu-toggle span {
+    width: 25px;
+    height: 3px;
+    background: #111827;
+    margin: 3px 0;
+    transition: 0.3s;
+    border-radius: 2px;
+  }
+
+  .close-btn {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #111827;
+    background: none;
+    border: none;
+    display: inline !important;
+  }
+}
+
+/* ====== UTILITY CLASSES FOR RESPONSIVE ====== */
+.hide-mobile {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+.hide-desktop {
+  @media (min-width: 769px) {
+    display: none !important;
+  }
+}
+
+.text-center-mobile {
+  @media (max-width: 768px) {
+    text-align: center !important;
+  }
+}
+
+.full-width-mobile {
+  @media (max-width: 768px) {
+    width: 100% !important;
+    max-width: 100% !important;
+  }
+}

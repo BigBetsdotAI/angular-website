@@ -56,25 +56,73 @@ nav a:hover {
 /* Login button */
 .login-btn {
   border: solid 1px #f82d19;
-    padding: 6px 15px;
-    border-radius: 15px;
-    background: #f82d19;
-    color: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;
-    margin-right: 8rem;
+  padding: 6px 15px;
+  border-radius: 15px;
+  background: #f82d19;
+  color: #ffffff;
+  cursor: pointer;
+  transition: 0.3s ease;
+  margin-right: 8rem;
 }
+
+.desktop-login {
+  margin-right: 8rem;
+}
+
 .login-btn:hover {
   color: #f82d19;
   background-color: white;
-}
-
 /* --- Responsive --- */
 .menu-toggle {
   display: none;
-  font-size: 1.8rem;
+  flex-direction: column;
   cursor: pointer;
-  color: #111827;
+  padding: 8px;
+  background: none;
+  border: none;
+  z-index: 1002;
+}
+
+.menu-toggle span {
+  width: 25px;
+  height: 3px;
+  background: #111827;
+  margin: 3px 0;
+  transition: 0.3s;
+  border-radius: 2px;
+}
+
+.menu-toggle.active span:nth-child(1) {
+  transform: rotate(-45deg) translate(-5px, 6px);
+}
+
+.menu-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.menu-toggle.active span:nth-child(3) {
+  transform: rotate(45deg) translate(-5px, -6px);
+}
+
+.close-btn {
+  display: none;
+}
+
+.mobile-login-container {
+  margin-top: 20px;
+}
+
+.mobile-login {
+  width: 100% !important;
+  text-align: center;
+  padding: 10px 15px !important;
+  margin: 0 !important;
+}
+
+/* Desktop login button */
+.desktop-login {
+  margin-right: 8rem;
+}
   background: none;
   border: none;
 }

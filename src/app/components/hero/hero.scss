@@ -171,3 +171,100 @@
     background-color: #f82d19;
     color: white;
 }
+
+/* ====== HERO RESPONSIVE DESIGN ====== */
+@media (max-width: 1024px) {
+  .hero-section {
+    padding: 80px 40px;
+    min-height: 80vh;
+  }
+  
+  .image-carousel {
+    width: 600px;
+    height: 250px;
+  }
+  
+  .carousel-card {
+    width: 600px;
+    height: 250px;
+  }
+  
+  .cta-btn {
+    width: 30%;
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 60px 20px;
+    min-height: 70vh;
+  }
+  
+  .hero-section h1 {
+    font-size: 1.8rem;
+    margin-bottom: 15px;
+  }
+  
+  .hero-section p {
+    font-size: 1rem;
+    max-width: 100%;
+    margin: 0 auto 25px;
+  }
+  
+  .image-carousel {
+    width: 100%;
+    max-width: 400px;
+    height: 200px;
+    margin: 1.5rem auto;
+  }
+  
+  .carousel-card {
+    width: 400px;
+    height: 200px;
+  }
+  
+  .cta-btn {
+    width: 50%;
+    max-width: 200px;
+    font-size: 15px;
+    margin: 0 auto;
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 40px 15px;
+    min-height: 60vh;
+  }
+  
+  .hero-section h1 {
+    font-size: 1.5rem;
+    line-height: 1.2;
+  }
+  
+  .hero-section p {
+    font-size: 0.9rem;
+    line-height: 1.4;
+  }
+  
+  .image-carousel {
+    width: 100%;
+    max-width: 300px;
+    height: 150px;
+  }
+  
+  .carousel-card {
+    width: 300px;
+    height: 150px;
+  }
+  
+  .cta-btn {
+    width: 70%;
+    max-width: 250px;
+    font-size: 14px;
+    padding: 12px 20px;
+    height: auto;
+  }
+}
