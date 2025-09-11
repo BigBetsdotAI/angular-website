@@ -168,9 +168,11 @@
         
         <div class="form-actions">
           <button type="button" class="cancel-btn" (click)="closeContactForm()">Cancel</button>
-          <button type="submit" class="submit-modal-btn">
-            <span>Send Message</span>
-            <i class="fas fa-paper-plane"></i>
+          <button type="submit" class="submit-modal-btn" [disabled]="isSubmitting">
+            <span *ngIf="!isSubmitting">Send Message</span>
+            <span *ngIf="isSubmitting">Sending...</span>
+            <i class="fas fa-paper-plane" *ngIf="!isSubmitting"></i>
+            <i class="fas fa-spinner fa-spin" *ngIf="isSubmitting"></i>
           </button>
         </div>
       </form>

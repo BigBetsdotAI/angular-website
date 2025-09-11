@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { Header } from '../header/header';
 import { Footer } from '../footer/footer';
 import { isPlatformBrowser } from '@angular/common';
+import { ContactService } from '../../services/contact.service';
 
 @Component({
   selector: 'app-contact',
@@ -15,10 +16,12 @@ export class Contact implements OnInit {
   isModalOpen = false;
   contactForm: FormGroup;
   quickContactForm: FormGroup;
+  isSubmitting = false;
   
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private contactService: ContactService
   ) {
     // Initialize reactive forms with validation
     this.contactForm = this.fb.group({
@@ -57,14 +60,33 @@ export class Contact implements OnInit {
   }
 
   onSubmitQuickForm() {
-    if (this.quickContactForm.valid) {
+    if (this.quickContactForm.valid && !this.isSubmitting) {
+      this.isSubmitting = true;
       const contactData = this.quickContactForm.value;
-      console.log('Quick contact form submitted:', contactData);
-      alert('Thank you for your message! We\'ll get back to you soon.');
       
-      // Reset form and close modal
-      this.quickContactForm.reset();
-      this.closeContactForm();
+      this.contactService.sendContactForm(contactData).subscribe({
+        next: (response) => {
+          if (response.success) {
+            alert('✅ ' + response.message);
+            this.quickContactForm.reset();
+            this.closeContactForm();
+          } else {
+            alert('❌ ' + response.message);
+          }
+          this.isSubmitting = false;
+        },
+        error: (error) => {
+          console.error('Contact form error:', error);
+          let errorMessage = 'Failed to send message. Please try again later.';
+          
+          if (error.error && error.error.message) {
+            errorMessage = error.error.message;
+          }
+          
+          alert('❌ ' + errorMessage);
+          this.isSubmitting = false;
+        }
+      });
     } else {
       // Mark all fields as touched to show validation errors
       this.markFormGroupTouched(this.quickContactForm);
