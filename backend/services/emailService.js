@@ -8,6 +8,10 @@ class EmailService {
 
   initializeTransporter() {
     try {
+      console.log('🔧 Initializing email transporter...');
+      console.log('📧 SMTP User:', process.env.SMTP_USER);
+      console.log('🔐 SMTP Pass configured:', process.env.SMTP_PASS ? 'Yes' : 'No');
+
       this.transporter = nodemailer.createTransport({
         service: 'gmail', // You can change this to other services like 'outlook', 'yahoo', etc.
         auth: {
@@ -20,13 +24,15 @@ class EmailService {
       this.transporter.verify((error, success) => {
         if (error) {
           console.error('❌ Email service configuration error:', error.message);
+          console.error('❌ Error code:', error.code);
+          console.error('❌ Error response:', error.response);
         } else {
           console.log('✅ Email service is ready to send messages');
         }
       });
 
     } catch (error) {
-      console.error('Failed to initialize email service:', error);
+      console.error('❌ Failed to initialize email service:', error);
     }
   }
 

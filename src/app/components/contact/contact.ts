@@ -17,6 +17,8 @@ export class Contact implements OnInit {
   contactForm: FormGroup;
   quickContactForm: FormGroup;
   isSubmitting = false;
+  showThankYou = false;
+  submittedData: any = null;
   
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
@@ -33,7 +35,7 @@ export class Contact implements OnInit {
     this.quickContactForm = this.fb.group({
       quickName: ['', [Validators.required, Validators.minLength(2), Validators.pattern(/^[a-zA-Z\s]+$/)]],
       quickEmail: ['', [Validators.required, Validators.email]],
-      quickPhone: ['', [Validators.pattern(/^[\d\s\+\-\(\)]+$/), Validators.minLength(10)]],
+      quickPhone: ['', [Validators.required, Validators.pattern(/^[\d\s\+\-\(\)]+$/), Validators.minLength(10)]],
       quickMessage: ['', [Validators.required, Validators.minLength(10)]]
     });
   }
@@ -54,6 +56,8 @@ export class Contact implements OnInit {
 
   closeContactForm() {
     this.isModalOpen = false;
+    this.showThankYou = false;
+    this.submittedData = null;
     if (isPlatformBrowser(this.platformId)) {
       document.body.style.overflow = 'auto';
     }
@@ -67,9 +71,14 @@ export class Contact implements OnInit {
       this.contactService.sendContactForm(contactData).subscribe({
         next: (response) => {
           if (response.success) {
-            alert('✅ ' + response.message);
+            // Store submitted data for thank you message
+            this.submittedData = {
+              name: contactData.quickName,
+              email: contactData.quickEmail
+            };
+            // Show thank you message instead of alert
+            this.showThankYou = true;
             this.quickContactForm.reset();
-            this.closeContactForm();
           } else {
             alert('❌ ' + response.message);
           }
@@ -145,5 +154,18 @@ export class Contact implements OnInit {
       const control = formGroup.get(key);
       control?.markAsTouched();
     });
+  }
+
+  // Method to go back to form from thank you message
+  backToForm() {
+    this.showThankYou = false;
+    this.submittedData = null;
+  }
+
+  // Method to send another message
+  sendAnotherMessage() {
+    this.showThankYou = false;
+    this.submittedData = null;
+    this.quickContactForm.reset();
   }
 }
