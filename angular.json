@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "build",
+            "outputPath": "dist/angular-website",
             "index": "src/index.html",
             "assets": [
   "src/favicon.ico",

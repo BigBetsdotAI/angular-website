@@ -16,18 +16,7 @@ import { Portfolio } from './portfolio/portfolio';
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet,
-    Header,
-    Hero,
-    Brands,
-    About,
-    Services,
-    Testimonials,
-    Clients,
-    Footer,
-    ParallaxDirective,
-    FadeInDirective,
-    Portfolio
+    RouterOutlet
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
