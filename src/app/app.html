@@ -1,10 +1,6 @@
-<router-outlet></router-outlet>
-<!-- <app-header></app-header>
-<app-hero></app-hero>
-<app-brands></app-brands>
-<app-about></app-about>
-<app-services></app-services>
-<app-testimonials></app-testimonials>
-<app-clients></app-clients>
-<app-footer></app-footer> -->
-<!-- <app-portfolio></app-portfolio> -->
+<form #contactForm="ngForm" (ngSubmit)="submitForm(contactForm.value)">
+  <input type="text" name="name" ngModel placeholder="Your Name" required />
+  <input type="email" name="email" ngModel placeholder="Your Email" required />
+  <textarea name="message" ngModel placeholder="Your Message" required></textarea>
+  <button type="submit">Send</button>
+</form>
