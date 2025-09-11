@@ -109,31 +109,61 @@
     </div>
     
     <div class="modal-body">
-      <form class="quick-contact-form" (submit)="onSubmitQuickForm($event)">
-        <div class="form-row">
-          <div class="form-group half-width">
-            <label for="quickName">Full Name *</label>
-            <input type="text" id="quickName" name="quickName" placeholder="Enter your name" required>
+      <form class="quick-contact-form" [formGroup]="quickContactForm" (ngSubmit)="onSubmitQuickForm()">
+        <div class="form-group">
+          <label for="quickName">Full Name *</label>
+          <input 
+            type="text" 
+            id="quickName" 
+            formControlName="quickName" 
+            placeholder="Enter your name"
+            [class.error]="isFieldInvalid(quickContactForm, 'quickName')">
+          <div class="error-message" *ngIf="isFieldInvalid(quickContactForm, 'quickName')">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ getErrorMessage(quickContactForm, 'quickName') }}
           </div>
-          <div class="form-group half-width">
-            <label for="quickEmail">Email Address *</label>
-            <input type="email" id="quickEmail" name="quickEmail" placeholder="Enter your email" required>
+        </div>
+
+        <div class="form-group">
+          <label for="quickEmail">Email Address *</label>
+          <input 
+            type="email" 
+            id="quickEmail" 
+            formControlName="quickEmail" 
+            placeholder="Enter your email"
+            [class.error]="isFieldInvalid(quickContactForm, 'quickEmail')">
+          <div class="error-message" *ngIf="isFieldInvalid(quickContactForm, 'quickEmail')">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ getErrorMessage(quickContactForm, 'quickEmail') }}
           </div>
         </div>
         
         <div class="form-group">
           <label for="quickPhone">Phone Number</label>
-          <input type="tel" id="quickPhone" name="quickPhone" placeholder="Enter your phone number">
-        </div>
-        
-        <div class="form-group">
-          <label for="quickSubject">Subject *</label>
-          <input type="text" id="quickSubject" name="quickSubject" placeholder="What's this regarding?" required>
+          <input 
+            type="tel" 
+            id="quickPhone" 
+            formControlName="quickPhone" 
+            placeholder="Enter your phone number"
+            [class.error]="isFieldInvalid(quickContactForm, 'quickPhone')">
+          <div class="error-message" *ngIf="isFieldInvalid(quickContactForm, 'quickPhone')">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ getErrorMessage(quickContactForm, 'quickPhone') }}
+          </div>
         </div>
         
         <div class="form-group">
           <label for="quickMessage">Message *</label>
-          <textarea id="quickMessage" name="quickMessage" placeholder="Tell us about your project or inquiry..." rows="4" required></textarea>
+          <textarea 
+            id="quickMessage" 
+            formControlName="quickMessage" 
+            placeholder="Tell us about your project or inquiry..." 
+            rows="4"
+            [class.error]="isFieldInvalid(quickContactForm, 'quickMessage')"></textarea>
+          <div class="error-message" *ngIf="isFieldInvalid(quickContactForm, 'quickMessage')">
+            <i class="fas fa-exclamation-triangle"></i>
+            {{ getErrorMessage(quickContactForm, 'quickMessage') }}
+          </div>
         </div>
         
         <div class="form-actions">
