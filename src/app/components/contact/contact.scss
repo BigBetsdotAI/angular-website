@@ -1,6 +1,6 @@
 /* ====== CONTACT SECTION ====== */
 .contact-section {
-  padding: 80px 20px;
+  padding: 120px 20px 40px 20px;
   background: #f9fafb;
   font-family: 'Inter', sans-serif;
 }
@@ -8,29 +8,12 @@
 /* Breadcrumb */
 .breadcrumb {
   text-align: center;
-  margin-top: 4%;
+  margin-top: 2%;
 }
 .label {
   display: inline-block;
-  fo/* Modal Buttons */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px; /* Reduced from default gap */
-  margin-top: 25px; /* Reduced from 30px */
-  padding-top: 18px; /* Reduced from 20px */
-  border-top: 1px solid #f3f4f6;
-}
-.cancel-btn {
-  background: #e5e7eb;
-  border: none;
-  padding: 10px 20px; /* Reduced from 12px 24px */
-  border-radius: 6px; /* Reduced from 8px */
-  cursor: pointer;
-  font-weight: 600;
-  font-size: 13px; /* Reduced from 14px */
-  transition: all 0.3s ease;
-} text-transform: uppercase;
+  font-size: 12px;
+  text-transform: uppercase;
   color: #f82d19;
   background: #ffe6e3;
   padding: 4px 10px;
@@ -40,7 +23,7 @@
 /* Header */
 .contact-header {
   text-align: center;
-  margin-bottom: 50px;
+  margin-bottom: 30px;
 }
 .contact-header h1 {
   font-size: 1.5rem;
