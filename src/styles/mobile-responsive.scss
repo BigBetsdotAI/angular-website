@@ -84,6 +84,57 @@ img {
     margin: 5px !important;
   }
   
+  /* Testimonials Section - Mobile Override */
+  .testimonial-section {
+    padding: 0px 1% !important;
+    margin-top: 1% !important;
+  }
+  
+  .testimonial-section .container {
+    flex-direction: column !important;
+    gap: 10px !important;
+    padding: 1% !important;
+    align-items: center !important;
+  }
+  
+  .testimonial-card {
+    max-width: 98vw !important;
+    width: 98vw !important;
+    padding: 10px !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
+  }
+  
+  .testimonial-image {
+    height: 80vw !important; /* Increased from 65vw to match red box exactly */
+    min-height: 400px !important; /* Increased minimum height */
+    max-height: 600px !important; /* Increased maximum height */
+    width: 100% !important;
+    position: relative !important; /* Ensure proper positioning context */
+  }
+  
+  .testimonial-image .play-btn {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important; /* Perfect centering */
+    z-index: 100 !important; /* Much higher z-index to appear above image */
+    background: rgba(244, 67, 54, 0.95) !important; /* Stronger red background */
+    border-radius: 50% !important;
+    padding: 20px 24px !important;
+    font-size: 24px !important;
+    color: white !important;
+    box-shadow: 0 8px 25px rgba(244, 67, 54, 0.6) !important; /* Stronger shadow */
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+  
+  .testimonial-text {
+    padding: 15px 10px 15px 15px !important;
+  }
+  
   /* Services Section */
   .services-section {
     padding: 0px 3% !important;
@@ -149,10 +200,105 @@ img {
   }
   
   /* Footer */
-  .footer-grid {
-    flex-direction: column !important;
+  .footer {
+    padding: 20px 4% 12px !important;
+  }
+
+  .footer-container {
+    grid-template-columns: 1fr !important;
+    gap: 15px !important;
     text-align: center !important;
-    gap: 1.5rem !important;
+  }
+
+  .footer-links-container {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: flex-start !important;
+    gap: 8px !important;
+    grid-column: 1 !important;
+  }
+
+  .dropdown-menu {
+    flex: 1 !important;
+    text-align: center !important;
+  }
+
+  .footer-about {
+    order: 1;
+    margin-bottom: 15px !important;
+  }
+
+  // Simple clickable headers for touch devices
+  .dropdown-header {
+    background: none !important;
+    border-radius: 0 !important;
+    padding: 8px 0 !important;
+    margin-bottom: 8px !important;
+    user-select: none;
+    -webkit-tap-highlight-color: rgba(248, 45, 25, 0.2);
+    font-size: 12px !important;
+    
+    &:active {
+      color: #f82d19 !important;
+      transform: none !important;
+    }
+  }
+
+  .full-width-content.show {
+    padding: 12px 0 !important;
+    background: none !important;
+    border-radius: 0 !important;
+    animation: none !important; // No animation
+    transition: none !important; // No transition
+    
+    li {
+      display: block !important;
+      margin: 8px 0 !important;
+      text-align: center !important;
+      
+      a {
+        font-size: 11px !important;
+      }
+    }
+  }
+
+  .dropdown-content.show {
+    position: static !important;
+    width: 100% !important;
+    transform: none !important;
+    background: none !important;
+    border-radius: 0 !important;
+    padding: 15px 0 !important;
+    animation: fadeIn 0.3s ease;
+    margin-top: 10px !important;
+    
+    li {
+      display: block !important;
+      margin: 10px 0 !important;
+      text-align: center !important;
+    }
+  }
+
+  .footer-bottom {
+    flex-direction: column !important;
+    gap: 10px !important;
+    text-align: center !important;
+    margin-top: 15px !important;
+  }
+
+  .footer-policies a {
+    display: inline-block !important;
+    margin: 3px 8px !important;
+    padding: 5px !important;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   
   /* Brands */
@@ -172,6 +318,38 @@ img {
   /* Typography */
   h1 { font-size: 1.8rem !important; }
   h2 { font-size: 1.5rem !important; }
+  
+  /* Testimonials for tablets */
+  .testimonial-card {
+    max-width: 90vw !important;
+    width: 90vw !important;
+    padding: 15px !important;
+  }
+  
+  .testimonial-image {
+    height: 65vw !important; /* Increased from 50vw for tablets to match proportions */
+    min-height: 380px !important;
+    max-height: 550px !important;
+    position: relative !important;
+  }
+  
+  .testimonial-image .play-btn {
+    position: absolute !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    z-index: 100 !important; /* High z-index to appear above image */
+    background: rgba(244, 67, 54, 0.95) !important; /* Strong red background */
+    border-radius: 50% !important;
+    padding: 18px 22px !important;
+    font-size: 22px !important;
+    color: white !important;
+    box-shadow: 0 6px 20px rgba(244, 67, 54, 0.6) !important;
+    cursor: pointer !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
   
   /* Header */
   .navbar {
