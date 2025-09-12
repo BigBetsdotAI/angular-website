@@ -1,6 +1,38 @@
-<form #contactForm="ngForm" (ngSubmit)="submitForm(contactForm.value)">
-  <input type="text" name="name" ngModel placeholder="Your Name" required />
-  <input type="email" name="email" ngModel placeholder="Your Email" required />
-  <textarea name="message" ngModel placeholder="Your Message" required></textarea>
-  <button type="submit">Send</button>
+<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label>Name *</label>
+    <input type="text" formControlName="name" placeholder="Your Name" />
+    <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
+      Name is required (min 3 chars).
+    </div>
+  </div>
+
+  <div>
+    <label>Email *</label>
+    <input type="email" formControlName="email" placeholder="Your Email" />
+    <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
+      Enter a valid email.
+    </div>
+  </div>
+
+  <div>
+    <label>Phone *</label>
+    <input type="text" formControlName="phone" placeholder="Your Phone" />
+    <div *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
+      Phone must be 10 digits.
+    </div>
+  </div>
+
+  <div>
+    <label>Message *</label>
+    <textarea formControlName="message" placeholder="Your Message"></textarea>
+    <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
+      Message is required (min 10 chars).
+    </div>
+  </div>
+
+  <button type="submit" [disabled]="contactForm.invalid">Send</button>
 </form>
+
+<p *ngIf="successMessage" style="color: green">{{ successMessage }}</p>
+<p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
