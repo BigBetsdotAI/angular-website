@@ -1,3 +1,10 @@
+.carousel-cta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
 .hero-section {
   position: relative;
   min-height: 80vh;
@@ -97,7 +104,7 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  background: #fff;
+  background: transparent;
   border-radius: 10px;
   box-shadow: 0 3px 12px rgba(0,0,0,0.15);
   transition: transform 0.4s ease;
@@ -106,7 +113,8 @@
 .carousel-card img {
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  display: block;
 }
 
 .carousel-card:hover {
@@ -134,45 +142,100 @@
 }
 
 /* Responsive carousel animations */
-@media (max-width: 1024px) {
+@media (max-width: 480px) {
+  .image-carousel {
+    width: 100%;
+    max-width: 280px;
+    height: 140px;
+    margin: 20px auto;
+  }
+  .carousel-card {
+    width: 280px;
+    height: 140px;
+  }
+  .carousel-track {
+    gap: 0;
+  }
   @keyframes slideCards {
-    0%   { transform: translateX(0); }       /* Card 1 */
+    0%   { transform: translateX(0); }
     16%  { transform: translateX(0); }
-
-    20%  { transform: translateX(-500px); }  /* Card 2 */
-    36%  { transform: translateX(-500px); }
-
-    40%  { transform: translateX(-1000px); } /* Card 3 */
-    56%  { transform: translateX(-1000px); }
-
-    60%  { transform: translateX(-1500px); } /* Card 4 */
-    76%  { transform: translateX(-1500px); }
-
-    80%  { transform: translateX(-2000px); } /* Card 5 */
-    96%  { transform: translateX(-2000px); }
-
-    100% { transform: translateX(0); }       /* Loop back to Card 1 */
+    20%  { transform: translateX(-280px); }
+    36%  { transform: translateX(-280px); }
+    40%  { transform: translateX(-560px); }
+    56%  { transform: translateX(-560px); }
+    60%  { transform: translateX(-840px); }
+    76%  { transform: translateX(-840px); }
+    80%  { transform: translateX(-1120px); }
+    96%  { transform: translateX(-1120px); }
+    100% { transform: translateX(0); }
+  }
+  .carousel-card {
+    width: 220px;
+    height: 80px;
+    margin: 0;
+    border-radius: 15px;
+    flex-shrink: 0;
   }
 }
 
-@media (max-width: 768px) {
-  @keyframes slideCards {
-    0%   { transform: translateX(0); }       /* Card 1 */
-    16%  { transform: translateX(0); }
-
-    20%  { transform: translateX(-300px); }  /* Card 2 */
-    36%  { transform: translateX(-300px); }
-
-    40%  { transform: translateX(-600px); } /* Card 3 */
-    56%  { transform: translateX(-600px); }
-
-    60%  { transform: translateX(-900px); } /* Card 4 */
-    76%  { transform: translateX(-900px); }
-
-    80%  { transform: translateX(-1200px); } /* Card 5 */
-    96%  { transform: translateX(-1200px); }
-
-    100% { transform: translateX(0); }       /* Loop back to Card 1 */
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 20px 10px;
+    min-height: 50vh;
+    height: 50vh;
+    margin-top: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .parallax-content.hero-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 0;
+    gap: 12px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .carousel-cta-container {
+    width: 100%;
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+  .image-carousel {
+    width: 100%;
+    max-width: 220px;
+    height: 80px;
+    margin: 0 auto 8px auto;
+  }
+  .carousel-card {
+    width: 220px;
+    height: 80px;
+  }
+  .cta-btn {
+    width: 90%;
+    max-width: 260px;
+    font-size: 15px;
+    padding: 12px 0;
+    min-width: 120px;
+    margin: 0 auto;
+  }
+  .hero-section h1 {
+    font-size: 1.1rem;
+    margin-bottom: 6px;
+    padding: 0 2px;
+  }
+  .hero-section p {
+    font-size: 0.9rem;
+    margin-bottom: 6px;
+    padding: 0 2px;
+    max-width: 95%;
   }
 }
 
@@ -368,7 +431,7 @@
 @media (max-width: 480px) {
   .hero-section {
     padding: 30px 15px;
-    min-height: 100vh;
+    min-height: auto;
     height: auto;
     margin-top: 0;
     overflow: visible;
@@ -420,7 +483,7 @@
 @media (max-width: 375px) {
   .hero-section {
     padding: 25px 10px;
-    min-height: 90vh;
+    min-height: auto;
     height: auto;
     overflow: visible;
   }
@@ -449,7 +512,7 @@
     width: 100%;
     max-width: 260px;
     height: 130px;
-    margin: 15px auto;
+    margin: 0 auto;
   }
   
   .carousel-card {

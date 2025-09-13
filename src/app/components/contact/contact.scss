@@ -1,6 +1,14 @@
+@media (max-width: 600px) {
+  .contact-section {
+    padding-top: 0px !important;
+  }
+  .breadcrumb {
+    margin-top: 8px !important;
+  }
+}
 /* ====== CONTACT SECTION ====== */
 .contact-section {
-  padding: 120px 20px 40px 20px;
+  padding: 90px 20px 40px 20px;
   background: #f9fafb;
   font-family: 'Inter', sans-serif;
 }
