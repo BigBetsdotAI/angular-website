@@ -51,7 +51,7 @@
 
   img {
     width: 100%;
-    height: 250px;
+    height: auto;
     border-radius: 10px;
     margin-bottom: 15px;
   }
@@ -101,69 +101,44 @@ h2
     color: #333;
     padding-top: 30px;
 }
+@media (max-width: 480px) {
+  .profiles-content {
+    gap: 15px; /* Reduce gap for smaller screens */
+  }   
+  .profile-card {
+    width: 90%; /* Make cards take more width on small screens */
+    max-width: 300px; /* Limit max width */
+    padding: 15px; /* Slightly reduce padding */
 
-/* Responsive Design for Clients Section */
+    h2 {
+      font-size: 18px; /* Slightly smaller title */
+      padding-top: 15px; /* Adjust padding */
+    }
+
+    p {
+      font-size: 13px; /* Slightly smaller text */
+      margin-bottom: 10px; /* Reduce margin */
+    }
+
+    .read-btn {
+      padding: 8px 16px; /* Adjust button padding */
+      font-size: 14px; /* Slightly smaller font */
+    }
+  }
+} 
+/* End of Clients Section */
+
+
+/* ---------------- RESPONSIVE ---------------- */
 @media (max-width: 768px) {
   .profiles-section {
     height: auto;
     padding: 20px 0;
-  }
-  
+  } 
   .profiles-content {
     flex-direction: column;
     gap: 20px;
     padding: 0px 10px;
     align-items: center;
-  }
-  
-  .profile-card {
-    width: 70%; /* Reduced from 90% to make cards narrower */
-    max-width: 280px; /* Reduced from 350px */
-    
-    img {
-      height: 200px;
-    }
-    
-    h2 {
-      font-size: 18px;
-      padding-top: 15px;
-    }
-    
-    p {
-      font-size: 13px;
-      line-height: 1.5;
-    }
-    
-    .read-btn {
-      padding: 8px 16px;
-      font-size: 14px;
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .profile-card {
-    width: 75%; /* Reduced from 95% for smaller width */
-    max-width: 250px; /* Reduced max width */
-    padding: 15px;
-    
-    img {
-      height: 180px; /* Keep height as it was okay */
-    }
-    
-    h2 {
-      font-size: 16px;
-      padding-top: 10px;
-    }
-    
-    p {
-      font-size: 12px;
-      margin-bottom: 10px;
-    }
-    
-    .read-btn {
-      padding: 6px 14px;
-      font-size: 13px;
-    }
   }
 }

@@ -72,3 +72,23 @@
     color: #f82d19;
     background-color: white;
 }
+@media (max-width: 480px) {
+  .about-text h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .about-text, .about-image {
+    min-width: 100%;
+  }
+
+  .about-text h2 {
+    font-size: 1.5rem;
+  }
+}

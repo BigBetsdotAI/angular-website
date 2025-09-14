@@ -2,9 +2,6 @@
   .contact-section {
     padding-top: 0px !important;
   }
-  .breadcrumb {
-    margin-top: 8px !important;
-  }
 }
 /* ====== CONTACT SECTION ====== */
 .contact-section {
@@ -12,11 +9,9 @@
   background: #f9fafb;
   font-family: 'Inter', sans-serif;
 }
-
 /* Breadcrumb */
 .breadcrumb {
   text-align: center;
-  margin-top: 2%;
 }
 .label {
   display: inline-block;
@@ -27,6 +22,7 @@
   padding: 4px 10px;
   border-radius: 20px;
   margin-bottom: 15px;
+  margin-top: 15px;
 }
 /* Header */
 .contact-header {
@@ -123,12 +119,15 @@
   border-radius: 10px;
   margin-right: 12px;
 }
+.feature-text{
+  display: flex;
+}
 .feature-item h4 {
   font-size: 15px;
     font-weight: 400;
     margin: 8px;
     color: #111827;
-    width: 25%;
+    width: 150px;
 }
 .feature-item p {
   font-size: 0.9rem;
@@ -425,6 +424,16 @@
 
 /* ====== RESPONSIVE ====== */
 @media (max-width: 768px) {
+.feature-text{
+  display: inline-block;
+  width: 75%;
+  margin-left: 10px;
+  font-size: 14px;
+}
+.feature-item h4{
+  width: 100%;
+  margin: 0;
+}
   .contact-content {
     flex-direction: column;
     gap: 20px;
@@ -471,7 +480,16 @@
   .contact-content {
     gap: 15px;
   }
-  
+  .feature-text{
+  display: inline-block;
+  width: 75%;
+  margin-left: 10px;
+  font-size: 14px;
+}
+.feature-item h4{
+  width: 100%;
+  margin: 0;
+}
   .contact-info, .welcome-message {
     padding: 20px;
   }

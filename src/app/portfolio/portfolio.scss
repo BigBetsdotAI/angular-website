@@ -105,8 +105,8 @@ header .login-btn:hover {
 
 .btn {
   border: solid 1px #f82d19;
-  padding: 6px 15px;
-  border-radius: 15px;
+  padding: 6px 35px;
+  border-radius: 25px;
   background: #f82d19;
   color: #ffffff;
   cursor: pointer;
@@ -346,10 +346,13 @@ footer ul li a:hover {
 .quote{
   padding: 30px 0;
 }
+.story-text{
+  margin-bottom: 20px;
+}
 .btn-small{
   border: solid 1px #f82d19;
-  padding: 6px 15px;
-  border-radius: 15px;
+  padding: 6px 35px;
+  border-radius: 25px;
   background: #f82d19;
   color: #ffffff;
   cursor: pointer;
@@ -383,84 +386,135 @@ footer ul li a:hover {
 }
 
 /* Responsive */
-@media (max-width: 900px) {
-  .hero, .story, .events {
-    flex-direction: column;
-    text-align: center;
-  }
+// @media (max-width: 900px) {
+//   .hero, .story, .events {
+//     flex-direction: column;
+//     text-align: center;
+//   }
 
-  .hero-text, .story-text, .events-text {
-    max-width: 100%;
-  }
+//   .hero-text, .story-text, .events-text {
+//     max-width: 100%;
+//   }
 
-  .hero-img img, .story-img img {
-    margin-top: 1rem;
-  }
-  .hero, .impact,.article, .story, .events, .follow{
-    padding: 4rem 2rem;
-  }
-  .hero-buttons{
-    display: block;
-  }
-  .events-text p{
-    margin-bottom: 10%;
-  }
-  .btn-outline{
-    position: relative;
-    border: solid 1px #f82d19;
-    padding: 6px 15px;
-    border-radius: 15px;
-    background: #f82d19;
-    color: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  .hero{
-    padding: 4rem 2rem;
-    margin-top: 25%;
-  }
-}
+//   .hero-img img, .story-img img {
+//     margin-top: 1rem;
+//   }
+//   .hero, .impact,.article, .story, .events, .follow{
+//     padding: 4rem 2rem;
+//   }
+//   .hero-buttons{
+//     display: block;
+//   }
+//   .events-text p{
+//     margin-bottom: 10%;
+//   }
+//   .btn-outline{
+//     position: relative;
+//     border: solid 1px #f82d19;
+//     padding: 6px 15px;
+//     border-radius: 15px;
+//     background: #f82d19;
+//     color: #ffffff;
+//     cursor: pointer;
+//     transition: 0.3s ease;
+//   }
+//   .hero{
+//     padding: 4rem 2rem;
+//     margin-top: 0%;
+//   }
+// }
 
-@media (max-width: 600px) {
-  header nav {
-    display: none;
-  }
-  header {
-    justify-content: space-between;
-  }
+// @media (max-width: 600px) {
+//   header nav {
+//     display: none;
+//   }
+//   header {
+//     justify-content: space-between;
+//   }
+//   .hero-text h1 {
+//     font-size: 1.8rem;
+//   }
+//   .btn, .btn-outline {
+//     border: solid 1px #f82d19;
+//     padding: 6px 15px;
+//     border-radius: 15px;
+//     background: #f82d19;
+//     color: #ffffff;
+//     cursor: pointer;
+//     transition: 0.3s ease;
+//   }
+//   .impact,.articles, .story, .events, .follow{
+//     padding: 4rem 2rem;
+//   }
+//   .hero{
+//     padding: 4rem 2rem;
+//     margin-top: 0%;
+//   }
+//   .hero-buttons{
+//     display: block;
+//   }
+//   .events-text p{
+//     margin-bottom: 10%;
+//   }
+//   .btn-outline{
+//     position: relative;
+//     border: solid 1px #f82d19;
+//     padding: 6px 15px;
+//     border-radius: 15px;
+//     background: #f82d19;
+//     color: #ffffff;
+//     cursor: pointer;
+//     transition: 0.3s ease;
+//   }
+// }
+@media (max-width: 400px) {
   .hero-text h1 {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
-  .btn, .btn-outline {
-    border: solid 1px #f82d19;
-    padding: 6px 15px;
-    border-radius: 15px;
-    background: #f82d19;
-    color: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;
-  }
-  .impact,.articles, .story, .events, .follow{
-    padding: 4rem 2rem;
-  }
-  .hero{
-    padding: 4rem 2rem;
-    margin-top: 25%;
-  }
-  .hero-buttons{
-    display: block;
-  }
-  .events-text p{
-    margin-bottom: 10%;
-  }
-  .btn-outline{
-    position: relative;
-    border: solid 1px #f82d19;
-    padding: 6px 15px;
-    border-radius: 15px;
-    background: #f82d19;
-    color: #ffffff;
-    cursor: pointer;
-    transition: 0.3s ease;
+    .quote{
+      padding: 15px 0;
+    }
+  .hero-img img {
+    width: 200px;
+    height: 200px;
   }
 }
+  @media (max-width: 768px) {
+    .hero, .story, .events {
+      flex-direction: column;
+      text-align: center;
+    }
+    .quote{
+      padding: 15px 0;
+    }
+    .hero-text, .story-text, .events-text {
+      max-width: 100%;
+    }
+  
+    .hero-img img, .story-img img {
+      margin-top: 1rem;
+    }
+    .hero, .impact,.article, .story, .events, .follow{
+      padding: 4rem 2rem;
+    }
+    .hero-buttons{
+      display: block;
+    }
+    .events-text p{
+      margin-bottom: 10%;
+    }
+    .btn-outline{
+      position: relative;
+      border: solid 1px #f82d19;
+      padding: 6px 15px;
+      border-radius: 15px;
+      background: #f82d19;
+      color: #ffffff;
+      cursor: pointer;
+      transition: 0.3s ease;
+    }
+    .hero{
+      padding: 4rem 2rem;
+      margin-top: 0%;
+    }
+  } 
