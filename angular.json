@@ -17,16 +17,16 @@
         "build": {
           "builder": "@angular/build:application",
           "options": {
-            "outputPath": "build",
+            "outputPath": "dist/angular-website",
             "index": "src/index.html",
             "assets": [
-  "src/favicon.ico",
-  "src/assets/images",
-  {
+              "src/favicon.ico",
+              "src/assets/images",
+              {
                 "glob": "**/*",
                 "input": "public"
               }
-],
+            ],
             "browser": "src/main.ts",
             "polyfills": [
               "zone.js"
@@ -39,14 +39,11 @@
           },
           "configurations": {
             "production": {
-              "fileReplacements": [
-      {
-        "replace": "src/environments/environment.ts",
-        "with": "src/environments/environment.prod.ts"
-      }
-    ],
-              "budgets": [
-                {
+              "fileReplacements": [{
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.prod.ts"
+              }],
+              "budgets": [{
                   "type": "initial",
                   "maximumWarning": "2mb",
                   "maximumError": "5mb"
@@ -91,12 +88,10 @@
             ],
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
-            "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
-            ],
+            "assets": [{
+              "glob": "**/*",
+              "input": "public"
+            }],
             "styles": [
               "src/styles.scss"
             ]
