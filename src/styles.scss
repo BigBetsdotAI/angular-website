@@ -1,3 +1,6 @@
+// Import mobile responsive styles - must be at the top
+@use 'styles/base/mobile-responsive.scss';
+
 /* You can add global styles to this file, and also import other style files */
 html, body {
   margin: 0;
@@ -5,6 +8,28 @@ html, body {
   font-family: 'Inter', sans-serif;
   overflow-x: hidden;
   scroll-behavior: smooth;
+  position: relative;
+}
+
+/* Background Logo Watermark */
+body::before {
+  content: '';
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background-image: url('https://ggggg.s3.eu-north-1.amazonaws.com/logo-removebg-preview.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: transparent;
+  opacity: 0.05;
+  z-index: -1;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  filter: contrast(1.2) brightness(0) invert(1) opacity(0.05);
 }
 
 .section {
@@ -48,6 +73,3 @@ html, body {
   z-index: -1;
   will-change: transform;
 }
-
-// Import mobile responsive styles
-@import 'styles/mobile-responsive.scss';

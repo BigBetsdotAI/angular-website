@@ -1,0 +1,64 @@
+<section class="hero-section">
+  <!-- Removed unwanted background image for mobile view -->
+  <div class="parallax-background parallax-desktop"
+    style="background-image: url('https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/agency.png')"></div>
+<style>
+@media (max-width: 480px) {
+  .parallax-background.parallax-desktop {
+    display: none !important;
+  }
+}
+</style>
+  <div class="parallax-content hero-content">
+    <h1>At BigBets.AI – We Make Sure You Are Seen!</h1>
+    <p>
+      We help you build a personal brand that drives business growth.
+    </p>
+<!-- ✅ Auto-switching image carousel -->
+<!-- <div class="image-carousel" appFadeIn delay="0.5s" duration="1s">
+  <div class="carousel-track">
+    <img src="assets/images/agency.png" alt="">
+    <img src="assets/images/growth.jpg" alt="">
+    <img src="assets/images/brandcollab.png" alt="">
+    <img src="assets/images/socialmedia.png" alt="">
+  </div>
+</div> -->
+<div class="carousel-cta-container">
+  <!-- Show loader while images are loading -->
+  <div *ngIf="imagesLoading" class="image-loader-container">
+    <app-loader></app-loader>
+  </div>
+  
+  <!-- Show carousel when images are loaded -->
+  <div *ngIf="!imagesLoading" class="image-carousel">
+    <div class="carousel-track">
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/agency.png" alt="">
+      </div>
+      <div class="carousel-card">
+         <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/growth.png" alt="">
+      </div>
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/growbusiness.png" alt="">
+      </div>
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/socialmedia.png" alt="">
+      </div>
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/agency.png" alt="">
+      </div>
+      <div class="carousel-card">
+         <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/growth.png" alt="">
+      </div>
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/growbusiness.png" alt="">
+      </div>
+      <div class="carousel-card">
+        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/socialmedia.png" alt="">
+      </div>
+    </div>
+  </div>
+  <button class="cta-btn" (click)="navigateToContact()">Get Started Free</button>
+</div>
+  </div>
+</section>

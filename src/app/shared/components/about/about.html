@@ -1,0 +1,27 @@
+<section id="about" class="about-section">
+  <div class="about-container">
+    <div class="about-text" appFadeIn>
+      <span class="label">OUR PROMISE</span>
+      <h2>Tool <strong>built for creators.</strong></h2>
+      <p>
+        We have tools to support your content journey from regular post
+        to high quality podcast. We understand the need is different for all creators.
+      </p>
+      <p>
+        BigBets uses AI based tools for market research,
+        content generation and publish.
+      </p>
+      <button class="cta-btn" (click)="navigateToContact()">Talk to us!</button>
+    </div>
+
+    <!-- Show loader while image is loading -->
+    <div *ngIf="imagesLoading" class="about-loader-container">
+      <app-loader></app-loader>
+    </div>
+    
+    <!-- Show image when loaded -->
+    <div *ngIf="!imagesLoading" class="about-image" appFadeIn delay="0.3s">
+      <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/about.jpg" alt="About">
+    </div>
+  </div>
+</section>
