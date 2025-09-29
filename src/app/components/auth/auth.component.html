@@ -1,0 +1,127 @@
+<div class="auth-container">
+  <!-- Sparkle Background -->
+  <div class="sparkle-container">
+    <div class="sparkle" *ngFor="let sparkle of sparkles; let i = index" 
+         [style.left.%]="sparkle.left"
+         [style.top.%]="sparkle.top"
+         [style.width.px]="sparkle.size"
+         [style.height.px]="sparkle.size"
+         [style.animation-delay.s]="sparkle.delay">
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    <div class="auth-card">
+      <div class="logo-section">
+        <div class="logo">BigBets.AI</div>
+        <p class="tagline">Your Gateway to Intelligent Betting</p>
+      </div>
+
+      <div class="form-section">
+        <div class="form-toggle">
+          <button 
+            class="toggle-btn" 
+            [class.active]="isLogin"
+            (click)="isLogin = true; toggleAuthMode()">
+            Sign In
+          </button>
+          <button 
+            class="toggle-btn" 
+            [class.active]="!isLogin"
+            (click)="isLogin = false; toggleAuthMode()">
+            Sign Up
+          </button>
+        </div>
+
+        <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="auth-form">
+          <!-- Full Name (Register only) -->
+          <div class="form-group" *ngIf="!isLogin">
+            <input 
+              type="text" 
+              formControlName="fullName"
+              placeholder="Full Name"
+              class="form-input">
+          </div>
+
+          <!-- Email -->
+          <div class="form-group">
+            <input 
+              type="email" 
+              formControlName="email"
+              placeholder="Email Address"
+              class="form-input">
+          </div>
+
+          <!-- Password -->
+          <div class="form-group">
+            <input 
+              type="password" 
+              formControlName="password"
+              placeholder="Password"
+              class="form-input">
+          </div>
+
+          <!-- Confirm Password (Register only) -->
+          <div class="form-group" *ngIf="!isLogin">
+            <input 
+              type="password" 
+              formControlName="confirmPassword"
+              placeholder="Confirm Password"
+              class="form-input">
+          </div>
+
+          <!-- Remember Me / Agree to Terms -->
+          <div class="form-options">
+            <label class="checkbox-label" *ngIf="isLogin">
+              <input type="checkbox" class="checkbox">
+              <span class="checkmark"></span>
+              Remember me
+            </label>
+            <label class="checkbox-label" *ngIf="!isLogin">
+              <input type="checkbox" formControlName="agreeToTerms" class="checkbox">
+              <span class="checkmark"></span>
+              I agree to the Terms & Conditions
+            </label>
+            <a href="#" class="forgot-link" *ngIf="isLogin">Forgot Password?</a>
+          </div>
+
+          <!-- Submit Button -->
+          <button type="submit" class="submit-btn" [disabled]="authForm.invalid">
+            {{ isLogin ? 'Sign In' : 'Create Account' }}
+          </button>
+        </form>
+
+        <!-- Social Login -->
+        <div class="social-section">
+          <div class="divider">
+            <span>or continue with</span>
+          </div>
+          
+          <div class="social-buttons">
+            <button class="social-btn instagram" (click)="socialLogin('Instagram')">
+              <span class="social-icon">📷</span>
+              Instagram
+            </button>
+            <button class="social-btn facebook" (click)="socialLogin('Facebook')">
+              <span class="social-icon">📘</span>
+              Facebook
+            </button>
+            <button class="social-btn twitter" (click)="socialLogin('X/Twitter')">
+              <span class="social-icon">🐦</span>
+              X/Twitter
+            </button>
+            <button class="social-btn linkedin" (click)="socialLogin('LinkedIn')">
+              <span class="social-icon">💼</span>
+              LinkedIn
+            </button>
+            <button class="social-btn youtube" (click)="socialLogin('YouTube')">
+              <span class="social-icon">📹</span>
+              YouTube
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

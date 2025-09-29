@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AuthFlow - Sign In</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #f3f4f6 0%, #dbeafe 100%);
+            font-family: Arial, sans-serif;
+        }
+        
+        .sparkle-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 0;
+        }
+        
+        .sparkle {
+            position: absolute;
+            background: radial-gradient(circle, rgba(255, 255, 255, 1) 0%, rgba(59, 130, 246, 0.8) 30%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: twinkle 3s ease-in-out infinite;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px rgba(59, 130, 246, 0.4);
+        }
+        
+        .sparkle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 1), transparent);
+            transform: translate(-50%, -50%);
+        }
+        
+        .sparkle::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 2px;
+            height: 100%;
+            background: linear-gradient(0deg, transparent, rgba(255, 255, 255, 1), transparent);
+            transform: translate(-50%, -50%);
+        }
+        
+        .sparkle:nth-child(1) {
+            width: 8px;
+            height: 8px;
+            left: 10%;
+            top: 20%;
+            animation-duration: 2s;
+            animation-delay: -0.5s;
+        }
+        
+        .sparkle:nth-child(2) {
+            width: 12px;
+            height: 12px;
+            left: 30%;
+            top: 60%;
+            animation-duration: 2.5s;
+            animation-delay: -1s;
+        }
+        
+        .sparkle:nth-child(3) {
+            width: 6px;
+            height: 6px;
+            left: 50%;
+            top: 15%;
+            animation-duration: 3s;
+            animation-delay: -1.5s;
+        }
+        
+        .sparkle:nth-child(4) {
+            width: 10px;
+            height: 10px;
+            left: 70%;
+            top: 40%;
+            animation-duration: 2.8s;
+            animation-delay: -0.8s;
+        }
+        
+        .sparkle:nth-child(5) {
+            width: 14px;
+            height: 14px;
+            left: 85%;
+            top: 70%;
+            animation-duration: 2.2s;
+            animation-delay: -2s;
+        }
+        
+        .sparkle:nth-child(6) {
+            width: 9px;
+            height: 9px;
+            left: 15%;
+            top: 80%;
+            animation-duration: 2.7s;
+            animation-delay: -1.2s;
+        }
+        
+        .sparkle:nth-child(7) {
+            width: 7px;
+            height: 7px;
+            left: 75%;
+            top: 25%;
+            animation-duration: 3.5s;
+            animation-delay: -0.3s;
+        }
+        
+        .sparkle:nth-child(8) {
+            width: 11px;
+            height: 11px;
+            left: 25%;
+            top: 45%;
+            animation-duration: 2.3s;
+            animation-delay: -1.8s;
+        }
+        
+        /* Left side sparkles with golden tint */
+        .sparkle-golden {
+            background: radial-gradient(circle, rgba(255, 215, 0, 1) 0%, rgba(255, 193, 7, 0.8) 30%, transparent 70%) !important;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 0 0 20px rgba(255, 193, 7, 0.4) !important;
+            animation-name: twinkle-golden !important;
+        }
+        
+        /* Right side sparkles with purple tint */
+        .sparkle-purple {
+            background: radial-gradient(circle, rgba(147, 51, 234, 1) 0%, rgba(168, 85, 247, 0.8) 30%, transparent 70%) !important;
+            box-shadow: 0 0 10px rgba(147, 51, 234, 0.8), 0 0 20px rgba(168, 85, 247, 0.4) !important;
+            animation-name: twinkle-purple !important;
+        }
+        
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+            }
+        }
+        
+        @keyframes twinkle-golden {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(180deg);
+                filter: hue-rotate(45deg);
+            }
+        }
+        
+        @keyframes twinkle-purple {
+            0%, 100% {
+                opacity: 0;
+                transform: scale(0.8) rotate(0deg);
+                filter: hue-rotate(0deg);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.2) rotate(-180deg);
+                filter: hue-rotate(-45deg);
+            }
+        }
+        
+        .content {
+            position: relative;
+            z-index: 10;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Ensure proper layering */
+        .navbar {
+            position: relative;
+            z-index: 20;
+        }
+        
+        .main-content {
+            position: relative;
+            z-index: 15;
+        }
+        
+        .footer {
+            position: relative;
+            z-index: 20;
+        }
+    </style>
+</head>
+<body>
+    <!-- Sparkle Container -->
+    <div class="sparkle-container">
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        <div class="sparkle"></div>
+        
+        <!-- Additional sparkles with different colors -->
+        <div class="sparkle sparkle-golden" style="width: 10px; height: 10px; left: 5%; top: 35%; animation-delay: -0.7s; animation-duration: 2.4s;"></div>
+        <div class="sparkle sparkle-golden" style="width: 8px; height: 8px; left: 8%; top: 55%; animation-delay: -1.3s; animation-duration: 3.2s;"></div>
+        <div class="sparkle sparkle-purple" style="width: 12px; height: 12px; left: 92%; top: 30%; animation-delay: -0.9s; animation-duration: 2.6s;"></div>
+        <div class="sparkle sparkle-purple" style="width: 9px; height: 9px; left: 88%; top: 65%; animation-delay: -1.7s; animation-duration: 2.9s;"></div>
+        
+        <!-- Extra small sparkles -->
+        <div class="sparkle" style="width: 5px; height: 5px; left: 40%; top: 10%; animation-delay: -0.4s; animation-duration: 1.8s;"></div>
+        <div class="sparkle" style="width: 6px; height: 6px; left: 60%; top: 85%; animation-delay: -2.1s; animation-duration: 2.1s;"></div>
+        <div class="sparkle" style="width: 4px; height: 4px; left: 35%; top: 75%; animation-delay: -1.6s; animation-duration: 2.7s;"></div>
+        <div class="sparkle" style="width: 7px; height: 7px; left: 80%; top: 50%; animation-delay: -0.2s; animation-duration: 3.1s;"></div>
+    </div>
+    
+    <!-- Content -->
+    <div class="content">
+        <!-- Navigation Bar -->
+        <nav class="navbar bg-white/90 backdrop-blur-sm shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <!-- Logo -->
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <h1 class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">AuthFlow</h1>
+                        </div>
+                    </div>
+                    <!-- Navigation Links -->
+                    <div class="hidden md:block">
+                        <div class="ml-10 flex items-baseline space-x-4">
+                            <a href="#" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Home</a>
+                            <a href="#" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Features</a>
+                            <a href="#" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">Pricing</a>
+                            <a href="#" class="text-gray-500 hover:text-gray-700 px-3 py-2 rounded-md text-sm font-medium transition-colors duration-200">About</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="main-content flex-grow flex items-center justify-center px-4 py-8">
+            <div class="w-full max-w-md">
+                <!-- Main Card -->
+                <div class="bg-white/95 backdrop-blur-sm rounded-xl shadow-xl border border-white/20 overflow-hidden">
+                    <!-- Tab Header -->
+                    <div class="flex border-b border-gray-200">
+                        <button id="signin-tab" class="flex-1 py-4 text-center font-medium transition-colors duration-200 text-blue-600 border-b-2 border-blue-600 bg-blue-50/50">
+                            Sign In
+                        </button>
+                        <button id="signup-tab" class="flex-1 py-4 text-center font-medium transition-colors duration-200 text-gray-500 hover:text-gray-700">
+                            Sign Up
+                        </button>
+                    </div>
+
+                    <!-- Form Content -->
+                    <div class="p-6">
+                        <!-- Dynamic Form Content -->
+                        <div id="signin-content">
+                            <div class="text-center mb-6">
+                                <h2 class="text-2xl font-bold text-gray-900 mb-2">Welcome back</h2>
+                                <p class="text-gray-600">Sign in to your account to continue</p>
+                            </div>
+                        </div>
+                        
+                        <div id="signup-content" class="hidden">
+                            <div class="text-center mb-6">
+                                <h2 class="text-2xl font-bold text-gray-900 mb-2">Create your account</h2>
+                                <p class="text-gray-600">Join us and start your journey today</p>
+                            </div>
+                        </div>
+
+                        <!-- OAuth Buttons -->
+                        <div class="space-y-3 mb-6">
+                            <button class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 transition-colors duration-200">
+                                📷 Continue with Instagram
+                            </button>
+                            
+                            <button class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200">
+                                📘 Continue with Facebook
+                            </button>
+                            
+                            <button class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-black hover:bg-gray-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 transition-colors duration-200">
+                                ❌ Continue with X (Twitter)
+                            </button>
+                            
+                            <button class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors duration-200">
+                                💼 Continue with LinkedIn
+                            </button>
+                            
+                            <button class="w-full inline-flex justify-center items-center py-3 px-4 rounded-lg shadow-sm text-sm font-medium text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 transition-colors duration-200">
+                                📺 Continue with YouTube
+                            </button>
+                        </div>
+
+                        <!-- Divider -->
+                        <div class="relative my-6">
+                            <div class="absolute inset-0 flex items-center">
+                                <div class="w-full border-t border-gray-300"></div>
+                            </div>
+                            <div class="relative flex justify-center text-sm">
+                                <span class="px-2 bg-white text-gray-500">Or continue with email</span>
+                            </div>
+                        </div>
+
+                        <!-- Email Form -->
+                        <form class="space-y-4" id="auth-form">
+                            <div id="name-field" class="hidden">
+                                <label for="fullname" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                                <input type="text" id="fullname" name="fullname"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                                       placeholder="Enter your full name">
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                                <input type="email" id="email" name="email" required 
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                                       placeholder="Enter your email">
+                            </div>
+                            
+                            <div>
+                                <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+                                <input type="password" id="password" name="password" required
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                                       placeholder="Enter your password">
+                            </div>
+                            
+                            <div id="confirm-password-field" class="hidden">
+                                <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
+                                <input type="password" id="confirmPassword" name="confirmPassword"
+                                       class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors duration-200"
+                                       placeholder="Confirm your password">
+                            </div>
+
+                            <div id="signin-options" class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="remember" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="remember" class="ml-2 block text-sm text-gray-700">Remember me</label>
+                                </div>
+                                <a href="#" class="text-sm text-blue-600 hover:text-blue-500 transition-colors duration-200">Forgot password?</a>
+                            </div>
+                            
+                            <div id="signup-options" class="hidden">
+                                <div class="flex items-center">
+                                    <input type="checkbox" id="terms" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                                    <label for="terms" class="ml-2 block text-sm text-gray-700">
+                                        I agree to the <a href="#" class="text-blue-600 hover:text-blue-500">Terms of Service</a> and 
+                                        <a href="#" class="text-blue-600 hover:text-blue-500">Privacy Policy</a>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <button type="submit" id="submit-btn"
+                                    class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-2 px-4 rounded-md hover:from-blue-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 font-medium">
+                                Sign In
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer bg-white/90 backdrop-blur-sm border-t border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 py-12 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                    <!-- Company Info -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">AuthFlow</h3>
+                        <p class="text-gray-600 text-sm mb-4">
+                            Secure authentication made simple. Enterprise-grade security for your applications.
+                        </p>
+                        <div class="flex space-x-4">
+                            <a href="#" class="text-gray-400 hover:text-gray-600">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path d="M24 4.557c-.883.392-1.832.656-2.828.775 1.017-.609 1.798-1.574 2.165-2.724-.951.564-2.005.974-3.127 1.195-.897-.957-2.178-1.555-3.594-1.555-3.179 0-5.515 2.966-4.797 6.045-4.091-.205-7.719-2.165-10.148-5.144-1.29 2.213-.669 5.108 1.523 6.574-.806-.026-1.566-.247-2.229-.616-.054 2.281 1.581 4.415 3.949 4.89-.693.188-1.452.232-2.224.084.626 1.956 2.444 3.379 4.6 3.419-2.07 1.623-4.678 2.348-7.29 2.04 2.179 1.397 4.768 2.212 7.548 2.212 9.142 0 14.307-7.721 13.995-14.646.962-.695 1.797-1.562 2.457-2.549z"/>
+                                </svg>
+                            </a>
+                            <a href="#" class="text-gray-400 hover:text-gray-600">
+                                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" clip-rule="evenodd"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Quick Links</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Home</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Features</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Documentation</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">API Reference</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Support -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Support</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Help Center</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Contact Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Privacy Policy</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Terms of Service</a></li>
+                        </ul>
+                    </div>
+                    
+                    <!-- Company -->
+                    <div>
+                        <h3 class="text-sm font-semibold text-gray-900 tracking-wider uppercase mb-4">Company</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">About Us</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Blog</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Careers</a></li>
+                            <li><a href="#" class="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-200">Press</a></li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <!-- Bottom Footer -->
+                <div class="mt-8 pt-8 border-t border-gray-200">
+                    <div class="flex flex-col md:flex-row justify-between items-center">
+                        <p class="text-gray-500 text-sm mb-4 md:mb-0">
+                            © 2025 AuthFlow. All rights reserved.
+                        </p>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-gray-500 text-sm">🔒 Secured by SSL</span>
+                            <span class="text-gray-500 text-sm">⭐ Enterprise Grade</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    
+    <script>
+        console.log('✨ AuthFlow with Sparkles loaded!');
+        console.log('⭐ Watch the magical sparkles twinkling in the background');
+        
+        // Tab switching functionality
+        const signinTab = document.getElementById('signin-tab');
+        const signupTab = document.getElementById('signup-tab');
+        const signinContent = document.getElementById('signin-content');
+        const signupContent = document.getElementById('signup-content');
+        const nameField = document.getElementById('name-field');
+        const confirmPasswordField = document.getElementById('confirm-password-field');
+        const signinOptions = document.getElementById('signin-options');
+        const signupOptions = document.getElementById('signup-options');
+        const submitBtn = document.getElementById('submit-btn');
+        
+        function showSignIn() {
+            signinTab.className = 'flex-1 py-4 text-center font-medium transition-colors duration-200 text-blue-600 border-b-2 border-blue-600 bg-blue-50/50';
+            signupTab.className = 'flex-1 py-4 text-center font-medium transition-colors duration-200 text-gray-500 hover:text-gray-700';
+            
+            signinContent.classList.remove('hidden');
+            signupContent.classList.add('hidden');
+            nameField.classList.add('hidden');
+            confirmPasswordField.classList.add('hidden');
+            signinOptions.classList.remove('hidden');
+            signupOptions.classList.add('hidden');
+            
+            submitBtn.textContent = 'Sign In';
+            
+            // Clear form
+            document.getElementById('fullname').required = false;
+            document.getElementById('confirmPassword').required = false;
+        }
+        
+        function showSignUp() {
+            signupTab.className = 'flex-1 py-4 text-center font-medium transition-colors duration-200 text-blue-600 border-b-2 border-blue-600 bg-blue-50/50';
+            signinTab.className = 'flex-1 py-4 text-center font-medium transition-colors duration-200 text-gray-500 hover:text-gray-700';
+            
+            signupContent.classList.remove('hidden');
+            signinContent.classList.add('hidden');
+            nameField.classList.remove('hidden');
+            confirmPasswordField.classList.remove('hidden');
+            signinOptions.classList.add('hidden');
+            signupOptions.classList.remove('hidden');
+            
+            submitBtn.textContent = 'Sign Up';
+            
+            // Make fields required
+            document.getElementById('fullname').required = true;
+            document.getElementById('confirmPassword').required = true;
+        }
+        
+        signinTab.addEventListener('click', showSignIn);
+        signupTab.addEventListener('click', showSignUp);
+        
+        // Form submission
+        document.getElementById('auth-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const isSignUp = !signupContent.classList.contains('hidden');
+            const formData = new FormData(e.target);
+            const data = Object.fromEntries(formData);
+            
+            console.log(`📝 ${isSignUp ? 'Sign Up' : 'Sign In'} form submitted:`, data);
+            
+            if (isSignUp) {
+                if (data.password !== data.confirmPassword) {
+                    alert('❌ Passwords do not match!');
+                    return;
+                }
+                if (!document.getElementById('terms').checked) {
+                    alert('❌ Please accept the Terms of Service and Privacy Policy');
+                    return;
+                }
+            }
+            
+            // Simulate loading
+            submitBtn.textContent = isSignUp ? 'Creating Account...' : 'Signing In...';
+            submitBtn.disabled = true;
+            
+            setTimeout(() => {
+                alert(`🎉 ${isSignUp ? 'Account created' : 'Sign in'} successful!\n\n👤 Welcome ${data.fullname || 'User'}!\n📧 Email: ${data.email}\n\n✨ This is just a demo - in a real app you'd be redirected to your dashboard.`);
+                
+                submitBtn.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+                submitBtn.disabled = false;
+                
+                // Clear form
+                e.target.reset();
+            }, 1500);
+        });
+        
+        // OAuth button clicks
+        document.querySelectorAll('button').forEach(btn => {
+            if (btn.textContent.includes('Continue with')) {
+                btn.addEventListener('click', () => {
+                    const provider = btn.textContent.split('Continue with ')[1];
+                    console.log(`🔐 ${provider} OAuth clicked!`);
+                    alert(`� ${provider} authentication clicked!\n\n✨ In a real app, this would:\n• Redirect to ${provider} OAuth\n• Handle user authentication\n• Return with user data\n\n(This is just a demo)`);
+                });
+            }
+        });
+        
+        // Debug sparkle info
+        setTimeout(() => {
+            const sparkles = document.querySelectorAll('.sparkle');
+            console.log(`Found ${sparkles.length} twinkling sparkles! ✨`);
+        }, 1000);
+    </script>
+</body>
+</html>
