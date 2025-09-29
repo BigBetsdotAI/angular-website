@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
@@ -9,12 +10,15 @@ import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angula
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
-export class AuthComponent {
+export class AuthComponent implements OnInit {
   isLogin = true;
   authForm: FormGroup;
   sparkles: Array<{left: number, top: number, size: number, delay: number}> = [];
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute
+  ) {
     this.authForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -25,6 +29,16 @@ export class AuthComponent {
 
     // Initialize sparkles
     this.initializeSparkles();
+  }
+
+  ngOnInit() {
+    // Check if we should default to signup mode
+    this.route.queryParams.subscribe(params => {
+      if (params['mode'] === 'signup') {
+        this.isLogin = false;
+        this.toggleAuthMode();
+      }
+    });
   }
 
   private initializeSparkles() {

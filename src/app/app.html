@@ -1,38 +1,23 @@
-<form [formGroup]="contactForm" (ngSubmit)="onSubmit()">
-  <div>
-    <label>Name *</label>
-    <input type="text" formControlName="name" placeholder="Your Name" />
-    <div *ngIf="contactForm.get('name')?.invalid && contactForm.get('name')?.touched">
-      Name is required (min 3 chars).
+<div class="app-container">
+  <nav class="navbar">
+    <div class="nav-brand">
+      <h1>BigBets.AI</h1>
     </div>
-  </div>
-
-  <div>
-    <label>Email *</label>
-    <input type="email" formControlName="email" placeholder="Your Email" />
-    <div *ngIf="contactForm.get('email')?.invalid && contactForm.get('email')?.touched">
-      Enter a valid email.
+    <div class="nav-center">
+      <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">About Us</a>
+      <a routerLink="/brands" routerLinkActive="active">Brands</a>
+      <a routerLink="/testimonials" routerLinkActive="active">Testimonials</a>
+      <a routerLink="/creators" routerLinkActive="active">Creators</a>
+      <a routerLink="/company" routerLinkActive="active">Company</a>
+      <a routerLink="/contact" routerLinkActive="active">Contact</a>
     </div>
-  </div>
-
-  <div>
-    <label>Phone *</label>
-    <input type="text" formControlName="phone" placeholder="Your Phone" />
-    <div *ngIf="contactForm.get('phone')?.invalid && contactForm.get('phone')?.touched">
-      Phone must be 10 digits.
+    <div class="nav-auth">
+      <button class="get-in-touch-btn" routerLink="/contact">Get In Touch</button>
+      <button class="login-signup-btn" routerLink="/auth">Login/Signup</button>
     </div>
-  </div>
+  </nav>
 
-  <div>
-    <label>Message *</label>
-    <textarea formControlName="message" placeholder="Your Message"></textarea>
-    <div *ngIf="contactForm.get('message')?.invalid && contactForm.get('message')?.touched">
-      Message is required (min 10 chars).
-    </div>
-  </div>
-
-  <button type="submit" [disabled]="contactForm.invalid">Send</button>
-</form>
-
-<p *ngIf="successMessage" style="color: green">{{ successMessage }}</p>
-<p *ngIf="errorMessage" style="color: red">{{ errorMessage }}</p>
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>
