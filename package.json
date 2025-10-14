@@ -3,8 +3,13 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
+    "start": "concurrently \"npm run start:backend\" \"npm run start:frontend\" --names \"BACKEND,FRONTEND\" --prefix-colors \"bgBlue.bold,bgMagenta.bold\"",
+    "start:frontend": "ng serve",
+    "start:backend": "cd backend && node server.js",
+    "start:frontend-only": "ng serve",
+    "start:backend-only": "cd backend && node server.js",
     "build": "ng build",
+    "build:backend": "echo Backend doesn't need build step",
     "watch": "ng build --watch --configuration development",
     "test": "ng test"
   },
@@ -38,6 +43,7 @@
     "@angular/cli": "^20.2.2",
     "@angular/compiler-cli": "^20.2.0",
     "@types/jasmine": "~5.1.0",
+    "concurrently": "^9.2.1",
     "jasmine-core": "~5.9.0",
     "karma": "~6.4.0",
     "karma-chrome-launcher": "~3.2.0",

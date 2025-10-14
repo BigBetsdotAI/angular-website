@@ -1,0 +1,33 @@
+# Stage 1: Build Angular application
+FROM node:18 AS build
+
+WORKDIR /app
+
+# Copy package files
+COPY package*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Copy source code
+COPY . .
+
+# Build Angular for production
+RUN npm run build
+
+# Stage 2: Serve with Node.js
+FROM node:18-alpine
+
+WORKDIR /app
+
+# Install serve globally
+RUN npm install -g serve
+
+# Copy built files from stage 1
+COPY --from=build /app/dist/angular-website ./dist/angular-website
+
+# Expose port
+EXPOSE 4200
+
+# Serve the application
+CMD ["serve", "-s", "dist/angular-website", "-l", "4200"]

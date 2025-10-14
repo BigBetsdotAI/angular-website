@@ -45,7 +45,7 @@ class EmailService {
       // Email to you (the admin)
       const adminMailOptions = {
         from: `"${data.name}" <${process.env.SMTP_USER}>`,
-        to: process.env.ADMIN_EMAIL || process.env.SMTP_USER,
+        to: 'contact@bigbets.ai',
         subject: `🔔 New Contact Form Submission from ${data.name}`,
         html: this.generateAdminEmailHTML(data),
         replyTo: data.email
