@@ -128,7 +128,7 @@
 
 // Hero Section
 .hero-section {
-  background: linear-gradient(135deg, #fce4ec 0%, #ffffff 100%);
+  background: linear-gradient(135deg, #e4eefc 0%, #ffffff 100%);
   padding: 60px 8%;
   position: relative;
   overflow: hidden;
@@ -220,7 +220,7 @@
       background: white;
       color: #2196f3;
       padding: 12px 32px;
-      border: 2px solid #2196f3;
+      border: 1px solid #2196f3;
       border-radius: 50px;
       font-size: 0.95rem;
       font-weight: 600;
@@ -420,7 +420,7 @@
     box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
     transition: all 0.4s ease;
     cursor: pointer;
-    border-left: 4px solid #64b5f6;
+    border-left: 2px solid #8fc1e9;
     animation: fadeInUp 0.6s ease-out forwards;
     width: 100%;
     text-align: center;
@@ -434,7 +434,7 @@
     &:hover {
       transform: translateY(-8px);
       box-shadow: 0 10px 30px rgba(33, 150, 243, 0.25);
-      border-left-color: #2196f3;
+      border-left-color: #8fc1e9;
       
       .card-image img {
         transform: scale(1.1);
@@ -495,7 +495,7 @@
     .tab-btn {
       padding: 15px 30px;
       background: white;
-      border: 2px solid #e3f2fd;
+      border: 1px solid #e3f2fd;
       border-radius: 50px;
       font-size: 1rem;
       font-weight: 600;
@@ -580,8 +580,7 @@
         position: relative;
         border-radius: 20px;
         overflow: hidden;
-        box-shadow: 0 15px 50px rgba(33, 150, 243, 0.3);
-        border: 5px solid #2196f3;
+        border: 1px solid #2196f3;
         max-width: 280px;
         width: 100%;
         height: 380px;
@@ -609,10 +608,9 @@
       .content-box {
         background: rgba(33, 150, 243, 0.08);
         backdrop-filter: blur(10px);
-        border: 2px solid rgba(33, 150, 243, 0.3);
+        border: 1px solid rgba(33, 150, 243, 0.3);
         border-radius: 20px;
         padding: 50px 40px;
-        box-shadow: 0 10px 40px rgba(33, 150, 243, 0.15);
         transition: all 0.4s ease;
         height: 350px;
         
@@ -717,7 +715,7 @@
         padding: 50px 30px;
         text-align: center;
         box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
-        border: 2px solid #2196f3;
+        border: 1px solid #2196f3;
         height: 460px;
         display: flex;
         flex-direction: column;
@@ -817,7 +815,7 @@
           flex-direction: column;
           justify-content: center;
           align-items: center;
-          border: 2px solid #2196f3;
+          border: 1px solid #2196f3;
           
           i {
             font-size: 2.5rem;
@@ -1003,7 +1001,7 @@
       .campaign-media {
         .video-placeholder.small {
           background: #f8f8f8;
-          border: 2px solid #2196f3;
+          border: 1px solid #2196f3;
           border-radius: 10px;
           padding: 30px 20px;
           text-align: center;
@@ -1082,7 +1080,7 @@
       .logo-box {
         aspect-ratio: 33/11;
         background: #f8f8f8;
-        border: 2px solid #e0e0e0;
+        border: 1px solid #e0e0e0;
         border-radius: 12px;
         display: flex;
         align-items: center;
@@ -1359,7 +1357,7 @@
     top: 50%;
     transform: translateY(-50%);
     background: white;
-    border: 2px solid #2196f3;
+    border: 1px solid #2196f3;
     border-radius: 50%;
     width: 45px;
     height: 45px;
@@ -1533,7 +1531,7 @@
       background: transparent;
       color: white;
       padding: 16px 40px;
-      border: 2px solid white;
+      border: 1px solid white;
       border-radius: 50px;
       font-size: 1.1rem;
       font-weight: 600;
