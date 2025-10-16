@@ -16,31 +16,59 @@ export class PortfolioKhushboo implements OnInit {
   testimonials = [
     { quote: "Khushboo brings incredible energy and professionalism to every project.", author: "Director Name", role: "Film Director" },
     { quote: "Working with Khushboo was an absolute pleasure. Her dedication is unmatched.", author: "Producer Name", role: "Executive Producer" },
-    { quote: "A talented actress who truly understands the craft of storytelling.", author: "Co-Star Name", role: "Lead Actor" }
+    { quote: "A talented actress who truly understands the craft of storytelling.", author: "Co-Star Name", role: "Lead Actor" },
+    { quote: "Khushboo Kamal is fantastic to work with — professional, creative, and radiant on set.", author: "Brand Partner", role: "Collaborated With" }
   ];
 
-  campaigns = {
-    'Acting Stills': [
-      { title: 'Campaign 1', description: 'Campaign | Lorem sitis +status embett rarco' },
-      { title: 'Campaign 2', quote: 'Khushboo Kamal is fantastic to work with!', brand: 'Brand Name' }
-    ],
-    'Photoshoots': [
-      { title: 'Fashion Shoot 1', description: 'High fashion editorial campaign' },
-      { title: 'Fashion Shoot 2', quote: 'Professional and creative!', brand: 'Fashion Brand' }
-    ],
-    'Behind-the-Scenes': [
-      { title: 'BTS Shoot 1', description: 'Behind the scenes moments' },
-      { title: 'BTS Shoot 2', quote: 'Great experience on set!', brand: 'Production House' }
-    ],
-    'Brand': [
-      { title: 'Brand Campaign 1', description: 'Commercial brand collaboration' },
-      { title: 'Brand Campaign 2', quote: 'Amazing brand ambassador!', brand: 'Corporate Brand' }
-    ]
-  };
+  actingStills = [
+    { title: 'Emotional Drama Scene', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k1.png' },
+    { title: 'Comedy Moment', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k2.png' },
+    { title: 'Cinematic Close-up', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k3.png' },
+    { title: 'Intense Character', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k4.png' }
+  ];
+
+  photoshootImages = [
+    { title: 'High Fashion Editorial', caption: 'Gold jewelry elegance', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k5.png' },
+    { title: 'Natural Outdoor', caption: 'Soft light candid', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k6.png' },
+    { title: 'Magazine Cover', caption: 'Editorial perfection', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k7.png' }
+  ];
+
+  btsImages = [
+    { title: 'Script Reading', caption: 'Holding script while smiling', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k8.png' },
+    { title: 'Crew Together', caption: 'Team collaboration', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k9.png' },
+    { title: 'Makeup Room', caption: 'Mirror reflection moment', image: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k1.png' }
+  ];
+
+  brandCampaigns = [
+    { 
+      title: 'Nykaa Skincare', 
+      description: 'Celebrating natural beauty through the Glow Naturally campaign.',
+      hasVideo: true,
+      duration: '15 sec'
+    },
+    { 
+      title: 'Biba India', 
+      description: 'Festive elegance meets everyday grace in the #StyleInMotion series.',
+      hasVideo: false
+    },
+    { 
+      title: 'L\'Oréal Paris', 
+      description: 'Empowering women to feel beautiful in their own skin.',
+      hasVideo: false
+    }
+  ];
+
+  brandLogos = ['Nykaa', 'Biba', 'L\'Oréal', 'Amazon Fashion', 'Lakmé'];
 
   constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
 
   ngOnInit() {
+    console.log('Portfolio component initialized. Active tab:', this.activeTab);
+    console.log('Acting stills count:', this.actingStills.length);
+    console.log('Photoshoot images count:', this.photoshootImages.length);
+    console.log('BTS images count:', this.btsImages.length);
+    console.log('Brand campaigns count:', this.brandCampaigns.length);
+    
     // Scroll to top when portfolio component is initialized
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
@@ -121,6 +149,7 @@ export class PortfolioKhushboo implements OnInit {
   }
 
   setActiveTab(tab: string) {
+    console.log('Setting active tab to:', tab);
     this.activeTab = tab;
   }
 
@@ -134,9 +163,5 @@ export class PortfolioKhushboo implements OnInit {
 
   goToSlide(index: number) {
     this.currentSlide = index;
-  }
-
-  getCurrentCampaigns() {
-    return this.campaigns[this.activeTab as keyof typeof this.campaigns] || [];
   }
 }
