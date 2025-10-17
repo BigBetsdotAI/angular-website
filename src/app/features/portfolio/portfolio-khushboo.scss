@@ -90,7 +90,7 @@
 // Slide animations for About section
 .slide-in-from-left {
   opacity: 0;
-  transform: translateX(-100px);
+  transform: translateX(-80px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   
   &.visible {
@@ -101,7 +101,7 @@
 
 .slide-in-from-right {
   opacity: 0;
-  transform: translateX(100px);
+  transform: translateX(70px);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
   transition-delay: 0.2s;
   
@@ -155,6 +155,28 @@
     position: relative;
     z-index: 1;
   }
+
+  /* Disable scroll/entrance animations in hero globally when user requests */
+  .hero-content,
+  .hero-content *,
+  .hero-greeting,
+  .main-title,
+  .subtitle,
+  .tagline,
+  .circular-photo,
+  .parallax-background,
+  .parallax-content,
+  .fade-in-up,
+  .animate-on-scroll,
+  [class*="slide-in"],
+  [class*="slideFrom"],
+  [class*="slideFromRight"],
+  [class*="slideFromLeft"] {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
   
   .hero-text {
     .hero-greeting {
@@ -191,14 +213,16 @@
     }
   }
   
-  .action-buttons {
+    .action-buttons {
     display: flex;
     gap: 15px;
     flex-wrap: nowrap;
     margin-top: 10px;
     align-items: center;
     
-    .btn-primary {
+    /* Primary (Download) - keep styles identical; add .btn-download alias */
+    .btn-primary,
+    .btn-download {
       background: #2196f3;
       color: white;
       padding: 12px 32px;
@@ -216,7 +240,10 @@
       }
     }
     
-    .btn-secondary {
+    /* Secondary buttons (Hire / Follow) - add .btn-hire and .btn-follow aliases */
+    .btn-secondary,
+    .btn-hire,
+    .btn-follow {
       background: white;
       color: #2196f3;
       padding: 12px 32px;
@@ -391,55 +418,7 @@
     text-align: left;
     margin-bottom: 50px;
     color: #000;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
   }
-  
-  .experience-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    justify-items: center;
-    align-items: start;
-  }
-  
-  .experience-card-link {
-    text-decoration: none;
-    color: inherit;
-    display: block;
-    width: 100%;
-  }
-  
-  .experience-card {
-    background: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 2px 8px rgba(33, 150, 243, 0.1);
-    transition: all 0.4s ease;
-    cursor: pointer;
-    border-left: 2px solid #8fc1e9;
-    animation: fadeInUp 0.6s ease-out forwards;
-    width: 100%;
-    text-align: center;
-    
-    &:nth-child(1) { animation-delay: 0.1s; }
-    &:nth-child(2) { animation-delay: 0.2s; }
-    &:nth-child(3) { animation-delay: 0.3s; }
-    &:nth-child(4) { animation-delay: 0.4s; }
-    &:nth-child(5) { animation-delay: 0.5s; }
-    
-    &:hover {
-      transform: translateY(-8px);
-      box-shadow: 0 10px 30px rgba(33, 150, 243, 0.25);
-      border-left-color: #8fc1e9;
-      
-      .card-image img {
-        transform: scale(1.1);
-      }
-    }
     
     .card-image {
       width: 100%;
@@ -466,7 +445,6 @@
       text-align: center;
     }
   }
-}
 
 // Shoots Section
 .shoots-section {
@@ -498,7 +476,7 @@
       border: 1px solid #e3f2fd;
       border-radius: 50px;
       font-size: 1rem;
-      font-weight: 600;
+      font-weight: 300;
       cursor: pointer;
       transition: all 0.3s ease;
       color: #616161;
@@ -1100,6 +1078,29 @@
           box-shadow: 0 8px 25px rgba(33, 150, 243, 0.3);
         }
       }
+
+      /* Mobile: reduce logo box size and spacing */
+      @media (max-width: 480px) {
+        padding: 12px 16px !important;
+
+        .logos-title {
+          font-size: 1.4rem !important;
+          margin-bottom: 8px !important;
+        }
+
+        .logos-grid {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 12px !important;
+        }
+
+        .logo-box {
+          aspect-ratio: 6/3 !important;
+          border-radius: 10px !important;
+          font-size: 0.95rem !important;
+          padding: 8px !important;
+          min-height: 44px !important;
+        }
+      }
     }
   }
 }
@@ -1367,6 +1368,7 @@
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
     color: #2196f3;
     
     &:hover {
@@ -1382,11 +1384,11 @@
     }
     
     &.prev-btn {
-      left: 0;
+      left: 12px;
     }
     
     &.next-btn {
-      right: 0;
+      right: 12px;
     }
   }
   
@@ -1508,7 +1510,7 @@
     display: flex;
     gap: 20px;
     justify-content: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     
     .btn-primary {
       background: white;
@@ -1551,6 +1553,37 @@
   .hero-section .hero-content,
   .about-section .about-content {
     grid-template-columns: 1fr;
+  }
+  
+  /* Mobile: disable parallax behavior in hero section to improve performance and avoid visual issues */
+  @media (max-width: 768px) {
+    .hero-section {
+      /* ensure hero doesn't clip or rely on transforms on mobile */
+      overflow: visible !important;
+    }
+  
+    .hero-section .parallax-section,
+    .hero-section .parallax-background,
+    .hero-section .parallax-bg,
+    .hero-section .parallax-content,
+    .parallax-section,
+    .parallax-background,
+    .parallax-bg,
+    .parallax-content {
+      position: static !important;
+      top: auto !important;
+      left: auto !important;
+      right: auto !important;
+      bottom: auto !important;
+      transform: none !important;
+      will-change: auto !important;
+      transition: none !important;
+      animation: none !important;
+      background-attachment: scroll !important;
+      background-position: center !important;
+      height: auto !important;
+      width: 100% !important;
+    }
   }
   
   .experience-section .experience-grid,
@@ -1600,6 +1633,194 @@
   }
 }
 
+/* Tablet & Mobile: make shoots tabs a single horizontal row with scroll and smaller buttons */
+@media (max-width: 1024px) {
+  .shoots-section {
+    .shoots-tabs {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 10px !important;
+      overflow-x: auto !important;
+      -webkit-overflow-scrolling: touch;
+      padding: 8px 6px !important;
+      align-items: center !important;
+      flex-wrap: nowrap !important;
+      /* hide default scrollbars on some platforms while keeping functionality */
+      scrollbar-width: thin;
+    }
+
+    .shoots-tabs .tab-btn {
+      flex: 0 0 auto !important; /* don't wrap, keep intrinsic width */
+      min-width: 120px !important; /* reduced size */
+      padding: 10px 16px !important;
+      border-radius: 36px !important;
+      white-space: nowrap !important;
+      display: inline-flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      font-size: 0.95rem !important;
+    }
+
+    /* Optional: small visual tweak to indicate scrollable row */
+    .shoots-tabs::after {
+      content: '';
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      width: 26px;
+      pointer-events: none;
+      background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.9));
+    }
+  }
+}
+
+/* Optionally: slightly center tabs container on very small screens */
+@media (max-width: 480px) {
+  .testimonials-section {
+    padding: 40px 3% !important;
+
+    .testimonials-slider {
+      max-width: 320px !important;
+      padding: 0 20px !important;
+    }
+
+    .testimonials-track {
+      height: 260px !important; /* fixed container height */
+      overflow: hidden !important; /* hide off-screen slides so they don't affect layout */
+      position: relative !important;
+    }
+
+    /* Keep testimonial cards absolutely positioned and animate with transform only
+       This prevents any vertical layout shift when changing slides. */
+    .testimonial-card {
+      position: absolute !important;
+      top: 0 !important;
+      left: 0 !important;
+      width: 100% !important;
+      padding: 18px 16px !important;
+      border-radius: 14px !important;
+      border-left-width: 6px !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
+      margin: 0 auto !important;
+      transform: translateX(100%) !important; /* default off-screen to right */
+      transition: transform 0.45s cubic-bezier(.2,.8,.2,1) !important;
+      opacity: 0 !important;
+    }
+
+    /* Active slide centered */
+    .testimonial-card.active {
+      transform: translateX(0) !important;
+      opacity: 1 !important;
+      z-index: 2 !important;
+    }
+
+    /* Previous slide to left for sliding out animation (optional) */
+    .testimonial-card.prev {
+      transform: translateX(-100%) !important;
+      opacity: 1 !important;
+    }
+
+    .testimonial-card .quote {
+      font-size: 1rem !important;
+      line-height: 1.4 !important;
+      margin-bottom: 12px !important;
+      color: #333 !important;
+    }
+
+    .testimonial-card .author {
+      font-size: 0.95rem !important;
+    }
+
+    .slider-btn {
+      width: 38px !important;
+      height: 38px !important;
+    }
+  }
+  .shoots-section .shoots-tabs {
+    justify-content: flex-start !important;
+    padding-left: 12px !important;
+  }
+}
+
+/* Mobile: compact the social stats (chart, text, video) into a single small row */
+@media (max-width: 480px) {
+  .social-media-section {
+    .social-stats-container {
+      display: flex !important;
+      flex-direction: row !important;
+      gap: 12px !important;
+      align-items: center !important;
+      justify-content: space-between !important;
+      padding: 8px !important;
+    }
+
+    .social-stats-container > .stats-chart,
+    .social-stats-container > .growth-info,
+    .social-stats-container > .video-preview {
+      flex: 0 0 auto !important; /* keep them in one row */
+        width: 30% !important; /* three items side-by-side (slightly more for debugging) */
+        min-width: 80px !important; /* allow them to remain visible on very narrow screens */
+        max-width: 36% !important;
+      height: auto !important;
+      padding: 6px !important;
+      box-sizing: border-box !important;
+      outline: 2px solid rgba(255,0,0,0.25) !important; /* debug visual */
+    }
+
+    /* Make chart bars smaller and compact */
+    .social-stats-container .chart-placeholder {
+      height: 60px !important;
+    }
+
+    .social-stats-container .chart-placeholder .bar {
+      border-radius: 6px !important;
+    }
+
+    /* Shrink video placeholder */
+    .video-preview .video-placeholder-small {
+      width: 100% !important;
+      aspect-ratio: 16/9 !important;
+      height: auto !important;
+      padding: 6px !important;
+    }
+
+    /* Shrink text & center */
+    .growth-info {
+      text-align: center !important;
+    }
+
+    /* Reduce section title spacing on mobile */
+    .section-title {
+      font-size: 1.1rem !important;
+      margin-bottom: 8px !important;
+    }
+  }
+}
+
+/* Mobile: reduce testimonial text size and box height */
+@media (max-width: 480px) {
+  .brand-testimonial {
+    padding: 12px 18px !important;
+    border-radius: 12px !important;
+    margin-bottom: 18px !important;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06) !important;
+    border-left-width: 4px !important;
+
+    .testimonial-text {
+      font-size: 1.15rem !important; /* reduced from 1.8rem */
+      font-weight: 600 !important;
+      line-height: 1.4 !important;
+      margin-bottom: 12px !important;
+    }
+
+    .testimonial-author {
+      font-size: 0.95rem !important;
+      margin-top: 6px !important;
+    }
+  }
+}
+
 @media (max-width: 768px) {
   .hero-section {
     padding: 40px 5%;
@@ -1607,9 +1828,15 @@
     .hero-content {
       grid-template-columns: 1fr;
       gap: 40px;
+      text-align: center;
     }
     
     .hero-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      
       .hero-greeting {
         font-size: 1.1rem;
       }
@@ -1624,28 +1851,126 @@
       
       .tagline {
         font-size: 1rem;
+        text-align: center;
+        margin-left: auto;
+        margin-right: auto;
       }
     }
     
-    .hero-image .circular-photo {
-      width: 300px;
-      height: 300px;
-      border: 6px solid white;
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      
+      .circular-photo {
+        width: 300px;
+        height: 300px;
+        border: 6px solid white;
+        margin: 0 auto;
+      }
+    }
+
+    /* Disable entrance/slide animations in hero on mobile to make scrolling natural */
+    .hero-content,
+    .hero-content *,
+    .hero-greeting,
+    .main-title,
+    .subtitle,
+    .tagline,
+    .circular-photo,
+    .parallax-background,
+    .parallax-content,
+    .fade-in-up,
+    .animate-on-scroll,
+    [class*="slide-in"],
+    [class*="slideFrom"],
+    [class*="slideFromRight"],
+    [class*="slideFromLeft"] {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
     }
   }
   
   .section-title {
     font-size: 2rem !important;
+    text-align: center !important;
   }
   
-  .experience-section .experience-grid,
-  .social-media-section .social-platforms,
-  .testimonials-section .testimonials-grid,
-  .press-section .press-grid {
-    grid-template-columns: 1fr;
+  .experience-section {
+    text-align: center;
+    
+    .experience-grid {
+      display: grid;
+      grid-template-columns: 1fr; /* default single column on very small screens */
+      grid-auto-flow: row;
+      gap: 30px;
+    }
+  }
+
+  /* For tablets and up, show experience cards side-by-side */
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .experience-section .experience-grid {
+      display: grid !important;
+      flex-direction: row;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 32px !important;
+    }
+  }
+
+  @media (min-width: 1025px) {
+    .experience-section .experience-grid {
+      display: grid !important;
+      /* Create two rows and fill columns left-to-right so cards form 2 rows */
+      grid-auto-flow: column !important;
+      grid-template-rows: repeat(2, auto) !important;
+      grid-auto-columns: 1fr !important;
+      gap: 36px !important;
+    }
+  }
+  
+  .social-media-section {
+    text-align: center;
+    
+    .social-platforms {
+      grid-template-columns: 1fr;
+    }
+    
+    /* Keep column layout only for small tablets (481px - 768px).
+       Very small screens (<=480px) use a compact single-row layout defined earlier. */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .social-stats-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+    }
+    
+    .platform-card {
+      text-align: center;
+      margin: 0 auto;
+    }
+  }
+  
+  .testimonials-section {
+    text-align: center;
+    
+    .testimonials-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  .press-section {
+    text-align: center;
+    
+    .press-grid {
+      grid-template-columns: 1fr;
+    }
   }
   
   .shoots-section {
+    text-align: center;
+    
     .acting-stills-content {
       .featured-section {
         grid-template-columns: 1fr;
@@ -1655,6 +1980,7 @@
       
       .featured-content .content-box {
         padding: 40px 30px;
+        text-align: center;
         
         .content-title {
           font-size: 1.8rem;
@@ -1662,6 +1988,7 @@
         
         .content-description {
           font-size: 1rem;
+          text-align: center;
         }
       }
       
@@ -1700,16 +2027,96 @@
   }
   
   .action-buttons {
-    flex-direction: column;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 10px 8px !important;
+    width: 100% !important;
+    max-width: 350px !important;
+    margin: 0 auto !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
     
+        .btn-primary,
+        .btn-download {
+          grid-column: 1 / 3 !important;
+          grid-row: 2 !important;
+          text-align: center;
+          height: 40px !important;
+          /* decreased font-size for Download Portfolio on mobile */
+          font-size: 0.5rem !important;
+          padding: 6px 12px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1 !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: unset !important;
+          min-width: unset !important;
+          max-width: unset !important;
+        }
+    
+        .btn-secondary:nth-of-type(1),
+        .btn-hire {
+          display: flex !important;
+          grid-column: 1 !important;
+          grid-row: 1 !important;
+          text-align: center;
+          height: 40px !important;
+          font-size: 0.6rem;
+          padding: 6px 12px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1 !important;
+          align-items: center;
+          justify-content: center;
+          flex: unset !important;
+          /* reduce the visual width of Hire Me on mobile */
+          width: auto !important;
+          max-width: 150px !important;
+        }
+    
+    .btn-secondary:nth-of-type(2),
+    .btn-follow {
+      display: flex !important;
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      justify-content: center;
+      align-items: center;
+      height: 40px !important;
+      font-size: 0.6rem;
+      padding: 6px 12px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1 !important;
+      flex: unset !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    /* Ensure all action buttons have the same height and alignment on mobile */
     .btn-primary,
-    .btn-secondary {
-      width: 100%;
+    .btn-download,
+    .btn-secondary:nth-of-type(1),
+    .btn-hire,
+    .btn-secondary:nth-of-type(2),
+    .btn-follow {
+      height: 40px !important;
+      padding-top: 6px !important;
+      padding-bottom: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
     }
   }
   
   .about-section {
     padding: 30px 5% 50px;
+    text-align: center;
     
     .about-content {
       grid-template-columns: 1fr;
@@ -1724,6 +2131,8 @@
     
     .profile-column {
       align-items: center;
+      display: flex;
+      flex-direction: column;
     }
     
     .profile-image {
@@ -1736,17 +2145,30 @@
     }
     
     .about-text {
+      text-align: center;
+      
       p {
         font-size: 0.95rem;
         line-height: 1.6;
         margin-bottom: 30px;
+        text-align: center;
       }
+    }
+    
+    .stats-row {
+      justify-content: center;
+      text-align: center;
+    }
+    
+    .stat-item {
+      text-align: center;
     }
   }
   
   .journey-timeline {
     padding: 40px 0 20px !important;
     margin-top: 10px !important;
+    text-align: center;
     
     &::before {
       top: 47px !important;
@@ -1760,6 +2182,7 @@
     .timeline-item {
       padding-left: 0 !important;
       margin-bottom: 0;
+      text-align: center;
       
       .timeline-dot {
         width: 18px !important;
@@ -1782,17 +2205,79 @@
   }
   
   .cta-section {
-    .cta-content h2 {
-      font-size: 2rem;
+    text-align: center;
+    
+    .cta-content {
+      text-align: center;
+      
+      h2 {
+        font-size: 2rem;
+        text-align: center;
+      }
+      
+      p {
+        text-align: center;
+        padding-bottom: 56px;
+      }
     }
     
     .cta-buttons {
       flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
       
       .btn-primary,
       .btn-secondary {
         width: 100%;
+        max-width: 250px;
+        text-align: center;
+        font-size: 0.7rem;
+        padding: 10px 20px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        line-height: 1.2;
       }
+    }
+  }
+
+  /* Mobile-only: show profile image inline after the about section title and hide original profile column */
+  @media (max-width: 480px) {
+    .about-section {
+      .section-title-left {
+        position: relative;
+        display: block;
+        margin-bottom: 12px !important;
+
+        &::after {
+          content: '';
+          display: block;
+          width: 160px;
+          height: 233px;
+          margin: 12px auto 0 auto;
+          border-radius: 50%;
+          background-image: url('https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/KKStory.png');
+          background-size: cover;
+          background-position: center;
+          border: 6px solid #fff;
+          box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+        }
+      }
+
+      /* Hide the profile column (original image) on very small screens to avoid duplication */
+      .profile-column {
+        display: none !important;
+      }
+    }
+    
+    /* Center the About Me button on mobile */
+    .about-me-btn {
+      display: block !important;
+      margin: 18px auto !important;
+      max-width: 260px !important;
+      width: calc(100% - 40px) !important;
+      text-align: center !important;
     }
   }
 }
@@ -1800,24 +2285,175 @@
 // Small mobile devices
 @media (max-width: 480px) {
   .hero-section {
+    text-align: center;
+    
     .hero-text {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      
       .hero-greeting {
         font-size: 1rem;
+        text-align: center;
       }
       
       .main-title {
         font-size: 2rem;
+        text-align: center;
       }
       
       .tagline {
         font-size: 0.95rem;
+        text-align: center;
       }
     }
     
-    .hero-image .circular-photo {
-      width: 250px;
-      height: 250px;
-      border: 5px solid white;
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      
+      .circular-photo {
+        width: 250px;
+        height: 250px;
+        border: 5px solid white;
+        margin: 0 auto;
+      }
+    }
+    /* Disable entrance/slide animations in hero on very small screens */
+    .hero-content,
+    .hero-content *,
+    .hero-greeting,
+    .main-title,
+    .subtitle,
+    .tagline,
+    .circular-photo,
+    .parallax-background,
+    .parallax-content,
+    .fade-in-up,
+    .animate-on-scroll,
+    [class*="slide-in"],
+    [class*="slideFrom"],
+    [class*="slideFromRight"],
+    [class*="slideFromLeft"] {
+      animation: none !important;
+      transition: none !important;
+      transform: none !important;
+      opacity: 1 !important;
+    }
+  }
+  
+  .action-buttons {
+    display: grid !important;
+    grid-template-columns: 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 8px 0px !important;
+    width: 100% !important;
+    max-width: 320px !important;
+    margin: 0 auto !important;
+    flex-direction: unset !important;
+    flex-wrap: unset !important;
+    
+        .btn-primary,
+        .btn-download {
+          grid-column: 1 / 3 !important;
+          grid-row: 2 !important;
+          /* slightly smaller font-size for very small screens */
+          font-size: 0.85rem !important;
+          padding: 6px 10px !important;
+          height: 40px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1 !important;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex: unset !important;
+          min-width: unset !important;
+          max-width: unset !important;
+        }
+    
+        .btn-secondary:nth-of-type(1),
+        .btn-hire {
+          display: flex !important;
+          grid-column: 1 !important;
+          grid-row: 1 !important;
+          font-size: 0.55rem;
+          padding: 6px 10px !important;
+          height: 40px !important;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          line-height: 1 !important;
+          align-items: center;
+          justify-content: center;
+          flex: unset !important;
+          /* slightly narrower on very small screens */
+          width: auto !important;
+          max-width: 157px !important;
+        }
+    
+    .btn-secondary:nth-of-type(2) {
+      display: flex !important;
+      grid-column: 2 !important;
+      grid-row: 1 !important;
+      justify-content: center;
+      align-items: center;
+      height: 40px !important;
+      font-size: 0;
+      padding: 6px 10px !important;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      line-height: 1 !important;
+      flex: unset !important;
+      min-width: unset !important;
+      max-width: unset !important;
+    }
+
+    /* Equal height for all action buttons on small screens */
+    .btn-primary,
+    .btn-download,
+    .btn-secondary:nth-of-type(1),
+    .btn-hire,
+    .btn-secondary:nth-of-type(2),
+    .btn-follow {
+      height: 40px !important;
+      padding-top: 6px !important;
+      padding-bottom: 6px !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+    }
+  }
+  
+  .section-title {
+    text-align: center !important;
+  }
+  
+  .platform-card,
+  .experience-card,
+  .testimonial-card,
+  .press-card {
+    text-align: center;
+  }
+  
+  .cta-section {
+    .cta-buttons {
+      flex-direction: row;
+      gap: 8px;
+      
+      .btn-primary,
+      .btn-secondary {
+        font-size: 0.65rem;
+        padding: 8px 16px;
+        max-width: 200px;
+        width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
   }
 }
@@ -1829,6 +2465,24 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+/* Debug / safety override: ensure active testimonial is visible on small screens */
+@media (max-width: 480px) {
+  .testimonials-section {
+    .testimonials-track { overflow: hidden !important; height: 260px !important; }
+    .testimonial-card { display: block !important; }
+    .testimonial-card.active {
+      display: block !important;
+      opacity: 1 !important;
+      transform: translateX(0) !important;
+      left: 0 !important;
+      top: 0 !important;
+      z-index: 999 !important;
+      background: #e3f2fd !important;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
+    }
   }
 }
 
@@ -1862,5 +2516,32 @@
   50% {
     transform: scale(1.1);
     opacity: 0.8;
+  }
+}
+
+/* Move testimonial arrows down on small screens so they align with the card */
+@media (max-width: 480px) {
+  .testimonials-section {
+    .slider-btn {
+      top: 90% !important;
+      transform: translateY(-10%) !important;
+      width: 48px !important;
+      height: 48px !important;
+    }
+
+    .slider-btn.prev-btn { left: 18px !important; }
+    .slider-btn.next-btn { right: 18px !important; }
+  }
+}
+
+/* Desktop: force experience grid into two rows (high specificity and top-level so it applies) */
+@media (min-width: 1025px) {
+  .experience-section .experience-grid {
+    display: grid !important;
+    /* create two rows and flow columns left-to-right so cards form 2 rows */
+    grid-auto-flow: column !important;
+    grid-template-rows: repeat(2, auto) !important;
+    grid-auto-columns: 1fr !important;
+    gap: 36px !important;
   }
 }

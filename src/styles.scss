@@ -41,6 +41,19 @@ body::before {
   text-align: center;
 }
 
+/* Mobile tweak: avoid full-viewport sections on small screens so scrolling is continuous
+   Many sections were sized to min-height:100vh which causes each section to behave like
+   a separate page on phones (scroll jumps). Override on small viewports to allow
+   natural flow and reduce the 'separate page' effect. */
+@media (max-width: 768px) {
+  .section {
+    min-height: auto !important;
+    align-items: flex-start;
+    padding-top: 1rem;
+    padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);
+  }
+}
+
 .parallax {
   position: relative;
   overflow: hidden;
