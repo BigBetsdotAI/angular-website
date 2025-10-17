@@ -8,9 +8,9 @@
         <p class="tagline">You can't win if you're losing in your mind. Change your thoughts and it will change your life.</p>
         
         <div class="action-buttons">
-          <button class="btn-primary">Follow Me</button>
-          <button class="btn-secondary">Hire Me</button>
-          <button class="btn-secondary">Download Portfolio</button>
+          <button class="btn-primary" (click)="followMe()">Follow Me</button>
+          <button class="btn-secondary" (click)="hireMe()">Hire Me</button>
+          <button class="btn-secondary" (click)="downloadPortfolio()">Download Portfolio</button>
         </div>
       </div>
       
@@ -110,7 +110,7 @@
           </div>
         </div>
         
-        <button class="about-me-btn">About Me</button>
+        <button class="about-me-btn" (click)="aboutMe()">About Me</button>
       </div>
       
       <div class="profile-column slide-in-from-right">
@@ -362,13 +362,13 @@
   </section>
 
   <!-- CTA Section -->
-  <section class="cta-section">
+  <section class="cta-section contact-cta">
     <div class="cta-content">
       <h2>Let's Work Together</h2>
       <p>Interested in collaborating? Get in touch to discuss your project.</p>
       <div class="cta-buttons">
-        <button class="btn-primary" onclick="window.location.href='/contact'">Contact Me</button>
-        <button class="btn-secondary">Download Portfolio</button>
+        <button class="btn-primary" (click)="contactMe()">Contact Me</button>
+        <button class="btn-secondary" (click)="downloadPortfolio()">Download Portfolio</button>
       </div>
     </div>
   </section>

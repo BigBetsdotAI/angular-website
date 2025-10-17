@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, PLATFORM_ID, HostListener } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-portfolio-khushboo',
@@ -60,7 +61,10 @@ export class PortfolioKhushboo implements OnInit {
 
   brandLogos = ['Nykaa', 'Biba', 'L\'Oréal', 'Amazon Fashion', 'Lakmé'];
 
-  constructor(@Inject(PLATFORM_ID) private platformId: Object) {}
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     console.log('Portfolio component initialized. Active tab:', this.activeTab);
@@ -163,5 +167,39 @@ export class PortfolioKhushboo implements OnInit {
 
   goToSlide(index: number) {
     this.currentSlide = index;
+  }
+
+  // Button action methods
+  followMe() {
+    // Open Instagram profile in new tab
+    window.open('https://www.instagram.com/khushboo_kamal/', '_blank');
+  }
+
+  hireMe() {
+    // Scroll to contact section or open contact page
+    const contactSection = document.querySelector('.contact-cta');
+    if (contactSection) {
+      contactSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  downloadPortfolio() {
+    // Trigger browser's print dialog (Ctrl+P) to allow user to save as PDF
+    if (isPlatformBrowser(this.platformId)) {
+      window.print();
+    }
+  }
+
+  aboutMe() {
+    // Scroll to about section
+    const aboutSection = document.querySelector('.about-section');
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  contactMe() {
+    // Navigate to the contact page
+    this.router.navigate(['/contact']);
   }
 }
