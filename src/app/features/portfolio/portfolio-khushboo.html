@@ -187,8 +187,8 @@
       <button class="tab-btn" [class.active]="activeTab === 'Behind-the-Scenes'" (click)="setActiveTab('Behind-the-Scenes')">
         <i class="fas fa-video"></i> Behind-the-Scenes
       </button>
-      <button class="tab-btn" [class.active]="activeTab === 'Brand'" (click)="setActiveTab('Brand')">
-        <i class="fas fa-handshake"></i> Brand
+      <button class="tab-btn" [class.active]="activeTab === 'TV Shows'" (click)="setActiveTab('TV Shows')">
+        <i class="fas fa-tv"></i> TV Shows
       </button>
     </div>
     
@@ -229,7 +229,8 @@
         
         <div class="photo-card video-card">
           <div class="photo-image">
-            <div class="video-placeholder small">
+            <video id="photoshootBts" class="photoshoot-bts" src="https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/videoplayback.mp4" muted playsinline preload="metadata" poster="https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/k5.png"></video>
+            <div class="video-overlay" (click)="togglePhotoshootBts()">
               <i class="fas fa-play"></i>
               <p>BTS Moments</p>
             </div>
@@ -244,16 +245,19 @@
         <h3 class="content-title">The Magic Behind the Frame</h3>
         <p class="content-description">Between camera setups and retakes, the real energy of the set comes alive. These behind-the-scenes glimpses capture laughter, teamwork, and the artistry that fuels every performance.</p>
       </div>
-      
       <div class="bts-layout">
         <div class="bts-video-main">
-          <div class="video-placeholder large">
-            <i class="fas fa-play-circle"></i>
-            <p>Behind the Scenes</p>
-            <span class="duration">15 seconds</span>
-          </div>
+          <video
+            id="btsVideo"
+            class="bts-video"
+            src="https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Khushboo+Kamal+Giving+Tips+For+Best+Kalakar+Participant..mp4"
+            muted
+            playsinline
+            preload="metadata"
+            autoplay
+            style="width:100%;height:350px;"
+          ></video>
         </div>
-        
         <div class="bts-images-grid">
           <div class="bts-image-card" *ngFor="let bts of btsImages; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
             <img [src]="bts.image" [alt]="bts.title">
@@ -261,48 +265,38 @@
           </div>
         </div>
       </div>
-      
       <div class="quote-highlight fade-in-up">
         <p class="highlight-quote">"Perfection begins when passion meets purpose."</p>
         <p class="quote-author">— Khushboo Kamal</p>
       </div>
     </div>
     
-    <!-- Brand Tab -->
-    <div class="tab-content brand-content" *ngIf="activeTab === 'Brand'">
-      <div class="content-header fade-in-up">
-        <h3 class="content-title">Collaborations that Inspire Confidence</h3>
-        <p class="content-description">Khushboo Kamal has worked with India's leading lifestyle and beauty brands, bringing warmth and authenticity to every campaign she's part of.</p>
+    <!-- TV Shows Tab (replaces Brand) -->
+  <div class="tab-content tvshows-content" *ngIf="activeTab === 'TV Shows'">
+      <div class="content-header fade-in-up tv-theme">
+        <h3 class="content-title">Television Journey That Touched Millions</h3>
+        <p class="content-description">“From light-hearted comedies to emotionally rich dramas, Khushboo Kamal has graced television screens across India with memorable performances. Each role, a new character — each character, a story to tell.”</p>
       </div>
-      
-      <div class="brand-campaigns-grid">
-        <div class="brand-campaign-card" *ngFor="let campaign of brandCampaigns; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
-          <div class="campaign-content">
-            <h4>{{ campaign.title }}</h4>
-            <p class="campaign-desc">{{ campaign.description }}</p>
-            <div class="campaign-media" *ngIf="campaign.hasVideo">
-              <div class="video-placeholder small">
-                <i class="fas fa-play"></i>
-                <span>{{ campaign.duration }}</span>
-              </div>
-            </div>
+
+      <div class="tvshows-grid">
+        <div class="tv-card" *ngFor="let show of tvShows; let i = index" [style.animation-delay]="(i * 0.1) + 's'">
+          <div class="tv-media">
+            <ng-container *ngIf="show.stills && show.stills.length">
+              <img class="tv-photo" [src]="show.stills[0]" alt="{{ show.title }} photo">
+            </ng-container>
+            <ng-container *ngIf="!show.stills || !show.stills.length">
+              <div class="tv-photo tv-photo--placeholder">No image available</div>
+            </ng-container>
+          </div>
+          <div class="tv-content">
+            <h4 class="tv-title">{{ show.title }} <span class="tv-meta">({{ show.genre }} | {{ show.network }})</span></h4>
+            <p class="tv-desc">{{ show.description }}</p>
+            <p class="tv-quote" *ngIf="show.quote">"{{ show.quote }}"</p>
           </div>
         </div>
       </div>
-      
-      <div class="brand-testimonial fade-in-up">
-        <p class="testimonial-text">"Khushboo Kamal is fantastic to work with — professional, graceful, and radiant on set."</p>
-        <p class="testimonial-author">— Brand Partner</p>
-      </div>
-      
-      <div class="brand-logos-showcase fade-in-up">
-        <h4 class="logos-title">Collaborated With</h4>
-        <div class="logos-grid">
-          <div class="logo-box" *ngFor="let logo of brandLogos; let i = index" [style.animation-delay]="(i * 0.08) + 's'">
-            <span>{{ logo }}</span>
-          </div>
-        </div>
-      </div>
+
+      <!-- footer removed as requested -->
     </div>
   </section>
 
@@ -350,7 +344,7 @@
       </a>
       
       <a href="https://timesofindia.indiatimes.com/tv/news/hindi/khushboo-kamal-on-entering-barrister-babu-i-am-glad-to-be-working-during-these-difficult-times/articleshow/83062900.cms" target="_blank" class="press-card">
-        <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/KK.jpg" alt="Khushboo Kamal on entering Barrister Babu">
+        <img src="https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Good+morning+%F0%9F%8C%84+People%2C+and+the+team+of+Barrister+babu...+%23wetheteamofbarristerbabuI+got+the+opp.jpg" alt="Khushboo Kamal on entering Barrister Babu">
         <h3>Khushboo Kamal on entering Barrister Babu: I am glad to be working during these difficult times.</h3>
       </a>
       

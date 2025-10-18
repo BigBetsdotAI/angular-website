@@ -61,6 +61,45 @@ export class PortfolioKhushboo implements OnInit {
 
   brandLogos = ['Nykaa', 'Biba', 'L\'Oréal', 'Amazon Fashion', 'Lakmé'];
 
+  // TV Shows section data (replaces Brand tab)
+  tvShows = [
+    {
+      title: 'Bhabiji Ghar Par Hain',
+      genre: 'Comedy',
+      network: '&TV',
+      description: 'Known for her infectious energy and perfect comic timing, Khushboo’s portrayal brought a refreshing spark to this hit sitcom.',
+      clip: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/bhabiji_clip.mp4',
+      stills: [
+        'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Bhabhiji-ghar-par-hai.jpg'
+      ]
+    },
+    {
+      title: 'Jijaji Chhat Par Hain',
+      genre: 'Comedy',
+      network: 'SAB TV',
+      description: 'Her fun-loving and expressive role made audiences instantly connect with her cheerful on-screen persona.',
+      clip: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/jijaji_montage.mp4',
+      quote: 'Every scene is a celebration of laughter and timing.',
+      stills: ['https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Jijaji-Chhat-Per-Hain1_Circular_Image.jpg']
+    },
+    {
+      title: 'Zindagi Ki Mahek',
+      genre: 'Drama',
+      network: 'Zee TV',
+      description: 'In this emotional journey, Khushboo portrayed depth and realism that left a lasting mark on viewers.',
+      clip: '',
+      stills: ['https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Zindagi+Ki+Mahek+(Drama++Zee+TV).jpg']
+    },
+    {
+      title: 'Savdhaan India',
+      genre: 'Crime Drama',
+      network: 'Star Bharat',
+      description: 'Portraying strong and impactful characters, Khushboo brought awareness to real-life issues through her powerful performances.',
+      clip: 'https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/savdhaan_reel.mp4',
+      stills: ['https://bitbet33-images-apne1.s3.ap-northeast-1.amazonaws.com/Savdhaan+India.jpeg']
+    }
+  ];
+
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private router: Router
@@ -78,6 +117,44 @@ export class PortfolioKhushboo implements OnInit {
       window.scrollTo(0, 0);
       this.initParallax();
       this.initScrollAnimations();
+
+      // Autoplay BTS video when visible
+      setTimeout(() => {
+        const btsVideo = document.getElementById('btsVideo') as HTMLVideoElement;
+        if (btsVideo) {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                btsVideo.play();
+              } else {
+                btsVideo.pause();
+              }
+            });
+          }, { threshold: 0.5 });
+          observer.observe(btsVideo);
+        }
+      }, 500);
+
+      // Autoplay photoshoot BTS video when visible (plays muted) and hide overlay while playing
+      setTimeout(() => {
+        const psVideo = document.getElementById('photoshootBts') as HTMLVideoElement;
+        const overlay = document.querySelector('.photo-card.video-card .video-overlay') as HTMLElement;
+        if (psVideo) {
+          psVideo.muted = true;
+          const psObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                psVideo.play().catch(() => {});
+                if (overlay) overlay.classList.add('hidden');
+              } else {
+                psVideo.pause();
+                if (overlay) overlay.classList.remove('hidden');
+              }
+            });
+          }, { threshold: 0.6 });
+          psObserver.observe(psVideo);
+        }
+      }, 700);
     }
   }
 
@@ -201,5 +278,16 @@ export class PortfolioKhushboo implements OnInit {
   contactMe() {
     // Navigate to the contact page
     this.router.navigate(['/contact']);
+  }
+
+  togglePhotoshootBts() {
+    if (!isPlatformBrowser(this.platformId)) return;
+    const vid = document.getElementById('photoshootBts') as HTMLVideoElement;
+    if (!vid) return;
+    if (vid.paused) {
+      vid.play();
+    } else {
+      vid.pause();
+    }
   }
 }

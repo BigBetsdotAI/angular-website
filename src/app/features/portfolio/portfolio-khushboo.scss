@@ -263,33 +263,57 @@
   }
   
   .hero-image {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    
-    .circular-photo {
-      width: 340px;
-      height: 340px;
-      border-radius: 50%;
+              img {
+                width: 100%;
+                max-width: 320px;
+                border-radius: 50%;
+                aspect-ratio: 5 / 6;
+                object-fit: contain;
+                border: 5px solid #f5f5f5;
+              }
+              video.photoshoot-bts {
+                width: 100%;
+                height: 100%;
+                border-radius: 12px;
+                object-fit: cover;
+                display: block;
+              }
+              .video-overlay {
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                color: #2196f3;
+                cursor: pointer;
+                pointer-events: auto;
+              }
+              .video-overlay.hidden { display: none; }
       overflow: hidden;
-      box-shadow: 0 20px 60px rgba(78, 52, 46, 0.25);
-      border: 6px solid white;
+      /* Remove outer rectangular frame/shadow so only the circular photo shows */
+      box-shadow: none;
+      border: none;
       position: relative;
-      transition: box-shadow 0.3s ease;
-      
+      transition: none;
+
       &:hover {
-        box-shadow: 0 25px 70px rgba(78, 52, 46, 0.4);
+        /* no hover shadow for rectangular container */
+        box-shadow: none;
       }
-      
+
       img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
+        width: 95%;
+        height: 240px;
+        object-fit: fill;
         object-position: center;
       }
     }
   }
-}
+
 
 // About Section
 .about-section {
@@ -333,7 +357,7 @@
       max-width: 320px;
       border-radius: 50%;
       aspect-ratio: 5 / 6;
-      object-fit: cover;
+        object-fit: contain;
       border: 5px solid #f5f5f5;
     }
   }
@@ -558,7 +582,7 @@
         border-radius: 20px;
         overflow: hidden;
         border: 1px solid #2196f3;
-        max-width: 280px;
+        max-width: 302px;
         width: 100%;
         height: 350px;
         transition: all 0.4s ease;
@@ -737,6 +761,8 @@
       
       &.video-card {
         grid-column: span 1;
+        width: 230px;
+        height: 100%;
       }
       
       .photo-image {
@@ -746,6 +772,7 @@
         background: linear-gradient(135deg, #e3f2fd 0%, #f5f9ff 100%);
         box-shadow: 0 3px 15px rgba(33, 150, 243, 0.15);
         transition: all 0.4s ease;
+        height: 350px; /* ensure consistent card media height */
         
         &:hover {
           transform: translateY(-8px);
@@ -759,7 +786,7 @@
         
         img {
           width: 100%;
-          height: 350px;
+          height: 100%;
           object-fit: contain;
           display: block;
         }
@@ -787,7 +814,7 @@
           background: linear-gradient(135deg, #f5f5f5, #ffffff);
           padding: 40px 15px;
           text-align: center;
-          height: 350px;
+          height: 100%;
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -859,11 +886,12 @@
     }
     
     .bts-images-grid {
-      display: flex;
-      flex-direction: row;
-      gap: 7px;
-      height: 350px;
-      width: 516px;
+  display: flex;
+  flex-direction: row;
+  gap: 7px;
+  height: 350px;
+  width: 516px;
+      scroll-snap-type: x mandatory;
     }
     
     .bts-image-card {
@@ -884,7 +912,7 @@
       img {
         width: 100%;
         height: 100%;
-        object-fit: cover;
+        object-fit: contain;
         display: block;
         filter: sepia(0.2) saturate(1.1);
       }
@@ -900,6 +928,41 @@
         font-size: 0.95rem;
         font-weight: 600;
         margin: 0;
+      }
+    }
+
+    // Mobile: horizontal swipe gallery for BTS images
+    @media (max-width: 768px) {
+      .bts-images-grid {
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        gap: 12px;
+        width: 100%;
+        height: auto;
+        padding-bottom: 8px; /* space for touch */
+      }
+
+      .bts-image-card {
+        flex: 0 0 78%; /* card occupies most of the viewport width for clear photos */
+        scroll-snap-align: center;
+        height: auto; /* allow image to determine height */
+        min-height: 320px;
+      }
+
+      .bts-image-card img {
+        height: auto;
+        max-height: 80vh;
+        object-fit: contain;
+      }
+
+      /* optional: subtle scrollbar styling */
+      .bts-images-grid::-webkit-scrollbar {
+        height: 8px;
+      }
+      .bts-images-grid::-webkit-scrollbar-thumb {
+        background: rgba(0,0,0,0.12);
+        border-radius: 4px;
       }
     }
     
@@ -1122,6 +1185,101 @@
     }
   }
 }
+
+/* TV Shows — cinematic black & gold theme */
+.tv-theme .content-title {
+  color: #000;
+}
+
+/* golden underline removed */
+
+.tvshows-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* show 4 cards in one row on wide screens */
+  gap: 20px;
+  align-items: stretch;
+}
+
+.tv-card {
+  background: #0f0f0f;
+  border-radius: 14px;
+  padding: 18px;
+  color: #fff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.45), 0 0 0 3px rgba(212,175,55,0.06) inset;
+  border: 1px solid rgba(212,175,55,0.12);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+  width: 300px;
+}
+
+.tv-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), 0 0 18px rgba(212,175,55,0.12);
+}
+
+.tv-media {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-direction: column; /* stack media by default so single image fills card */
+}
+
+.tv-photo {
+  width: 100%;
+  height: 260px;
+  border-radius: 10px;
+  object-fit: fill;
+  display: block;
+  background: #111 no-repeat center/cover;
+}
+
+.tv-photo--placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  height: 260px;
+}
+
+.tv-title {
+  color: #D4AF37;
+  font-size: 1.2rem;
+  margin: 0 0 6px 0;
+}
+
+.tv-meta {
+  color: #ddd;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tv-desc, .tv-quote {
+  color: #ccc;
+  margin: 6px 0 0 0;
+}
+
+.tv-footer {
+  margin-top: 18px;
+  text-align: center;
+  color: #444;
+  background: #f9f9f9;
+  padding: 18px;
+  border-radius: 10px;
+}
+
+@media (max-width: 900px) {
+  .tvshows-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .tv-clip, .tv-stills img { width: 100%; }
+  .tv-media { flex-direction: column; }
+}
+
+@media (max-width: 520px) {
+  .tvshows-grid { grid-template-columns: 1fr; }
+}
+
+/* Keep single photo per card across breakpoints so image fills the card */
+.tv-media { flex-direction: column; }
 
 /* Remove box-shadows by default for card-like elements, show subtle shadow only on desktop hover */
 .experience-section .experience-card,
@@ -1514,7 +1672,7 @@
     img {
       width: 100%;
       height: 285px;
-      object-fit: cover;
+      object-fit: fill;
       transition: transform 0.4s ease;
     }
     
@@ -1761,6 +1919,30 @@
       opacity: 1 !important;
       z-index: 2 !important;
     }
+
+  /* Fix: Ensure shoots/tabs content is visible on very small screens (avoid blank screen) */
+  .shoots-section {
+    .shoots-tabs::after { display: none !important; }
+
+    .tab-content {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
+      position: relative !important;
+      z-index: 2 !important;
+      min-height: 220px !important;
+    }
+
+    .tab-content, .tab-content * {
+      display: block !important;
+      visibility: visible !important;
+      opacity: 1 !important;
+      transform: none !important;
+    }
+
+    .photoshoots-content { overflow: visible !important; }
+  }
 
     /* Previous slide to left for sliding out animation (optional) */
     .testimonial-card.prev {
@@ -2017,6 +2199,7 @@
   
   .shoots-section {
     text-align: center;
+    padding: 37px;
     
     .acting-stills-content {
       .featured-section {
@@ -2050,6 +2233,68 @@
     
     .photoshoots-content .photoshoot-gallery {
       grid-template-columns: repeat(2, 1fr);
+    }
+
+    /* Mobile-specific adjustments for photoshoot gallery */
+    @media (max-width: 480px) {
+      .photoshoots-content {
+        .photoshoot-gallery {
+          display: grid;
+          grid-template-columns: 1fr; /* stack cards vertically on phones */
+          gap: 14px;
+          margin: 0 auto 24px;
+          padding: 0 12px;
+        }
+
+        .photo-card {
+          width: 100% !important;
+          animation: none !important; /* simplify for mobile */
+          opacity: 1 !important;
+
+          .photo-image {
+            height: auto !important; /* allow image to size naturally */
+            min-height: 220px !important; /* keep a modest card height */
+            border-radius: 12px !important;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06) !important;
+            background: #fff !important;
+            overflow: hidden !important;
+
+            img {
+              width: 100% !important;
+              height: 100% !important;
+              object-fit: cover !important; /* crop to fill nicely on phones */
+              object-position: center center !important;
+              display: block !important;
+            }
+
+            .photo-overlay {
+              padding: 12px !important;
+              position: absolute !important;
+              bottom: 0 !important;
+              left: 0 !important;
+              right: 0 !important;
+              background: linear-gradient(to top, rgba(255,255,255,0.95), rgba(255,255,255,0)) !important;
+              opacity: 1 !important; /* always show caption slightly on mobile */
+            }
+          }
+        }
+      }
+    }
+
+    /* Tablet: show two columns, reduce card height */
+    @media (min-width: 481px) and (max-width: 768px) {
+      .photoshoots-content {
+        .photoshoot-gallery {
+          grid-template-columns: repeat(2, 1fr) !important;
+          gap: 16px !important;
+          padding: 0 20px !important;
+        }
+
+        .photo-card .photo-image {
+          height: 300px !important;
+          img { object-fit: cover !important; }
+        }
+      }
     }
     
     .bts-content {
