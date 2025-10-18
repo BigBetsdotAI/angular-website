@@ -125,7 +125,6 @@
   overflow-x: hidden;
   scroll-behavior: smooth;
 }
-
 // Hero Section
 .hero-section {
   background: linear-gradient(135deg, #e4eefc 0%, #ffffff 100%);
@@ -543,15 +542,15 @@
     .featured-section {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 50px;
+      gap: 0px;
       align-items: center;
       margin-bottom: 60px;
-      padding: 40px 0;
+      padding: 40px 73px;
     }
     
     .featured-image-container {
       display: flex;
-      justify-content: center;
+      justify-content: stretch;
       align-items: center;
       
       .rectangle-frame {
@@ -561,7 +560,7 @@
         border: 1px solid #2196f3;
         max-width: 280px;
         width: 100%;
-        height: 380px;
+        height: 350px;
         transition: all 0.4s ease;
         background: rgba(33, 150, 243, 0.08);        
         
@@ -1102,6 +1101,54 @@
         }
       }
     }
+
+    /* Remove link underlines and force heading color to inherit for experience cards */
+    .experience-card-link {
+      text-decoration: none !important;
+      color: inherit !important;
+      display: block;
+    }
+
+    .experience-card-link h3 {
+      text-decoration: none !important;
+      color: inherit !important;
+      border-bottom: none !important;
+    }
+
+    .experience-card-link:hover h3,
+    .experience-card-link:focus h3 {
+      text-decoration: none !important;
+      color: inherit !important;
+    }
+  }
+}
+
+/* Remove box-shadows by default for card-like elements, show subtle shadow only on desktop hover */
+.experience-section .experience-card,
+.brand-testimonial,
+.testimonial-card,
+.press-card,
+.platform-card,
+.action-buttons .btn-primary,
+.action-buttons .btn-secondary,
+.circular-photo,
+.card-image {
+  box-shadow: none !important;
+}
+
+@media (min-width: 1025px) {
+  .experience-section .experience-card:hover,
+  .brand-testimonial:hover,
+  .testimonial-card:hover,
+  .press-card:hover,
+  .platform-card:hover,
+  .action-buttons .btn-primary:hover,
+  .action-buttons .btn-secondary:hover,
+  .circular-photo:hover,
+  .card-image:hover {
+    box-shadow: 0 12px 36px rgba(0,0,0,0.12) !important;
+    transform: translateY(-4px);
+    transition: box-shadow 180ms ease, transform 180ms ease;
   }
 }
 
@@ -1466,7 +1513,7 @@
     
     img {
       width: 100%;
-      height: 200px;
+      height: 285px;
       object-fit: cover;
       transition: transform 0.4s ease;
     }
@@ -2533,6 +2580,57 @@
     .slider-btn.next-btn { right: 18px !important; }
   }
 }
+
+/* Remove text/content box shadows by default and show shadow only on hover for desktop */
+.content-box,
+.brand-testimonial,
+.testimonial-card,
+.experience-card,
+.photo-image,
+.rectangle-frame,
+.video-placeholder,
+.video-placeholder-small,
+.video-placeholder-large,
+.circular-photo,
+.still-image,
+.card-image {
+  box-shadow: none !important;
+  transition: box-shadow 0.25s ease, transform 0.25s ease !important;
+}
+
+@media (min-width: 1025px) {
+  .content-box:hover,
+  .brand-testimonial:hover,
+  .testimonial-card:hover,
+  .experience-card:hover,
+  .photo-image:hover,
+  .rectangle-frame:hover,
+  .video-placeholder:hover,
+  .video-placeholder-small:hover,
+  .video-placeholder-large:hover,
+  .circular-photo:hover,
+  .still-image:hover,
+  .card-image:hover {
+    /* subtle, consistent hover shadow on desktop */
+    box-shadow: 0 12px 30px rgba(0,0,0,0.12) !important;
+    transform: translateY(-4px) !important;
+  }
+}
+
+/* Strong override: ensure no underlines for experience card links (covers browsers and UA styles) */
+.experience-section .experience-grid .experience-card-link,
+.experience-section .experience-grid .experience-card-link *,
+.experience-section .experience-grid .experience-card-link h3,
+.experience-section .experience-grid .experience-card-link h3 * {
+  text-decoration: none !important;
+  text-decoration-line: none !important;
+  text-decoration-thickness: 0 !important;
+  text-underline-offset: 0 !important;
+  text-decoration-skip-ink: auto !important;
+  border-bottom: none !important;
+  color: inherit !important;
+}
+
 
 /* Desktop: force experience grid into two rows (high specificity and top-level so it applies) */
 @media (min-width: 1025px) {
