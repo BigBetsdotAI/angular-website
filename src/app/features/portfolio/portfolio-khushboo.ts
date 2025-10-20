@@ -138,12 +138,19 @@ export class PortfolioKhushboo implements OnInit {
       // Autoplay photoshoot BTS video when visible (plays muted) and hide overlay while playing
       setTimeout(() => {
         const psVideo = document.getElementById('photoshootBts') as HTMLVideoElement;
+        const videoCard = document.querySelector('.photo-card.video-card') as HTMLElement;
         const overlay = document.querySelector('.photo-card.video-card .video-overlay') as HTMLElement;
-        if (psVideo) {
+        if (psVideo && videoCard) {
+          // Ensure autoplay-friendly attributes
           psVideo.muted = true;
+          psVideo.loop = true;
+          psVideo.playsInline = true;
+
+          // Observe the card container (better intersection target than the video element)
           const psObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
               if (entry.isIntersecting) {
+                // Play only if user agent allows autoplay (muted)
                 psVideo.play().catch(() => {});
                 if (overlay) overlay.classList.add('hidden');
               } else {
@@ -152,7 +159,7 @@ export class PortfolioKhushboo implements OnInit {
               }
             });
           }, { threshold: 0.6 });
-          psObserver.observe(psVideo);
+          psObserver.observe(videoCard);
         }
       }, 700);
     }

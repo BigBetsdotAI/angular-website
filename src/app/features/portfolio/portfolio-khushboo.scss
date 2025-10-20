@@ -308,7 +308,7 @@
       img {
         width: 95%;
         height: 240px;
-        object-fit: fill;
+        object-fit: cover;
         object-position: center;
       }
     }
@@ -593,7 +593,9 @@
           box-shadow: 0 20px 60px rgba(33, 150, 243, 0.4);
         }
         
-        img {
+        img,
+        video,
+        .photoshoot-bts {
           width: 100%;
           height: 100%;
           object-fit: contain;
@@ -837,6 +839,39 @@
         }
       }
     }
+
+    /* Unified frame/size for Photoshoots tab only */
+    .photo-card {
+      opacity: 1 !important; /* show cards when tab is active */
+      border-radius: 14px;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid rgba(33,150,243,0.08);
+      box-shadow: 0 8px 26px rgba(33,150,243,0.06);
+      transition: transform 220ms ease, box-shadow 220ms ease;
+      max-width: 340px;
+      height: 380px;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+      margin: 0 auto;
+
+      &.video-card { max-width: 340px; height: 380px; }
+
+      .photo-image {
+        border-radius: 12px;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      img, video, .photoshoot-bts {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+    }
   }
   
   // Behind-the-Scenes Tab - Dark with Gold Overlay
@@ -912,7 +947,7 @@
       img {
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
         display: block;
         filter: sepia(0.2) saturate(1.1);
       }
@@ -2095,6 +2130,22 @@
         height: 300px;
         border: 6px solid white;
         margin: 0 auto;
+      }
+    }
+
+    /* Remove outer square white frame on mobile hero */
+    .hero-image {
+      /* ensure container has no border or background that creates a square frame */
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      padding: 0 !important;
+
+      .circular-photo {
+        border: none !important; /* remove white border if present */
+        box-shadow: none !important;
+        width: 260px !important;
+        height: 260px !important;
       }
     }
 
