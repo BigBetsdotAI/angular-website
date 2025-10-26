@@ -1,6 +1,6 @@
 <section id="about" class="about-section">
   <div class="about-container">
-    <div class="about-text" appFadeIn>
+  <div class="about-text" appFadeIn direction="left">
       <span class="label">OUR PROMISE</span>
       <h2>Tool <strong>built for creators.</strong></h2>
       <p>
@@ -20,7 +20,7 @@
     </div>
     
     <!-- Show image when loaded -->
-    <div *ngIf="!imagesLoading" class="about-image" appFadeIn delay="0.3s">
+    <div *ngIf="!imagesLoading" class="about-image" appFadeIn delay="0.3s" direction="right">
       <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/about.jpg" alt="About">
     </div>
   </div>
