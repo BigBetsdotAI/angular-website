@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class PortfolioKhushboo implements OnInit {
   
-  activeTab: string = 'Acting Stills';
+  activeTab: string = 'TV Shows';
   currentSlide: number = 0;
   scrollY: number = 0;
   
@@ -237,7 +237,6 @@ export class PortfolioKhushboo implements OnInit {
   }
 
   setActiveTab(tab: string) {
-    console.log('Setting active tab to:', tab);
     this.activeTab = tab;
   }
 

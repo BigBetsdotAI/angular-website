@@ -213,8 +213,11 @@
     <h2 class="section-title fade-in-up">Photo & Video Shoots</h2>
     
     <div class="shoots-tabs">
-      <button class="tab-btn" [class.active]="activeTab === 'Acting Stills'" (click)="setActiveTab('Acting Stills')">
-        <i class="fas fa-film"></i> Acting Stills
+      <button class="tab-btn" [class.active]="activeTab === 'TV Shows'" (click)="setActiveTab('TV Shows')">
+        <i class="fas fa-tv"></i> TV Shows
+      </button>
+      <button class="tab-btn" [class.active]="activeTab === 'Acting Skills'" (click)="setActiveTab('Acting Skills')">
+        <i class="fas fa-film"></i> Acting Skills
       </button>
       <button class="tab-btn" [class.active]="activeTab === 'Photoshoots'" (click)="setActiveTab('Photoshoots')">
         <i class="fas fa-camera"></i> Photoshoots
@@ -222,13 +225,10 @@
       <button class="tab-btn" [class.active]="activeTab === 'Behind-the-Scenes'" (click)="setActiveTab('Behind-the-Scenes')">
         <i class="fas fa-video"></i> Behind-the-Scenes
       </button>
-      <button class="tab-btn" [class.active]="activeTab === 'TV Shows'" (click)="setActiveTab('TV Shows')">
-        <i class="fas fa-tv"></i> TV Shows
-      </button>
     </div>
     
-    <!-- Acting Stills Tab -->
-    <div class="tab-content acting-stills-content" *ngIf="activeTab === 'Acting Stills'">
+    <!-- Acting Skills Tab -->
+    <div class="tab-content acting-stills-content" *ngIf="activeTab === 'Acting Skills'">
       <div class="featured-section fade-in-up">
         <div class="featured-image-container">
           <div class="rectangle-frame">
