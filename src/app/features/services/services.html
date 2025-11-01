@@ -1,0 +1,35 @@
+<div class="services-page">
+  <section class="hero-section">
+    <div class="container">
+      <h1 class="page-title">Our Services</h1>
+      <p class="page-subtitle">Comprehensive Digital Solutions for Your Business</p>
+    </div>
+  </section>
+
+  <section class="services-section">
+    <div class="container">
+      <div class="services-grid">
+        @for (service of services; track service.title) {
+          <div class="service-card">
+            <div class="service-icon">{{ service.icon }}</div>
+            <h3 class="service-title">{{ service.title }}</h3>
+            <p class="service-description">{{ service.description }}</p>
+            <ul class="service-features">
+              @for (feature of service.features; track feature) {
+                <li>{{ feature }}</li>
+              }
+            </ul>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <div class="container">
+      <h2>Ready to Start Your Project?</h2>
+      <p>Let's discuss how we can help bring your vision to life</p>
+      <a href="/contact" class="cta-button">Get In Touch</a>
+    </div>
+  </section>
+</div>

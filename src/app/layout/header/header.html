@@ -12,12 +12,12 @@
   
   <ul class="nav-links" [class.active]="isMobileMenuOpen">
     <button class="close-btn" (click)="closeMobileMenu()">×</button>
-    <li><a (click)="navigateToSection('about'); closeMobileMenu()">About Us</a></li>
-    <li><a (click)="navigateToSection('brands'); closeMobileMenu()">Brands</a></li>
-    <li><a (click)="navigateToSection('testimonials'); closeMobileMenu()">Testimonials</a></li>
-    <li><a (click)="navigateToSection('creators'); closeMobileMenu()">Creators</a></li>
-    <li><a (click)="navigateToSection('company'); closeMobileMenu()">Company</a></li>
-    <li><a (click)="markVisited($event); closeMobileMenu()" [class.visited]="isVisited" class="contact-link">Contact</a></li>
+    <li><a href="/#about" (click)="navigateToSection('about'); closeMobileMenu()">About Us</a></li>
+    <li><a href="/#brands" (click)="navigateToSection('brands'); closeMobileMenu()">Brands</a></li>
+    <li><a href="/#testimonials" (click)="navigateToSection('testimonials'); closeMobileMenu()">Testimonials</a></li>
+    <li><a href="/#creators" (click)="navigateToSection('creators'); closeMobileMenu()">Creators</a></li>
+    <li><a href="/#company" (click)="navigateToSection('company'); closeMobileMenu()">Company</a></li>
+    <li><a href="/contact" (click)="markVisited($event); closeMobileMenu()" [class.visited]="isVisited" class="contact-link">Contact</a></li>
     <!-- Mobile login button inside menu -->
     <li class="mobile-login-container">
       <button class="login-btn mobile-login" (click)="navigateToContact(); closeMobileMenu()">
