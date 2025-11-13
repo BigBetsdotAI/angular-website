@@ -111,6 +111,14 @@
 .testimonial-text h4 {
   margin: 0;
   font-weight: bold;
+  color: #777 !important;
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-text-fill-color: #777 !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  animation: none !important;
+  filter: none !important;
 }
 
 .testimonial-text span {

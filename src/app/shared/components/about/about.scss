@@ -38,6 +38,14 @@
 .about-text h2 {
   font-size: 2rem;
   margin-bottom: 20px;
+  color: #000000 !important;
+  text-shadow: none !important;
+  background: none !important;
+  -webkit-text-fill-color: #000000 !important;
+  background-clip: unset !important;
+  -webkit-background-clip: unset !important;
+  animation: none !important;
+  filter: none !important;
 }
 
 .about-text p {

@@ -1,5 +1,9 @@
 // Import mobile responsive styles - must be at the top
 @use 'styles/base/mobile-responsive.scss';
+// Import Christmas theme styles
+@use 'styles/christmas-theme.scss';
+// Import Christmas page enhancements
+@use 'styles/christmas-page-enhancements.scss';
 
 /* You can add global styles to this file, and also import other style files */
 html, body {
@@ -9,9 +13,13 @@ html, body {
   overflow-x: hidden;
   scroll-behavior: smooth;
   position: relative;
+  // Christmas theme background
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  background-attachment: fixed;
 }
 
-/* Background Logo Watermark */
+/* Background Logo Watermark with Christmas glow */
+
 body::before {
   content: '';
   position: fixed;
@@ -25,11 +33,21 @@ body::before {
   background-repeat: no-repeat;
   background-position: center;
   background-color: transparent;
-  opacity: 0.05;
+  opacity: 0.08;
   z-index: -1;
   pointer-events: none;
   mix-blend-mode: multiply;
-  filter: contrast(1.2) brightness(0) invert(1) opacity(0.05);
+  filter: contrast(1.2) brightness(0) invert(1) opacity(0.08) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+  animation: logo-glow 3s ease-in-out infinite;
+}
+
+@keyframes logo-glow {
+  0%, 100% {
+    filter: contrast(1.2) brightness(0) invert(1) opacity(0.08) drop-shadow(0 0 20px rgba(255, 215, 0, 0.3));
+  }
+  50% {
+    filter: contrast(1.2) brightness(0) invert(1) opacity(0.12) drop-shadow(0 0 30px rgba(255, 215, 0, 0.5));
+  }
 }
 
 .section {
@@ -47,7 +65,7 @@ body::before {
    natural flow and reduce the 'separate page' effect. */
 @media (max-width: 768px) {
   .section {
-    min-height: auto !important;
+    min-height: 0 !important;
     align-items: flex-start;
     padding-top: 1rem;
     padding-bottom: calc(env(safe-area-inset-bottom, 0px) + 1rem);

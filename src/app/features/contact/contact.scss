@@ -3,10 +3,29 @@
     padding-top: 0px !important;
   }
 }
+
+/* Override navbar style only on contact page */
+.contact-section ~ * .navbar,
+body:has(.contact-section) .navbar {
+  background: rgba(255, 255, 255, 0.1) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  backdrop-filter: blur(10px) !important;
+  transition: transform 0.3s ease, opacity 0.3s ease !important;
+}
+
+/* Hide navbar on scroll down in contact page */
+body:has(.contact-section) .navbar.hide-on-scroll {
+  transform: translateY(-100%) !important;
+  opacity: 0 !important;
+}
+
 /* ====== CONTACT SECTION ====== */
 .contact-section {
-  padding: 90px 20px 40px 20px;
-  background: #f9fafb;
+  padding: 120px 20px 40px 20px;
+  background: url('https://ggggg.s3.eu-north-1.amazonaws.com/side-view-radio-microphone-with-copy-space_23-2148808737.jpg');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
   font-family: 'Inter', sans-serif;
 }
 /* Breadcrumb */
@@ -27,7 +46,15 @@
 /* Header */
 .contact-header {
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 60px;
+  background: rgba(255, 255, 255, 0.1);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  padding: 30px 20px;
+  border-radius: 16px;
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .contact-header h1 {
   font-size: 1.5rem;
@@ -35,7 +62,7 @@
   color: #111827;
 }
 .contact-header p {
-  color: #6b7280;
+  color: #ffffff;
   font-size: 1.1rem;
   margin-top: 10px;
 }

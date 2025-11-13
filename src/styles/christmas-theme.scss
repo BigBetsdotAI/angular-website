@@ -1,0 +1,257 @@
+// ============================================
+// 🎄 CHRISTMAS THEME - MINIMAL CLEAN STYLING 🎄
+// ============================================
+
+// Christmas Color Palette
+$christmas-red: #c41e3a;
+$christmas-green: #0f8a5f;
+$christmas-gold: #ffd700;
+$christmas-white: #ffffff;
+$christmas-dark-red: #8b0000;
+$snowflake-white: rgba(255, 255, 255, 0.9);
+
+// ============================================
+// Christmas Background & Overlay
+// ============================================
+body {
+  position: relative;
+  background: linear-gradient(135deg, #0f2027 0%, #203a43 50%, #2c5364 100%);
+  
+  &::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(255, 0, 0, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 80% 80%, rgba(0, 255, 0, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ============================================
+// 🌨️ SNOWFALL ANIMATION
+// ============================================
+.snowfall-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.snowflake {
+  position: absolute;
+  top: -10px;
+  color: $snowflake-white;
+  font-size: 1em;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+  animation: snowfall linear infinite;
+  opacity: 0;
+  
+  // Varying sizes
+  &.small { font-size: 0.8em; }
+  &.medium { font-size: 1.2em; }
+  &.large { font-size: 1.6em; }
+  
+  // Swaying animation
+  animation: snowfall linear infinite, sway ease-in-out infinite;
+}
+
+@keyframes snowfall {
+  0% {
+    top: -10%;
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    top: 110%;
+    opacity: 0;
+  }
+}
+
+@keyframes sway {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(50px);
+  }
+}
+
+// ============================================
+// 🎄 CHRISTMAS LIGHTS BORDER
+// ============================================
+.christmas-lights {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(
+    to right,
+    $christmas-red 0%,
+    $christmas-red 10%,
+    $christmas-green 10%,
+    $christmas-green 20%,
+    $christmas-gold 20%,
+    $christmas-gold 30%,
+    $christmas-red 30%,
+    $christmas-red 40%,
+    $christmas-green 40%,
+    $christmas-green 50%,
+    $christmas-gold 50%,
+    $christmas-gold 60%,
+    $christmas-red 60%,
+    $christmas-red 70%,
+    $christmas-green 70%,
+    $christmas-green 80%,
+    $christmas-gold 80%,
+    $christmas-gold 90%,
+    $christmas-red 90%,
+    $christmas-red 100%
+  );
+  animation: lights-flicker 2s infinite;
+  box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+  z-index: 1000;
+}
+
+@keyframes lights-flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+// ============================================
+// ⭐ TWINKLING STARS
+// ============================================
+.christmas-star {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: $christmas-gold;
+  border-radius: 50%;
+  box-shadow: 0 0 10px $christmas-gold;
+  animation: twinkle 2s ease-in-out infinite;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    background: $christmas-gold;
+  }
+  
+  &::before {
+    width: 4px;
+    height: 1px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
+  &::after {
+    width: 1px;
+    height: 4px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+@keyframes twinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.3;
+    transform: scale(0.8);
+  }
+}
+
+// ============================================
+// 📱 MOBILE RESPONSIVE ADJUSTMENTS
+// ============================================
+@media (max-width: 768px) {
+  .snowflake {
+    font-size: 0.8em;
+    
+    &.large {
+      font-size: 1.2em;
+    }
+  }
+}
+
+// ============================================
+// 🎨 GRADIENT TEXT EFFECTS
+// ============================================
+.christmas-gradient-text {
+  background: linear-gradient(
+    45deg,
+    $christmas-red,
+    $christmas-gold,
+    $christmas-green,
+    $christmas-red
+  );
+  background-size: 300% 300%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-shift 3s ease infinite;
+  font-weight: bold;
+}
+
+@keyframes gradient-shift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+// ============================================
+// 🎆 MAGICAL GLOW EFFECT
+// ============================================
+.magical-glow {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(
+      circle,
+      rgba(255, 215, 0, 0.3) 0%,
+      transparent 70%
+    );
+    animation: pulse-glow 2s ease-in-out infinite;
+    pointer-events: none;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 1;
+  }
+}

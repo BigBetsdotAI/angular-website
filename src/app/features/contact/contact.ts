@@ -44,6 +44,25 @@ export class Contact implements OnInit {
     // Scroll to top when component loads
     if (isPlatformBrowser(this.platformId)) {
       window.scrollTo(0, 0);
+      
+      // Add scroll listener to hide/show navbar
+      let lastScrollTop = 0;
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+        const navbar = document.querySelector('.navbar');
+        
+        if (navbar) {
+          if (scrollTop > lastScrollTop && scrollTop > 100) {
+            // Scrolling down & past 100px
+            navbar.classList.add('hide-on-scroll');
+          } else {
+            // Scrolling up or at top
+            navbar.classList.remove('hide-on-scroll');
+          }
+        }
+        
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      });
     }
   }
 

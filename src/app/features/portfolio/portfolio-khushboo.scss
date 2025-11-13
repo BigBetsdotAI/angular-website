@@ -462,6 +462,12 @@
       }
     }
     
+    // Fix Press Mentions card (5th card) - use contain to show full image
+    &:nth-child(5) .card-image img {
+      object-fit: contain;
+      object-position: center;
+    }
+    
     h3 {
       padding: 20px;
       font-size: 1.1rem;

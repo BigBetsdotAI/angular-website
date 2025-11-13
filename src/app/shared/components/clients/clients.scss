@@ -1,5 +1,6 @@
 .client{
   text-align: center;
+  color: #ffffff !important;
 }
 
 .clients-loader-container {
@@ -72,8 +73,15 @@
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 10px;
-    color: #222;
+    color: #777 !important;
     padding-top: 25px;
+    text-shadow: none !important;
+    background: none !important;
+    -webkit-text-fill-color: #777 !important;
+    background-clip: unset !important;
+    -webkit-background-clip: unset !important;
+    animation: none !important;
+    filter: none !important;
   }
 
   p {

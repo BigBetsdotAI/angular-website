@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { ChristmasSnowfallComponent } from './shared/components/christmas-snowfall.component';
+import { ShootingStarsComponent } from './shared/components/shooting-stars.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [
-    RouterOutlet
+    RouterOutlet,
+    ChristmasSnowfallComponent,
+    ShootingStarsComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
