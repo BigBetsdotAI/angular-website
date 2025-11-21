@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { ChristmasSnowfallComponent } from './shared/components/christmas-snowfall.component';
 import { ShootingStarsComponent } from './shared/components/shooting-stars.component';
+import { ChristmasDecorationsComponent } from './shared/components/christmas-decorations/christmas-decorations';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,8 @@ import { ShootingStarsComponent } from './shared/components/shooting-stars.compo
   imports: [
     RouterOutlet,
     ChristmasSnowfallComponent,
-    ShootingStarsComponent
+    ShootingStarsComponent,
+    ChristmasDecorationsComponent
   ],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']

@@ -1,0 +1,400 @@
+// ============================================
+// 🎄 CHRISTMAS TREE (Left Side of Screen)
+// ============================================
+.christmas-tree {
+  position: fixed;
+  bottom: 0;
+  left: 20px;
+  z-index: 999;
+  animation: treeGrow 1s ease-out;
+  
+  .tree-star {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 30px;
+    animation: starTwinkle 2s ease-in-out infinite;
+    filter: drop-shadow(0 0 10px gold);
+  }
+  
+  .tree-top, .tree-middle, .tree-bottom {
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    margin: -10px auto;
+    position: relative;
+  }
+  
+  .tree-top {
+    border-bottom: 60px solid #0f8a5f;
+    border-left-width: 30px;
+    border-right-width: 30px;
+  }
+  
+  .tree-middle {
+    border-bottom: 70px solid #1a9d6f;
+    border-left-width: 45px;
+    border-right-width: 45px;
+  }
+  
+  .tree-bottom {
+    border-bottom: 80px solid #0f8a5f;
+  }
+  
+  .tree-trunk {
+    width: 20px;
+    height: 30px;
+    background: #654321;
+    margin: -5px auto 0;
+    border-radius: 0 0 5px 5px;
+  }
+  
+  // Ornaments
+  .tree-ornaments {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    width: 100%;
+    height: 180px;
+    
+    .ornament {
+      position: absolute;
+      font-size: 16px;
+      animation: ornamentSwing 3s ease-in-out infinite;
+      
+      &.ornament-1 { top: 30px; left: 35px; animation-delay: 0s; }
+      &.ornament-2 { top: 55px; left: 20px; animation-delay: 0.5s; }
+      &.ornament-3 { top: 55px; right: 20px; animation-delay: 1s; }
+      &.ornament-4 { top: 85px; left: 15px; animation-delay: 1.5s; }
+      &.ornament-5 { top: 85px; left: 50%; transform: translateX(-50%); animation-delay: 2s; }
+      &.ornament-6 { top: 85px; right: 15px; animation-delay: 2.5s; }
+    }
+  }
+  
+  // Christmas Lights
+  .tree-lights {
+    position: absolute;
+    top: 10px;
+    left: 0;
+    width: 100%;
+    height: 200px;
+    
+    .light {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      animation: lightBlink 1.5s ease-in-out infinite;
+      
+      &.light-1 { top: 20px; left: 40px; background: #ffd700; animation-delay: 0s; }
+      &.light-2 { top: 45px; left: 25px; background: #ff0000; animation-delay: 0.2s; }
+      &.light-3 { top: 45px; right: 25px; background: #00ff00; animation-delay: 0.4s; }
+      &.light-4 { top: 75px; left: 18px; background: #0000ff; animation-delay: 0.6s; }
+      &.light-5 { top: 75px; left: 50%; background: #ffd700; animation-delay: 0.8s; }
+      &.light-6 { top: 75px; right: 18px; background: #ff0000; animation-delay: 1s; }
+      &.light-7 { top: 110px; left: 30px; background: #00ff00; animation-delay: 1.2s; }
+      &.light-8 { top: 110px; right: 30px; background: #0000ff; animation-delay: 1.4s; }
+    }
+  }
+}
+
+// ============================================
+// 🎅 SANTA CARD (Popup)
+// ============================================
+.santa-card-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.santa-card {
+  background: linear-gradient(135deg, #c41e3a 0%, #8b0000 100%);
+  border: 5px solid #ffd700;
+  border-radius: 20px;
+  padding: 40px;
+  max-width: 500px;
+  width: 90%;
+  text-align: center;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+  animation: cardSlideIn 0.5s ease-out;
+  
+  .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    background: transparent;
+    border: none;
+    color: white;
+    font-size: 36px;
+    cursor: pointer;
+    line-height: 1;
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: scale(1.2) rotate(90deg);
+    }
+  }
+  
+  .santa-illustration {
+    margin-bottom: 20px;
+    
+    .santa-face {
+      width: 150px;
+      height: 180px;
+      margin: 0 auto;
+      position: relative;
+      
+      // Santa Hat
+      .santa-hat {
+        position: absolute;
+        top: -30px;
+        left: 50%;
+        transform: translateX(-50%);
+        
+        .hat-main {
+          width: 0;
+          height: 0;
+          border-left: 60px solid transparent;
+          border-right: 60px solid transparent;
+          border-bottom: 80px solid #c41e3a;
+          position: relative;
+          filter: drop-shadow(0 2px 5px rgba(0,0,0,0.3));
+        }
+        
+        .hat-pom {
+          position: absolute;
+          top: -15px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 25px;
+          height: 25px;
+          background: white;
+          border-radius: 50%;
+          box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+        
+        .hat-rim {
+          position: absolute;
+          bottom: -10px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 130px;
+          height: 15px;
+          background: white;
+          border-radius: 10px;
+        }
+      }
+      
+      // Face
+      .santa-eyes {
+        position: absolute;
+        top: 70px;
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        padding: 0 30px;
+        
+        .eye {
+          width: 15px;
+          height: 15px;
+          background: #333;
+          border-radius: 50%;
+          animation: blink 3s infinite;
+        }
+      }
+      
+      .santa-nose {
+        position: absolute;
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 20px;
+        height: 20px;
+        background: #ff6b6b;
+        border-radius: 50%;
+      }
+      
+      .santa-beard {
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 120px;
+        height: 80px;
+        background: white;
+        border-radius: 50% 50% 60% 60%;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      }
+      
+      .santa-mouth {
+        position: absolute;
+        bottom: 40px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 30px;
+        height: 15px;
+        border-bottom: 3px solid #ff6b6b;
+        border-radius: 0 0 50% 50%;
+      }
+    }
+  }
+  
+  .santa-greeting {
+    color: white;
+    font-size: 32px;
+    margin: 20px 0 10px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+  }
+  
+  .santa-message {
+    color: #ffd700;
+    font-size: 22px;
+    margin: 10px 0;
+    font-weight: 600;
+  }
+  
+  .santa-submessage {
+    color: white;
+    font-size: 16px;
+    margin: 15px 0 25px;
+    line-height: 1.5;
+  }
+  
+  .santa-close-button {
+    background: #ffd700;
+    color: #c41e3a;
+    border: none;
+    padding: 12px 40px;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 25px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    
+    &:hover {
+      background: white;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0,0,0,0.4);
+    }
+  }
+}
+
+// ============================================
+// ANIMATIONS
+// ============================================
+@keyframes treeGrow {
+  from {
+    transform: scale(0);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    transform: translateX(-50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(-50%) scale(1.2);
+    opacity: 0.8;
+  }
+}
+
+@keyframes ornamentSwing {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  50% {
+    transform: rotate(10deg);
+  }
+}
+
+@keyframes lightBlink {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: 0 0 10px currentColor;
+  }
+  50% {
+    opacity: 0.3;
+    box-shadow: 0 0 5px currentColor;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes cardSlideIn {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes blink {
+  0%, 90%, 100% {
+    height: 15px;
+  }
+  95% {
+    height: 2px;
+  }
+}
+
+// ============================================
+// RESPONSIVE DESIGN
+// ============================================
+@media (max-width: 768px) {
+  .christmas-tree {
+    left: 10px;
+    transform: scale(0.8);
+  }
+  
+  .santa-card {
+    padding: 30px 20px;
+    
+    .santa-greeting {
+      font-size: 24px;
+    }
+    
+    .santa-message {
+      font-size: 18px;
+    }
+    
+    .santa-submessage {
+      font-size: 14px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .christmas-tree {
+    transform: scale(0.6);
+    left: 5px;
+  }
+}

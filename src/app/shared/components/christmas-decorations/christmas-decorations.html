@@ -1,0 +1,53 @@
+<!-- Christmas Tree (Left Side) -->
+<div class="christmas-tree">
+  <div class="tree-star">⭐</div>
+  <div class="tree-top"></div>
+  <div class="tree-middle"></div>
+  <div class="tree-bottom"></div>
+  <div class="tree-trunk"></div>
+  <div class="tree-ornaments">
+    <span class="ornament ornament-1">🔴</span>
+    <span class="ornament ornament-2">🟡</span>
+    <span class="ornament ornament-3">🔵</span>
+    <span class="ornament ornament-4">🔴</span>
+    <span class="ornament ornament-5">🟡</span>
+    <span class="ornament ornament-6">🔵</span>
+  </div>
+  <div class="tree-lights">
+    <span class="light light-1"></span>
+    <span class="light light-2"></span>
+    <span class="light light-3"></span>
+    <span class="light light-4"></span>
+    <span class="light light-5"></span>
+    <span class="light light-6"></span>
+    <span class="light light-7"></span>
+    <span class="light light-8"></span>
+  </div>
+</div>
+
+<!-- Santa Card (Popup) -->
+<div class="santa-card-overlay" *ngIf="showSantaCard" (click)="closeSantaCard()">
+  <div class="santa-card" (click)="$event.stopPropagation()">
+    <button class="close-btn" (click)="closeSantaCard()">×</button>
+    <div class="santa-illustration">
+      <div class="santa-face">
+        <div class="santa-hat">
+          <div class="hat-main"></div>
+          <div class="hat-pom"></div>
+          <div class="hat-rim"></div>
+        </div>
+        <div class="santa-eyes">
+          <div class="eye left"></div>
+          <div class="eye right"></div>
+        </div>
+        <div class="santa-nose"></div>
+        <div class="santa-beard"></div>
+        <div class="santa-mouth"></div>
+      </div>
+    </div>
+    <h2 class="santa-greeting">🎅 Ho Ho Ho! 🎄</h2>
+    <p class="santa-message">Merry Christmas from BigBets.AI!</p>
+    <p class="santa-submessage">Wishing you a season filled with joy, success, and innovation! ✨</p>
+    <button class="santa-close-button" (click)="closeSantaCard()">Close</button>
+  </div>
+</div>
