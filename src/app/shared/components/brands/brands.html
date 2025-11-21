@@ -1,8 +1,5 @@
 <section id="brands" class="brands-section">
   <div class="container">
-    <span class="brand-label">Our Brands</span>
-    <h2 class="brands-title" appFadeIn>Our Trusted Brands</h2>
-    
     <!-- Show loader while images are loading -->
     <div *ngIf="imagesLoading" class="brands-loader-container">
       <app-loader></app-loader>
@@ -11,23 +8,28 @@
     <!-- Show brands carousel when images are loaded -->
     <div *ngIf="!imagesLoading" class="brands-carousel" appFadeIn delay="0.3s" duration="1s">
       <div class="brands-track">
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand1.png" alt="Rizzle">
-        </div>
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand2.png" alt="SÉRY">
-        </div>
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand3.png" alt="IBA">
-        </div>
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand5.png" alt="Purple">
-        </div>
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand6.png" alt="Marco">
-        </div>
-        <div class="brand-item">
-          <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand4.jpg" alt="Reckitt">
+        <span class="brand-label">Our Brands</span>
+        <h2 class="brands-title" appFadeIn>Our Trusted Brands</h2>
+        
+        <div class="brands-logos">
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand1.png" alt="Rizzle">
+          </div>
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand2.png" alt="SÉRY">
+          </div>
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand3.png" alt="IBA">
+          </div>
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand5.png" alt="Purple">
+          </div>
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand6.png" alt="Marco">
+          </div>
+          <div class="brand-item">
+            <img src="https://angular-webpage.s3.eu-north-1.amazonaws.com/assets/images/brand4.jpg" alt="Reckitt">
+          </div>
         </div>
       </div>
     </div>

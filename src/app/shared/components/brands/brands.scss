@@ -49,13 +49,66 @@
 
 .brands-track {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 40px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 60px;
+  background: rgba(255, 255, 255, 0.3);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  position: relative;
+}
+
+.brands-track::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+  border-radius: 20px;
+  pointer-events: none;
+}
+
+.brands-track .brand-label {
+  display: inline-block;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  color: #c41e3a;
+  background: #ffd700;
+  padding: 4px 10px;
+  border-radius: 20px;
+  margin: 0;
+  z-index: 1;
+}
+
+.brands-track .brands-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0 0 20px 0;
+  text-align: center;
+  z-index: 1;
+}
+
+.brands-logos {
+  display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
   gap: 80px;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  z-index: 1;
 }
 
 .brand-item {
@@ -64,6 +117,11 @@
   justify-content: center;
   transition: transform 0.3s ease, opacity 0.3s ease;
   flex-shrink: 0;
+  position: relative;
+}
+
+.brand-item:hover {
+  transform: translateY(-5px);
 }
 
 .brand-item img {
@@ -72,13 +130,17 @@
   width: auto;
   height: auto;
   object-fit: contain;
-  opacity: 0.9;
+  opacity: 0.95;
   transition: opacity 0.3s ease, transform 0.3s ease;
+  position: relative;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
 }
 
 .brand-item:hover img {
   opacity: 1;
-  transform: scale(1.1);
+  transform: scale(1.05);
+  filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
 }
 .line{
   border-style: solid;
@@ -96,13 +158,13 @@
 }
 /* Responsive Design */
 @media (max-width: 768px) {
-  .brands-track {
+  .brands-logos {
     gap: 40px;
   }
   
-  .brands-title {
+  .brands-track .brands-title {
     font-size: 2rem;
-    margin-bottom: 40px;
+    margin-bottom: 20px;
   }
   
   .brand-item img {
@@ -112,12 +174,16 @@
 }
 
 @media (max-width: 480px) {
-  .brands-track {
+  .brands-logos {
     gap: 30px;
   }
   
-  .brands-title {
+  .brands-track .brands-title {
     font-size: 1.8rem;
+  }
+  
+  .brands-track {
+    padding: 30px 40px;
   }
   
   .brand-item img {
