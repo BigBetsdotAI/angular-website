@@ -220,7 +220,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
             ) : (
               <Link to="/signup">
                 <Button variant="hero" size="default">
-                  Enroll Now
+                  Enrol Now
                 </Button>
               </Link>
             )}
@@ -296,7 +296,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                 ) : (
                   <Link to="/signup" className="flex-1 flex">
                     <Button variant="hero" size="default" className="w-full">
-                      Enroll Now
+                      Enrol Now
                     </Button>
                   </Link>
                 )}
