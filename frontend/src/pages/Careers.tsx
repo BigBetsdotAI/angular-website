@@ -13,7 +13,17 @@ import {
   Building,
   Zap,
 } from "lucide-react";
+import { useState } from "react";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { useToast } from "@/hooks/use-toast";
 
 const benefits = [
   {
@@ -94,6 +104,101 @@ const openPositions = [
 ];
 
 const Careers = () => {
+  const { toast } = useToast();
+  const [selectedJob, setSelectedJob] = useState<string>("");
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    linkedin: "",
+    portfolio: "",
+    coverLetter: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleApplyClick = (jobTitle: string) => {
+    setSelectedJob(jobTitle);
+    setIsDialogOpen(true);
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!formData.name || !formData.email || !formData.coverLetter) {
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill in all required fields marked with *",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Format message for backend
+    const detailedMessage = `
+APPLICATION FOR: ${selectedJob}
+
+LinkedIn: ${formData.linkedin || "Not provided"}
+Portfolio: ${formData.portfolio || "Not provided"}
+
+---
+Cover Letter:
+${formData.coverLetter}
+    `.trim();
+
+    try {
+      const response = await fetch("http://localhost:3001/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quickName: formData.name,
+          quickEmail: formData.email,
+          quickPhone: formData.phone,
+          quickMessage: detailedMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Application Sent!",
+          description:
+            "We've received your application and will review it shortly.",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          linkedin: "",
+          portfolio: "",
+          coverLetter: "",
+        });
+        setIsDialogOpen(false);
+      } else {
+        throw new Error(data.message || "Failed to send application");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to send application. Please try again later.",
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -134,7 +239,7 @@ const Careers = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white">
-                Why <span className="text-primary">Bigbets.Ai</span>?
+                Why <span className="text-primary">BigBets.AI</span>?
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mt-3 max-w-2xl mx-auto">
                 Join a company that values innovation, growth, and work-life
@@ -256,7 +361,10 @@ const Careers = () => {
                       <Clock className="w-4 h-4" />
                       {position.type}
                     </span>
-                    <Button className="bg-primary hover:bg-primary/90 text-white">
+                    <Button
+                      className="bg-primary hover:bg-primary/90 text-white"
+                      onClick={() => handleApplyClick(position.title)}
+                    >
                       Apply Now
                     </Button>
                   </div>
@@ -267,30 +375,121 @@ const Careers = () => {
         </section>
       </RevealOnScroll>
 
-      {/* CTA Section */}
-      <RevealOnScroll>
-        <section className="py-16 md:py-24 bg-white dark:bg-background">
-          <div className="container mx-auto px-4 text-center">
-            <div className="max-w-3xl mx-auto">
-              <Zap className="w-12 h-12 text-primary mx-auto mb-6" />
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">
-                Don't See the Right Role?
-              </h2>
-              <p className="text-gray-600 dark:text-gray-300 text-lg mb-8">
-                We're always looking for talented individuals. Send us your
-                resume and we'll reach out when a suitable position opens up.
-              </p>
-              <Link to="/contact">
-                <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-6 text-base">
-                  Send Your Resume
-                </Button>
-              </Link>
-            </div>
-          </div>
-        </section>
-      </RevealOnScroll>
-
       <Footer />
+
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto bg-white dark:bg-card">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900 dark:text-white">
+              Apply for {selectedJob}
+            </DialogTitle>
+            <DialogDescription className="text-gray-600 dark:text-gray-400">
+              Fill out the form below to submit your application.
+            </DialogDescription>
+          </DialogHeader>
+          <form onSubmit={handleSubmit} className="space-y-6 mt-4">
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
+                  placeholder="Your full name"
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Email <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
+                  placeholder="your@email.com"
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  Phone
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
+                  placeholder="+1 (555) 123-4567"
+                  disabled={loading}
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  LinkedIn URL
+                </label>
+                <input
+                  type="url"
+                  name="linkedin"
+                  value={formData.linkedin}
+                  onChange={handleChange}
+                  className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
+                  placeholder="https://linkedin.com/in/..."
+                  disabled={loading}
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Portfolio / Website
+              </label>
+              <input
+                type="url"
+                name="portfolio"
+                value={formData.portfolio}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
+                placeholder="https://portfolio.com"
+                disabled={loading}
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                Cover Letter <span className="text-red-500">*</span>
+              </label>
+              <textarea
+                rows={5}
+                name="coverLetter"
+                value={formData.coverLetter}
+                onChange={handleChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none text-gray-900 dark:text-white"
+                placeholder="Tell us why you're a great fit for this role..."
+                disabled={loading}
+              />
+            </div>
+
+            <Button
+              type="submit"
+              className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+              disabled={loading}
+            >
+              {loading ? "Sending..." : "Submit Application"}
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

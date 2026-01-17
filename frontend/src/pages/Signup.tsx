@@ -81,7 +81,7 @@ const Signup = () => {
                   Create Account
                 </h1>
                 <p className="text-gray-500 dark:text-gray-400">
-                  Join Bigbets.Ai to start your journey
+                  Join BigBets.AI to start your journey
                 </p>
               </div>
 

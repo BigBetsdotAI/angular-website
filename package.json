@@ -1,0 +1,8 @@
+{
+  "name": "bigbets-ai-monorepo",
+  "version": "1.0.0",
+  "description": "Root script to start all services",
+  "scripts": {
+    "start": "npm run dev --prefix frontend"
+  }
+}

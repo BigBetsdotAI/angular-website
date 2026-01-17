@@ -1,4 +1,6 @@
+import { useState } from "react";
 import Navbar from "@/components/Navbar";
+import { useToast } from "@/hooks/use-toast";
 import Footer from "@/components/Footer";
 import { Mail, Phone, MapPin, Clock, MessageCircle, Send } from "lucide-react";
 import {
@@ -11,6 +13,101 @@ import {
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 
 const Contact = () => {
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    company: "",
+    phone: "",
+    service: "",
+    budget: "",
+    timeline: "",
+    projectDetails: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleValueChange = (name: string, value: string) => {
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setLoading(true);
+
+    if (!formData.name || !formData.email || !formData.projectDetails) {
+      toast({
+        variant: "destructive",
+        title: "Missing Information",
+        description: "Please fill in all required fields marked with *",
+      });
+      setLoading(false);
+      return;
+    }
+
+    // Format message for backend (which expects quickMessage)
+    const detailedMessage = `
+Project Details:
+${formData.projectDetails}
+
+---
+Additional Info:
+Company: ${formData.company || "Not provided"}
+Service: ${formData.service || "Not selected"}
+Budget: ${formData.budget || "Not selected"}
+Timeline: ${formData.timeline || "Not selected"}
+    `.trim();
+
+    try {
+      const response = await fetch("http://localhost:3001/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          quickName: formData.name,
+          quickEmail: formData.email,
+          quickPhone: formData.phone,
+          quickMessage: detailedMessage,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        toast({
+          title: "Message Sent!",
+          description: "We'll get back to you within 24 hours.",
+        });
+        setFormData({
+          name: "",
+          email: "",
+          company: "",
+          phone: "",
+          service: "",
+          budget: "",
+          timeline: "",
+          projectDetails: "",
+        });
+      } else {
+        throw new Error(data.message || "Failed to send message");
+      }
+    } catch (error) {
+      toast({
+        variant: "destructive",
+        title: "Error",
+        description: "Failed to send message. Please try again later.",
+      });
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
+  };
   const contactMethods = [
     {
       icon: Mail,
@@ -21,7 +118,7 @@ const Contact = () => {
     {
       icon: Phone,
       title: "Call Us",
-      value: "+91 8052432951",
+      value: "+91 836 887 1848",
       description: "Mon-Fri from 9am to 6pm",
     },
     {
@@ -143,7 +240,7 @@ const Contact = () => {
                   hours.
                 </p>
 
-                <form className="space-y-6">
+                <form className="space-y-6" onSubmit={handleSubmit}>
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -151,8 +248,12 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
                         placeholder="Your full name"
+                        disabled={loading}
                       />
                     </div>
                     <div>
@@ -161,8 +262,12 @@ const Contact = () => {
                       </label>
                       <input
                         type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
                         placeholder="your@email.com"
+                        disabled={loading}
                       />
                     </div>
                   </div>
@@ -174,8 +279,12 @@ const Contact = () => {
                       </label>
                       <input
                         type="text"
+                        name="company"
+                        value={formData.company}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
                         placeholder="Your company name"
+                        disabled={loading}
                       />
                     </div>
                     <div>
@@ -184,8 +293,12 @@ const Contact = () => {
                       </label>
                       <input
                         type="tel"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
                         className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white"
                         placeholder="+1 (555) 123-4567"
+                        disabled={loading}
                       />
                     </div>
                   </div>
@@ -194,7 +307,12 @@ const Contact = () => {
                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                       Service Interested In
                     </label>
-                    <Select>
+                    <Select
+                      onValueChange={(value) =>
+                        handleValueChange("service", value)
+                      }
+                      value={formData.service}
+                    >
                       <SelectTrigger className="w-full h-12 border-gray-200 dark:border-gray-700 bg-white dark:bg-background text-gray-900 dark:text-white">
                         <SelectValue
                           placeholder="Select a service"
@@ -229,7 +347,12 @@ const Contact = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Budget Range
                       </label>
-                      <Select>
+                      <Select
+                        onValueChange={(value) =>
+                          handleValueChange("budget", value)
+                        }
+                        value={formData.budget}
+                      >
                         <SelectTrigger className="w-full h-12 border-gray-200 dark:border-gray-700 bg-white dark:bg-background text-gray-900 dark:text-white">
                           <SelectValue
                             placeholder="Select budget range"
@@ -257,7 +380,12 @@ const Contact = () => {
                       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                         Timeline
                       </label>
-                      <Select>
+                      <Select
+                        onValueChange={(value) =>
+                          handleValueChange("timeline", value)
+                        }
+                        value={formData.timeline}
+                      >
                         <SelectTrigger className="w-full h-12 border-gray-200 dark:border-gray-700 bg-white dark:bg-background text-gray-900 dark:text-white">
                           <SelectValue
                             placeholder="Select timeline"
@@ -282,17 +410,24 @@ const Contact = () => {
                     </label>
                     <textarea
                       rows={5}
+                      name="projectDetails"
+                      value={formData.projectDetails}
+                      onChange={handleChange}
                       className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none text-gray-900 dark:text-white"
                       placeholder="Tell us about your project, goals, and any specific requirements..."
+                      disabled={loading}
                     />
                   </div>
 
                   <button
                     type="submit"
-                    className="w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2"
+                    className={`w-full bg-primary text-white py-3 px-6 rounded-lg font-semibold hover:bg-primary/90 transition-colors flex items-center justify-center gap-2 ${
+                      loading ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                    disabled={loading}
                   >
                     <Send className="w-5 h-5" />
-                    Send Message
+                    {loading ? "Sending..." : "Send Message"}
                   </button>
                 </form>
               </div>
@@ -318,7 +453,7 @@ const Contact = () => {
                       <MapPin className="w-8 h-8 text-primary" />
                     </div>
                     <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">
-                      Bigbets.Ai Office
+                      BigBets.AI Office
                     </h3>
                     <p className="text-gray-600 dark:text-gray-400 mb-4">
                       Crossing Republik, Ghaziabad, India
@@ -346,20 +481,10 @@ const Contact = () => {
                         <p className="font-medium text-gray-900 dark:text-white">
                           Call us directly
                         </p>
-                        <p className="text-primary">+91 8052432951</p>
+                        <p className="text-primary">+91 836 887 1848</p>
                       </div>
                     </div>
-                    <div className="flex items-start gap-3">
-                      <MessageCircle className="w-5 h-5 text-primary mt-0.5" />
-                      <div>
-                        <p className="font-medium text-gray-900 dark:text-white">
-                          Chat with us
-                        </p>
-                        <p className="text-gray-600 dark:text-gray-400 text-sm">
-                          Use the chat widget in the bottom right
-                        </p>
-                      </div>
-                    </div>
+
                     <div className="flex items-start gap-3">
                       <Mail className="w-5 h-5 text-primary mt-0.5" />
                       <div>

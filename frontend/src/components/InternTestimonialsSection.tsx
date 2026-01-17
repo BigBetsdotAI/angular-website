@@ -10,7 +10,7 @@ const InternTestimonialsSection = () => {
   const testimonials = [
     {
       quote:
-        "The internship at Bigbets.Ai was an incredible learning experience. I got to work on a real-world project and received amazing mentorship.",
+        "The internship at BigBets.AI was an incredible learning experience. I got to work on a real-world project and received amazing mentorship.",
       name: "Anjali Gupta",
       role: "Web Development Intern",
       avatar: "AG",
@@ -24,7 +24,7 @@ const InternTestimonialsSection = () => {
     },
     {
       quote:
-        "Bigbets.Ai gave me the opportunity to work on cutting-edge technologies. The hands-on experience was invaluable for my career.",
+        "BigBets.AI gave me the opportunity to work on cutting-edge technologies. The hands-on experience was invaluable for my career.",
       name: "Priya Patel",
       role: "Mobile App Intern",
       avatar: "PP",

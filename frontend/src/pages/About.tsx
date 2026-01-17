@@ -1,6 +1,6 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingChatButton from "@/components/FloatingChatButton";
+
 import {
   Users,
   Target,
@@ -60,7 +60,7 @@ const About = () => {
         <section className="pt-20 bg-primary">
           <div className="container mx-auto px-4 md:px-6 py-16 md:py-24 text-center">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 italic">
-              About Bigbets.Ai
+              About BigBets.AI
             </h1>
             <p className="text-white/80 text-lg md:text-xl max-w-2xl mx-auto">
               Innovating Digital Solutions for a Smarter Future
@@ -79,7 +79,7 @@ const About = () => {
                   Our Story
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-6">
-                  Bigbets.Ai was founded with a simple yet powerful vision: to
+                  BigBets.AI was founded with a simple yet powerful vision: to
                   bridge the gap between innovative technology and real-world
                   business solutions. Led by Mr. Kaptan, an experienced AI
                   Engineer and visionary CEO, we have grown from a small startup
@@ -233,7 +233,7 @@ const About = () => {
                           Company Founded
                         </h3>
                         <p className="text-gray-500 dark:text-muted-foreground text-sm">
-                          Bigbets.Ai was established with a vision to innovate
+                          BigBets.AI was established with a vision to innovate
                           digital solutions
                         </p>
                       </div>
@@ -385,11 +385,11 @@ const About = () => {
                 </p>
 
                 <p className="text-gray-500 dark:text-muted-foreground leading-relaxed mb-8 max-w-xl mx-auto">
-                  Bigbets.Ai was founded in 2023 by Mr. Kaptan, a visionary
+                  BigBets.AI was founded in 2023 by Mr. Kaptan, a visionary
                   entrepreneur passionate about technology and innovation. Under
                   his leadership, the company focuses on cutting-edge solutions
                   in Generative AI, Machine Learning, Cybersecurity, and Data
-                  Science. He is building Bigbets.Ai into a trusted name for
+                  Science. He is building BigBets.AI into a trusted name for
                   next-generation software development and digital
                   transformation.
                 </p>
@@ -462,7 +462,6 @@ const About = () => {
         </section>
       </RevealOnScroll>
       <Footer />
-      <FloatingChatButton />
     </div>
   );
 };

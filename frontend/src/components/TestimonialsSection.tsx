@@ -9,7 +9,7 @@ const TestimonialsSection = () => {
   const testimonials = [
     {
       quote:
-        "Outstanding cloud migration services. Bigbets.Ai helped us scale our infrastructure seamlessly while reducing costs by 40%.",
+        "Outstanding cloud migration services. BigBets.AI helped us scale our infrastructure seamlessly while reducing costs by 40%.",
       name: "Emily Rodriguez",
       role: "VP Engineering, DataFlow",
       company: "DataFlow",
@@ -17,7 +17,7 @@ const TestimonialsSection = () => {
     },
     {
       quote:
-        "Bigbets.Ai delivered an exceptional AI-powered solution that transformed our business operations. Their expertise in machine learning is unmatched.",
+        "BigBets.AI delivered an exceptional AI-powered solution that transformed our business operations. Their expertise in machine learning is unmatched.",
       name: "Sarah Johnson",
       role: "CTO, TechCorp",
       company: "TechCorp",
@@ -25,7 +25,7 @@ const TestimonialsSection = () => {
     },
     {
       quote:
-        "Working with Bigbets.Ai was a game-changer for our startup. They built a scalable platform that handles millions of transactions seamlessly.",
+        "Working with BigBets.AI was a game-changer for our startup. They built a scalable platform that handles millions of transactions seamlessly.",
       name: "Michael Chen",
       role: "CEO, FinanceHub",
       company: "FinanceHub",

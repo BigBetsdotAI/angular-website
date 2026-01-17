@@ -60,6 +60,18 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "unset";
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+    };
+  }, [isOpen]);
+
   const navLinks = [
     { name: "Home", href: "/", isRoute: true },
     { name: "About", href: "/about", isRoute: true },
@@ -92,7 +104,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
           <a href="#home" className="flex items-center gap-3">
             <img
               src={bigbetsLogo}
-              alt="Bigbets.Ai Logo"
+              alt="BigBets.AI Logo"
               className="w-10 h-10 object-contain"
             />
             <div className="flex flex-col">
@@ -103,13 +115,13 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                     : "text-white"
                 }`}
               >
-                Bigbets.Ai
+                BigBets.AI
               </span>
               <span
                 className={`text-[10px] tracking-[0.2em] transition-colors duration-300 ${
                   isScrolled || alwaysOpaque
                     ? "text-gray-500 dark:text-gray-400"
-                    : "text-gray-300"
+                    : "text-white font-medium"
                 }`}
               >
                 INNOVATE | CONNECT | INSPIRE
@@ -126,20 +138,14 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                   to={link.href}
                   className={`relative text-sm font-medium transition-colors duration-200 py-2 ${
                     isActive(link)
-                      ? isScrolled || alwaysOpaque
-                        ? "text-primary"
-                        : "text-white"
-                      : isScrolled || alwaysOpaque
-                      ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                      ? "text-white"
                       : "text-white/80 hover:text-white"
                   }`}
                 >
                   {link.name}
                   {isActive(link) && (
                     <span
-                      className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
-                        isScrolled || alwaysOpaque ? "bg-primary" : "bg-white"
-                      }`}
+                      className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-white`}
                     />
                   )}
                 </Link>
@@ -147,11 +153,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`relative text-sm font-medium transition-colors duration-200 py-2 ${
-                    isScrolled || alwaysOpaque
-                      ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                      : "text-white/80 hover:text-white"
-                  }`}
+                  className={`relative text-sm font-medium transition-colors duration-200 py-2 text-white/80 hover:text-white`}
                 >
                   {link.name}
                 </a>
@@ -230,15 +232,15 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
 
         {/* Mobile Menu */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900">
-            <div className="flex flex-col gap-2">
+          <div className="lg:hidden fixed inset-x-0 top-20 bottom-0 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 overflow-y-auto">
+            <div className="flex flex-col gap-4 px-4 py-8 text-center h-full">
               {navLinks.map((link) =>
                 link.isRoute ? (
                   <Link
                     key={link.name}
                     to={link.href}
                     onClick={() => setIsOpen(false)}
-                    className={`py-2 px-4 rounded-lg transition-colors duration-200 ${
+                    className={`text-lg font-medium py-3 rounded-lg transition-colors duration-200 ${
                       isActive(link)
                         ? "text-primary bg-primary/5 dark:bg-primary/10"
                         : "text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800"
@@ -251,16 +253,16 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                     key={link.name}
                     href={link.href}
                     onClick={() => setIsOpen(false)}
-                    className="py-2 px-4 rounded-lg transition-colors duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800"
+                    className="text-lg font-medium py-3 rounded-lg transition-colors duration-200 text-gray-600 hover:text-gray-900 hover:bg-gray-50 dark:text-gray-300 dark:hover:text-white dark:hover:bg-gray-800"
                   >
                     {link.name}
                   </a>
                 )
               )}
-              <div className="flex items-center gap-4 mt-4 px-4">
+              <div className="flex items-center justify-center gap-4 mt-6">
                 <button
                   onClick={toggleTheme}
-                  className="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
+                  className="p-3 bg-gray-100 dark:bg-gray-800 rounded-full text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white transition-colors"
                 >
                   {isDark ? (
                     <Sun className="w-5 h-5" />

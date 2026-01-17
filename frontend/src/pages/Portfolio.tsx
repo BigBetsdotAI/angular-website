@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { RevealOnScroll } from "@/components/RevealOnScroll";
 import { ExternalLink, Filter } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const categories = [
   "All Projects",
@@ -122,6 +123,18 @@ const projects = [
 
 const Portfolio = () => {
   const [activeCategory, setActiveCategory] = useState("All Projects");
+  const { toast } = useToast();
+
+  const handleProjectClick = () => {
+    toast({
+      description: (
+        <span className="flex items-center gap-2">
+          🚧 This feature isn't implemented yet—but don't worry! You can request
+          it in your next prompt! 🚀
+        </span>
+      ),
+    });
+  };
 
   const filteredProjects =
     activeCategory === "All Projects"
@@ -216,7 +229,10 @@ const Portfolio = () => {
                       ))}
                     </div>
                     <div className="flex gap-2">
-                      <Button className="flex-1 bg-primary hover:bg-primary/90 text-white flex items-center justify-center gap-2">
+                      <Button
+                        className="flex-1 bg-primary hover:bg-primary/90 text-white flex items-center justify-center gap-2"
+                        onClick={handleProjectClick}
+                      >
                         <ExternalLink className="w-4 h-4" />
                         View Project
                       </Button>
@@ -224,6 +240,7 @@ const Portfolio = () => {
                         variant="outline"
                         size="icon"
                         className="border-gray-300 dark:border-gray-700 text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800"
+                        onClick={handleProjectClick}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"

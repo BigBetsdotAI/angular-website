@@ -1,8 +1,8 @@
 import {
   Facebook,
-  Twitter,
   Linkedin,
   Instagram,
+  Youtube,
   Mail,
   Phone,
   MapPin,
@@ -44,69 +44,42 @@ const Footer = () => {
   ];
 
   const socialLinks = [
-    { icon: Facebook, href: "#" },
-    { icon: Twitter, href: "#" },
-    { icon: Linkedin, href: "#" },
-    { icon: Instagram, href: "#" },
+    {
+      icon: Facebook,
+      href: "https://www.facebook.com/people/BigBetsAIOfficial/61580238483447/",
+    },
+    { icon: Instagram, href: "https://www.instagram.com/officialbigbets.ai/" },
+    { icon: Youtube, href: "https://www.youtube.com/@BigBets.AI_Official" },
+    {
+      icon: Linkedin,
+      href: "https://www.linkedin.com/in/bigbets-ai-362933382/",
+    },
   ];
 
   return (
-    <footer className="bg-gray-50 dark:bg-card border-t border-transparent dark:border-border">
-      <div className="container mx-auto px-4 md:px-6 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12">
+    <footer className="bg-[rgb(235,239,242)] dark:bg-card border-t border-transparent dark:border-border">
+      <div className="container mx-auto px-4 md:px-6 py-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
           {/* Company Info */}
-          <div>
-            <Link to="/" className="flex items-center gap-2 mb-6">
+          <div className="flex flex-col gap-4">
+            <Link to="/" className="flex items-center gap-2">
               <img
                 src={bigbetsLogo}
-                alt="Bigbets.Ai Logo"
+                alt="BigBets.AI Logo"
                 className="w-10 h-10 object-contain"
               />
               <div className="flex flex-col">
                 <span className="text-lg font-bold text-gray-900 dark:text-white">
-                  BIGBETS.AI
+                  BigBets.AI
                 </span>
                 <span className="text-[10px] text-gray-500 dark:text-gray-400 tracking-wider">
                   INNOVATE | CONNECT | INSPIRE
                 </span>
               </div>
             </Link>
-            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6 leading-relaxed">
-              Innovating Digital Solutions for a Smarter Future. Trusted IT
-              partner offering cutting-edge solutions in software, web, mobile
-              apps, cloud, and AI.
-            </p>
-
-            {/* Contact Info */}
-            <div className="space-y-3 mb-6">
-              <div className="flex items-center gap-3">
-                <MapPin className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-                <span className="text-gray-500 dark:text-gray-400 text-sm">
-                  Crossing Republik, Ghaziabad, India
-                </span>
-              </div>
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-                <a
-                  href="tel:+918368871848"
-                  className="text-gray-500 dark:text-gray-400 text-sm hover:text-primary transition-colors"
-                >
-                  +91 836 887 1848
-                </a>
-              </div>
-              <div className="flex items-center gap-3">
-                <Mail className="w-4 h-4 text-gray-400 dark:text-gray-500" />
-                <a
-                  href="mailto:contact@bigbets.ai"
-                  className="text-gray-500 dark:text-gray-400 text-sm hover:text-primary transition-colors"
-                >
-                  contact@bigbets.ai
-                </a>
-              </div>
-            </div>
 
             {/* Social Links */}
-            <div className="flex gap-3">
+            <div className="flex gap-4">
               {socialLinks.map((social, index) => (
                 <a
                   key={index}
@@ -115,7 +88,7 @@ const Footer = () => {
                   rel="noopener noreferrer"
                   className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center text-primary hover:bg-primary hover:text-white transition-colors duration-200"
                 >
-                  <social.icon className="w-4 h-4" />
+                  <social.icon className="w-5 h-5" />
                 </a>
               ))}
             </div>
@@ -123,10 +96,10 @@ const Footer = () => {
 
           {/* Services */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
               Services
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1">
               {services.map((service, index) => (
                 <li key={index}>
                   <Link
@@ -142,10 +115,10 @@ const Footer = () => {
 
           {/* Company */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
               Company
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1">
               {company.map((link, index) => (
                 <li key={index}>
                   <Link
@@ -161,10 +134,10 @@ const Footer = () => {
 
           {/* Industries */}
           <div>
-            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-6">
+            <h3 className="text-base font-bold text-gray-900 dark:text-white mb-3 uppercase tracking-wide">
               Industries
             </h3>
-            <ul className="space-y-3">
+            <ul className="space-y-1">
               {industries.map((industry, index) => (
                 <li key={index}>
                   <Link
@@ -180,20 +153,21 @@ const Footer = () => {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-16 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            © 2026 Bigbets.Ai. All rights reserved.
+            2026 © All rights reserved by{" "}
+            <span className="font-bold">BigBets.AI</span>
           </p>
-          <div className="flex gap-6 text-sm">
+          <div className="flex gap-8 text-sm">
             <a
               href="/privacy-policy"
-              className="text-primary hover:underline transition-colors"
+              className="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors"
             >
               Privacy Policy
             </a>
             <a
               href="/terms-of-service"
-              className="text-primary hover:underline transition-colors"
+              className="text-gray-500 dark:text-gray-400 hover:text-primary transition-colors"
             >
               Terms of Service
             </a>

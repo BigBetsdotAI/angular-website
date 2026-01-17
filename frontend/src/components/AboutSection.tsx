@@ -40,10 +40,10 @@ const AboutSection = () => {
           <RevealOnScroll direction="left">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-6">
-                About <span className="text-primary">Bigbets.Ai</span>
+                About <span className="text-primary">BigBets.AI</span>
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-lg leading-relaxed mb-10">
-                Bigbets.Ai is a trusted IT partner offering cutting-edge
+                BigBets.AI is a trusted IT partner offering cutting-edge
                 solutions in software, web, mobile apps, cloud, and AI. With a
                 client base in 15+ countries and 200+ successful projects, we
                 help businesses scale with technology.
@@ -115,7 +115,7 @@ const AboutSection = () => {
                       </svg>
                     </div>
                     <span className="text-white text-xs font-semibold tracking-wide">
-                      BIGBETS.AI
+                      BigBets.AI
                     </span>
                   </div>
 

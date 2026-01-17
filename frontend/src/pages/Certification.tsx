@@ -60,7 +60,7 @@ const Certification = () => {
               Certificate Verification
             </h1>
             <p className="text-lg md:text-xl text-white/90 max-w-2xl mx-auto">
-              Verify the authenticity of certificates issued by Bigbets.Ai.
+              Verify the authenticity of certificates issued by BigBets.AI.
             </p>
           </div>
         </section>
@@ -133,7 +133,7 @@ const Certification = () => {
                       </div>
                       <p className="text-green-600 dark:text-green-500 text-sm mb-4">
                         This certificate is authentic and was issued by
-                        Bigbets.Ai.
+                        BigBets.AI.
                       </p>
 
                       {/* Certificate Preview & Download */}
@@ -229,7 +229,7 @@ const Certification = () => {
                     Authenticity
                   </h3>
                   <p className="text-gray-600 dark:text-gray-400 text-sm">
-                    Confirm the certificate is genuine and issued by Bigbets.Ai.
+                    Confirm the certificate is genuine and issued by BigBets.AI.
                   </p>
                 </div>
                 <div className="bg-white dark:bg-card border border-transparent dark:border-border p-6 rounded-xl shadow-md">
