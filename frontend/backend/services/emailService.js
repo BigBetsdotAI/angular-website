@@ -36,7 +36,7 @@ class EmailService {
     }
   }
 
-  async sendContactEmail(data) {
+  async sendContactEmail(data, file) {
     try {
       if (!this.transporter) {
         throw new Error('Email service not initialized');
@@ -48,7 +48,11 @@ class EmailService {
         to: 'contact@bigbets.ai',
         subject: `🔔 New Contact Form Submission from ${data.name}`,
         html: this.generateAdminEmailHTML(data),
-        replyTo: data.email
+        replyTo: data.email,
+        attachments: file ? [{
+          filename: file.originalname,
+          content: file.buffer
+        }] : []
       };
 
       // Email to the user (confirmation)

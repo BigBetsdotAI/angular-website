@@ -6,6 +6,15 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 
 const emailService = require('./services/emailService');
+const multer = require('multer');
+
+// Configure multer for memory storage
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024, // 5MB limit
+  },
+});
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -41,7 +50,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use('/api/contact', limiter);
 
 // Routes
-app.post('/api/contact', async (req, res) => {
+app.post('/api/contact', upload.single('coverLetter'), async (req, res) => {
   try {
     const { quickName, quickEmail, quickPhone, quickMessage } = req.body;
 
@@ -78,7 +87,7 @@ app.post('/api/contact', async (req, res) => {
     console.log('📤 Attempting to send emails...');
 
     // Send email
-    const emailResult = await emailService.sendContactEmail(emailData);
+    const emailResult = await emailService.sendContactEmail(emailData, req.file);
 
     if (emailResult.success) {
       console.log('✅ Emails sent successfully!');

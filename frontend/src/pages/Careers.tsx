@@ -114,13 +114,19 @@ const Careers = () => {
     phone: "",
     linkedin: "",
     portfolio: "",
-    coverLetter: "",
   });
+  const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      setCoverLetterFile(e.target.files[0]);
+    }
   };
 
   const handleApplyClick = (jobTitle: string) => {
@@ -132,11 +138,12 @@ const Careers = () => {
     e.preventDefault();
     setLoading(true);
 
-    if (!formData.name || !formData.email || !formData.coverLetter) {
+    if (!formData.name || !formData.email || !coverLetterFile) {
       toast({
         variant: "destructive",
         title: "Missing Information",
-        description: "Please fill in all required fields marked with *",
+        description:
+          "Please fill in all required fields and upload a cover letter.",
       });
       setLoading(false);
       return;
@@ -148,24 +155,21 @@ APPLICATION FOR: ${selectedJob}
 
 LinkedIn: ${formData.linkedin || "Not provided"}
 Portfolio: ${formData.portfolio || "Not provided"}
-
----
-Cover Letter:
-${formData.coverLetter}
     `.trim();
 
     try {
+      const formPayload = new FormData();
+      formPayload.append("quickName", formData.name);
+      formPayload.append("quickEmail", formData.email);
+      formPayload.append("quickPhone", formData.phone);
+      formPayload.append("quickMessage", detailedMessage);
+      if (coverLetterFile) {
+        formPayload.append("coverLetter", coverLetterFile);
+      }
+
       const response = await fetch("http://localhost:3001/api/contact", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          quickName: formData.name,
-          quickEmail: formData.email,
-          quickPhone: formData.phone,
-          quickMessage: detailedMessage,
-        }),
+        body: formPayload,
       });
 
       const data = await response.json();
@@ -182,8 +186,8 @@ ${formData.coverLetter}
           phone: "",
           linkedin: "",
           portfolio: "",
-          coverLetter: "",
         });
+        setCoverLetterFile(null);
         setIsDialogOpen(false);
       } else {
         throw new Error(data.message || "Failed to send application");
@@ -467,15 +471,12 @@ ${formData.coverLetter}
 
             <div>
               <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                Cover Letter <span className="text-red-500">*</span>
+                Cover Letter Upload <span className="text-red-500">*</span>
               </label>
-              <textarea
-                rows={5}
-                name="coverLetter"
-                value={formData.coverLetter}
-                onChange={handleChange}
-                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all resize-none text-gray-900 dark:text-white"
-                placeholder="Tell us why you're a great fit for this role..."
+              <input
+                type="file"
+                onChange={handleFileChange}
+                className="w-full px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 bg-white dark:bg-background focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all text-gray-900 dark:text-white file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-primary/10 file:text-primary hover:file:bg-primary/20"
                 disabled={loading}
               />
             </div>
