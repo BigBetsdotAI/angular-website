@@ -138,14 +138,20 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                   to={link.href}
                   className={`relative text-sm font-medium transition-colors duration-200 py-2 ${
                     isActive(link)
-                      ? "text-white"
+                      ? isScrolled || alwaysOpaque
+                        ? "text-primary"
+                        : "text-white"
+                      : isScrolled || alwaysOpaque
+                      ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                       : "text-white/80 hover:text-white"
                   }`}
                 >
                   {link.name}
                   {isActive(link) && (
                     <span
-                      className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full bg-white`}
+                      className={`absolute bottom-0 left-0 right-0 h-0.5 rounded-full ${
+                        isScrolled || alwaysOpaque ? "bg-primary" : "bg-white"
+                      }`}
                     />
                   )}
                 </Link>
@@ -153,7 +159,11 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                 <a
                   key={link.name}
                   href={link.href}
-                  className={`relative text-sm font-medium transition-colors duration-200 py-2 text-white/80 hover:text-white`}
+                  className={`relative text-sm font-medium transition-colors duration-200 py-2 ${
+                    isScrolled || alwaysOpaque
+                      ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                      : "text-white/80 hover:text-white"
+                  }`}
                 >
                   {link.name}
                 </a>
