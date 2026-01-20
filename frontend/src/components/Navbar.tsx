@@ -101,7 +101,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
-          <a href="#home" className="flex items-center gap-3">
+          <Link to="/" className="flex items-center gap-3">
             <img
               src={bigbetsLogo}
               alt="BigBets.AI Logo"
@@ -127,7 +127,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                 INNOVATE | CONNECT | INSPIRE
               </span>
             </div>
-          </a>
+          </Link>
 
           {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center gap-8">

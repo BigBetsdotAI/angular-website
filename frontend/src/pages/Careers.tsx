@@ -118,7 +118,7 @@ const Careers = () => {
   const [coverLetterFile, setCoverLetterFile] = useState<File | null>(null);
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -205,7 +205,7 @@ Portfolio: ${formData.portfolio || "Not provided"}
   };
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar alwaysOpaque />
 
       {/* Hero Section */}
       <RevealOnScroll>

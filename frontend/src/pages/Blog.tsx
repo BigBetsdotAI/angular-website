@@ -109,7 +109,7 @@ const Blog = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar alwaysOpaque />
 
       {/* Hero Section */}
       {/* Hero Section */}

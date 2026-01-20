@@ -53,7 +53,7 @@ const About = () => {
 
   return (
     <div className="min-h-screen bg-white dark:bg-background">
-      <Navbar />
+      <Navbar alwaysOpaque />
 
       {/* Hero Section */}
       <RevealOnScroll>

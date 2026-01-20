@@ -27,7 +27,7 @@ const Contact = () => {
   });
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -170,7 +170,7 @@ Timeline: ${formData.timeline || "Not selected"}
 
   return (
     <div className="min-h-screen bg-background">
-      <Navbar />
+      <Navbar alwaysOpaque />
 
       {/* Hero Section */}
       <RevealOnScroll>
