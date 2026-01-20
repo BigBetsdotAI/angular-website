@@ -115,7 +115,7 @@ const ServicesSection = () => {
 
               <Link
                 to={service.link}
-                className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                className="inline-flex items-center text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                 onClick={() => window.scrollTo(0, 0)}
               >
                 Learn More

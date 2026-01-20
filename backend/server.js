@@ -13,7 +13,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+import contactRoutes from './src/routes/contactRoutes.js';
+import careersRoutes from './src/routes/careersRoutes.js';
+
 app.use('/api/auth', authRoutes);
+app.use('/api/contact', contactRoutes);
+app.use('/api/careers', careersRoutes);
 
 app.get('/', (req, res) => {
     res.send('API is running...');

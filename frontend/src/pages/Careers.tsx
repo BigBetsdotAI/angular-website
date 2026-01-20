@@ -167,7 +167,7 @@ Portfolio: ${formData.portfolio || "Not provided"}
         formPayload.append("coverLetter", coverLetterFile);
       }
 
-      const response = await fetch("http://localhost:3001/api/contact", {
+      const response = await fetch("http://localhost:3001/api/careers/apply", {
         method: "POST",
         body: formPayload,
       });

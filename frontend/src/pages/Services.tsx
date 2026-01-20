@@ -191,7 +191,7 @@ const Services = () => {
                       {service.link ? (
                         <Link
                           to={service.link}
-                          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          className="inline-flex items-center text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                           onClick={() => window.scrollTo(0, 0)}
                         >
                           Learn More
@@ -200,7 +200,7 @@ const Services = () => {
                       ) : (
                         <a
                           href="#"
-                          className="inline-flex items-center text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                          className="inline-flex items-center text-sm font-bold text-primary hover:text-primary/80 transition-colors"
                         >
                           Learn More
                           <ArrowRight className="w-4 h-4 ml-1" />

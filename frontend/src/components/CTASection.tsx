@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, MessageCircle } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const CTASection = () => {
   return (
@@ -15,43 +16,54 @@ const CTASection = () => {
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
             Ready to Transform Your Business?
           </h2>
-          
+
           <p className="text-white/80 text-lg max-w-2xl mx-auto mb-10">
-            Let's discuss how we can help you achieve your digital goals with our innovative solutions
+            Let's discuss how we can help you achieve your digital goals with
+            our innovative solutions
           </p>
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-16">
-            <Button 
-              className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-base"
-            >
-              Get Free Consultation
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </Button>
-            <Button 
-              variant="outline"
-              className="border-white text-white hover:bg-white hover:text-primary font-semibold px-8 py-6 text-base transition-colors"
-            >
-              <MessageCircle className="w-5 h-5 mr-2" />
-              View Our Work
-            </Button>
+            <Link to="/contact">
+              <Button className="bg-white text-primary hover:bg-white/90 font-semibold px-8 py-6 text-base w-full sm:w-auto">
+                Get Free Consultation
+                <ArrowRight className="w-5 h-5 ml-2" />
+              </Button>
+            </Link>
+            <Link to="/portfolio">
+              <Button
+                variant="outline"
+                className="border-white text-white hover:bg-white hover:text-primary font-semibold px-8 py-6 text-base transition-colors w-full sm:w-auto"
+              >
+                <MessageCircle className="w-5 h-5 mr-2" />
+                View Our Work
+              </Button>
+            </Link>
           </div>
 
           {/* Stats Row */}
           <div className="flex flex-wrap justify-center gap-8 md:gap-16">
             <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white italic">24/7</p>
+              <p className="text-3xl md:text-4xl font-bold text-white italic">
+                24/7
+              </p>
               <p className="text-white/70 text-sm mt-1">Support Available</p>
             </div>
-            
+
             <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white italic">Free</p>
+              <p className="text-3xl md:text-4xl font-bold text-white italic">
+                Free
+              </p>
               <p className="text-white/70 text-sm mt-1">Initial Consultation</p>
             </div>
-            
+
             <div className="text-center">
-              <p className="text-3xl md:text-4xl font-bold text-white italic">100%</p>
-              <p className="text-white/70 text-sm mt-1">Satisfaction Guarantee</p>
+              <p className="text-3xl md:text-4xl font-bold text-white italic">
+                100%
+              </p>
+              <p className="text-white/70 text-sm mt-1">
+                Satisfaction Guarantee
+              </p>
             </div>
           </div>
         </div>

@@ -130,7 +130,7 @@ Timeline: ${formData.timeline || "Not selected"}
     {
       icon: Clock,
       title: "Working Hours",
-      value: "Mon-Fri: 9:00 AM - 6:00 PM",
+      value: "Mon-Fri: 11:00 AM - 8:00 PM",
       description: "IST (Indian Standard Time)",
     },
   ];
