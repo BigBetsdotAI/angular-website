@@ -142,8 +142,8 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                         ? "text-primary"
                         : "text-white"
                       : isScrolled || alwaysOpaque
-                      ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
-                      : "text-white/80 hover:text-white"
+                        ? "text-gray-600 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                        : "text-white/80 hover:text-white"
                   }`}
                 >
                   {link.name}
@@ -167,7 +167,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                 >
                   {link.name}
                 </a>
-              )
+              ),
             )}
           </div>
 
@@ -267,7 +267,7 @@ const Navbar = ({ alwaysOpaque = false }: NavbarProps) => {
                   >
                     {link.name}
                   </a>
-                )
+                ),
               )}
               <div className="flex items-center justify-center gap-4 mt-6">
                 <button
