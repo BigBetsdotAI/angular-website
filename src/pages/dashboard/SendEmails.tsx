@@ -21,7 +21,7 @@ export default function SendEmails() {
 
   const isReady = subject.trim() && content.trim() && recipients.length > 0;
 
-  const simulateSendEmails = async () => {
+  const sendEmails = async () => {
     setSending(true);
     setProgress(0);
     setSentCount(0);
@@ -32,14 +32,26 @@ export default function SendEmails() {
     let failed = 0;
 
     for (let i = 0; i < recipients.length; i++) {
-      // Simulate email sending delay
-      await new Promise((resolve) => setTimeout(resolve, 100));
+      const recipient = recipients[i];
+      
+      try {
+        const { data, error } = await supabase.functions.invoke("send-email", {
+          body: {
+            to: recipient.email,
+            subject,
+            content,
+            recipientName: recipient.name || "",
+          },
+        });
 
-      // Simulate 95% success rate
-      if (Math.random() > 0.05) {
+        if (error || !data?.success) {
+          throw new Error(error?.message || data?.error || "Failed to send");
+        }
+
         sent++;
         setSentCount(sent);
-      } else {
+      } catch (error) {
+        console.error(`Failed to send to ${recipient.email}:`, error);
         failed++;
         setFailedCount(failed);
       }
@@ -235,7 +247,7 @@ export default function SendEmails() {
                   className="flex-1 gradient-primary text-primary-foreground shadow-glow"
                   size="lg"
                   disabled={!isReady || sending}
-                  onClick={simulateSendEmails}
+                  onClick={sendEmails}
                 >
                   {sending ? (
                     <>
