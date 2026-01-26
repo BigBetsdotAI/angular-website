@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { SmtpClient } from "https://deno.land/x/smtp@v0.7.0/mod.ts";
+// @ts-ignore - esm.sh import
+import nodemailer from "https://esm.sh/nodemailer@6.9.10";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -32,15 +33,6 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error("Gmail credentials not configured");
     }
 
-    const client = new SmtpClient();
-
-    await client.connectTLS({
-      hostname: "smtp.gmail.com",
-      port: 465,
-      username: gmailUser,
-      password: gmailPassword,
-    });
-
     // Replace placeholders in content
     let personalizedContent = content;
     if (recipientName) {
@@ -48,20 +40,28 @@ const handler = async (req: Request): Promise<Response> => {
     }
     personalizedContent = personalizedContent.replace(/\{\{email\}\}/g, to);
 
-    await client.send({
+    const transporter = nodemailer.createTransport({
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false,
+      auth: {
+        user: gmailUser,
+        pass: gmailPassword,
+      },
+    });
+
+    const info = await transporter.sendMail({
       from: gmailUser,
       to: to,
       subject: subject,
-      content: personalizedContent,
+      text: personalizedContent,
       html: personalizedContent.replace(/\n/g, "<br>"),
     });
 
-    await client.close();
-
-    console.log(`Email sent successfully to ${to}`);
+    console.log(`Email sent successfully to ${to}:`, info.messageId);
 
     return new Response(
-      JSON.stringify({ success: true, message: `Email sent to ${to}` }),
+      JSON.stringify({ success: true, message: `Email sent to ${to}`, messageId: info.messageId }),
       { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
     );
   } catch (error: any) {
