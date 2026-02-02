@@ -1,4 +1,12 @@
-import { Mail, Upload, Send, History, FileText, LogOut, Menu } from "lucide-react";
+import {
+  Mail,
+  Upload,
+  Send,
+  History,
+  FileText,
+  LogOut,
+  Menu,
+} from "lucide-react";
 import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { signOut } from "@/lib/auth";
@@ -51,14 +59,12 @@ export function AppSidebar() {
             <Mail className="h-5 w-5 text-primary-foreground" />
           </div>
           {!collapsed && (
-            <motion.div
-              initial={{ opacity: 0, x: -10 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="flex flex-col"
-            >
+            <div className="flex flex-col">
               <span className="font-semibold text-foreground">MailFlow</span>
-              <span className="text-xs text-muted-foreground">Bulk Email Sender</span>
-            </motion.div>
+              <span className="text-xs text-muted-foreground">
+                Bulk Email Sender
+              </span>
+            </div>
           )}
         </div>
       </SidebarHeader>
@@ -76,17 +82,28 @@ export function AppSidebar() {
                       isActive={isActive}
                       className={cn(
                         "relative transition-all duration-200",
-                        isActive && "bg-accent text-accent-foreground"
+                        isActive && "bg-accent text-accent-foreground",
                       )}
                     >
-                      <NavLink to={item.url} className="flex items-center gap-3 px-3 py-2.5 rounded-lg">
-                        <item.icon className={cn("h-5 w-5", isActive && "text-primary")} />
-                        {!collapsed && <span className="font-medium">{item.title}</span>}
+                      <NavLink
+                        to={item.url}
+                        className="flex items-center gap-3 px-3 py-2.5 rounded-lg"
+                      >
+                        <item.icon
+                          className={cn("h-5 w-5", isActive && "text-primary")}
+                        />
+                        {!collapsed && (
+                          <span className="font-medium">{item.title}</span>
+                        )}
                         {isActive && (
                           <motion.div
                             layoutId="activeTab"
                             className="absolute inset-0 bg-accent rounded-lg -z-10"
-                            transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                            transition={{
+                              type: "spring",
+                              bounce: 0.2,
+                              duration: 0.6,
+                            }}
                           />
                         )}
                       </NavLink>
@@ -105,7 +122,7 @@ export function AppSidebar() {
           onClick={handleLogout}
           className={cn(
             "w-full justify-start gap-3 text-muted-foreground hover:text-destructive hover:bg-destructive/10",
-            collapsed && "justify-center px-2"
+            collapsed && "justify-center px-2",
           )}
         >
           <LogOut className="h-5 w-5" />

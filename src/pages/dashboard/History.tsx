@@ -1,22 +1,43 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import { History as HistoryIcon, Calendar, Mail, CheckCircle2, XCircle, Loader2 } from "lucide-react";
+import {
+  History as HistoryIcon,
+  Calendar,
+  Mail,
+  CheckCircle2,
+  XCircle,
+  Loader2,
+} from "lucide-react";
 import { format } from "date-fns";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { API_BASE_URL } from "@/lib/auth";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 interface Campaign {
-  id: string;
+  _id: string; // MongoDB uses _id
+  id?: string; // Mapped for frontend
   subject: string;
   total_emails: number;
   sent_count: number;
   failed_count: number;
   status: string;
-  created_at: string;
-  completed_at: string | null;
+  createdAt: string;
+  completed_at: string | null; // check model for consistency
 }
 
 export default function HistoryPage() {
@@ -28,14 +49,20 @@ export default function HistoryPage() {
     const fetchCampaigns = async () => {
       if (!user) return;
 
-      const { data, error } = await supabase
-        .from("campaigns")
-        .select("*")
-        .eq("user_id", user.id)
-        .order("created_at", { ascending: false });
+      try {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(`${API_BASE_URL}/campaigns`, {
+          headers: {
+            "x-auth-token": token || "",
+          },
+        });
 
-      if (!error && data) {
-        setCampaigns(data);
+        if (res.ok) {
+          const data = await res.json();
+          setCampaigns(data.map((c: any) => ({ ...c, id: c._id })));
+        }
+      } catch (e) {
+        console.error("Failed to fetch campaigns");
       }
       setLoading(false);
     };
@@ -46,7 +73,11 @@ export default function HistoryPage() {
   const getStatusBadge = (status: string) => {
     switch (status) {
       case "completed":
-        return <Badge className="bg-success/10 text-success border-success/20">Completed</Badge>;
+        return (
+          <Badge className="bg-success/10 text-success border-success/20">
+            Completed
+          </Badge>
+        );
       case "pending":
         return <Badge variant="secondary">Pending</Badge>;
       case "failed":
@@ -58,7 +89,10 @@ export default function HistoryPage() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center">
             <HistoryIcon className="h-5 w-5 text-primary-foreground" />
@@ -79,7 +113,8 @@ export default function HistoryPage() {
           <CardHeader>
             <CardTitle>All Campaigns</CardTitle>
             <CardDescription>
-              {campaigns.length} campaign{campaigns.length !== 1 ? "s" : ""} sent
+              {campaigns.length} campaign{campaigns.length !== 1 ? "s" : ""}{" "}
+              sent
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -94,9 +129,15 @@ export default function HistoryPage() {
                     <TableRow className="bg-muted/50">
                       <TableHead className="font-semibold">Subject</TableHead>
                       <TableHead className="font-semibold">Date</TableHead>
-                      <TableHead className="font-semibold text-center">Total</TableHead>
-                      <TableHead className="font-semibold text-center">Sent</TableHead>
-                      <TableHead className="font-semibold text-center">Failed</TableHead>
+                      <TableHead className="font-semibold text-center">
+                        Total
+                      </TableHead>
+                      <TableHead className="font-semibold text-center">
+                        Sent
+                      </TableHead>
+                      <TableHead className="font-semibold text-center">
+                        Failed
+                      </TableHead>
                       <TableHead className="font-semibold">Status</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -109,7 +150,10 @@ export default function HistoryPage() {
                         <TableCell className="text-muted-foreground">
                           <div className="flex items-center gap-2">
                             <Calendar className="h-4 w-4" />
-                            {format(new Date(campaign.created_at), "MMM d, yyyy")}
+                            {format(
+                              new Date(campaign.createdAt || new Date()),
+                              "MMM d, yyyy",
+                            )}
                           </div>
                         </TableCell>
                         <TableCell className="text-center">

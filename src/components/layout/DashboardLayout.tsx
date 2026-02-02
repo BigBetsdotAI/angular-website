@@ -1,5 +1,9 @@
 import { Outlet } from "react-router-dom";
-import { SidebarProvider, SidebarTrigger, SidebarInset } from "@/components/ui/sidebar";
+import {
+  SidebarProvider,
+  SidebarTrigger,
+  SidebarInset,
+} from "@/components/ui/sidebar";
 import { AppSidebar } from "./AppSidebar";
 import { EmailProvider } from "@/contexts/EmailContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -19,18 +23,16 @@ export function DashboardLayout() {
                 <SidebarTrigger className="text-muted-foreground hover:text-foreground" />
                 <div className="h-6 w-px bg-border" />
                 <span className="text-sm text-muted-foreground">
-                  Welcome back, <span className="font-medium text-foreground">{user?.email?.split("@")[0]}</span>
+                  Welcome back,{" "}
+                  <span className="font-medium text-foreground">
+                    {user?.email?.split("@")[0]}
+                  </span>
                 </span>
               </div>
             </header>
-            <motion.main 
-              className="p-6"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-            >
+            <main className="p-6">
               <Outlet />
-            </motion.main>
+            </main>
           </SidebarInset>
         </div>
       </SidebarProvider>

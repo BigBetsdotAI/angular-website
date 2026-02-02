@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -54,14 +54,29 @@
     --sidebar-ring: 238 84% 67%;
 
     /* Custom gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(238 84% 67%) 0%, hsl(260 84% 60%) 100%);
-    --gradient-hero: linear-gradient(135deg, hsl(238 84% 67%) 0%, hsl(280 84% 65%) 50%, hsl(320 84% 60%) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(220 30% 98%) 0%, hsl(220 30% 95%) 100%);
-    
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(238 84% 67%) 0%,
+      hsl(260 84% 60%) 100%
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(238 84% 67%) 0%,
+      hsl(280 84% 65%) 50%,
+      hsl(320 84% 60%) 100%
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      hsl(220 30% 98%) 0%,
+      hsl(220 30% 95%) 100%
+    );
+
     /* Shadows */
     --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+    --shadow-md:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    --shadow-lg:
+      0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
     --shadow-glow: 0 0 40px -10px hsl(238 84% 67% / 0.3);
   }
 
@@ -118,7 +133,12 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: "Inter", system-ui, sans-serif;
+    background-image: url("/Wooden-Desk-Wallpapers-HD.jpg");
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
   }
 }
 
@@ -126,27 +146,27 @@
   .glass {
     @apply bg-white/80 backdrop-blur-xl border border-white/20;
   }
-  
+
   .glass-card {
     @apply bg-card/90 backdrop-blur-sm border border-border shadow-md;
   }
-  
+
   .gradient-primary {
     background: var(--gradient-primary);
   }
-  
+
   .gradient-hero {
     background: var(--gradient-hero);
   }
-  
+
   .gradient-subtle {
     background: var(--gradient-subtle);
   }
-  
+
   .shadow-glow {
     box-shadow: var(--shadow-glow);
   }
-  
+
   .text-gradient {
     background: var(--gradient-primary);
     -webkit-background-clip: text;

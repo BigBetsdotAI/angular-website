@@ -7,10 +7,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
+import { API_BASE_URL } from "@/lib/auth";
 import {
   Dialog,
   DialogContent,
@@ -39,19 +45,31 @@ export default function Compose() {
     }
 
     setSaving(true);
-    const { error } = await supabase.from("templates").insert({
-      user_id: user?.id,
-      name: templateName,
-      subject,
-      content,
-    });
 
-    if (error) {
+    try {
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(`${API_BASE_URL}/templates`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token || "",
+        },
+        body: JSON.stringify({
+          name: templateName,
+          subject,
+          content,
+        }),
+      });
+
+      if (res.ok) {
+        toast.success("Template saved successfully!");
+        setTemplateName("");
+        setDialogOpen(false);
+      } else {
+        throw new Error("Failed to save");
+      }
+    } catch (error) {
       toast.error("Failed to save template");
-    } else {
-      toast.success("Template saved successfully!");
-      setTemplateName("");
-      setDialogOpen(false);
     }
     setSaving(false);
   };
@@ -68,7 +86,10 @@ export default function Compose() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center">
             <Mail className="h-5 w-5 text-primary-foreground" />
@@ -92,7 +113,9 @@ export default function Compose() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Email Editor</CardTitle>
-                  <CardDescription>Compose your email with placeholders</CardDescription>
+                  <CardDescription>
+                    Compose your email with placeholders
+                  </CardDescription>
                 </div>
                 <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                   <DialogTrigger asChild>
@@ -238,8 +261,9 @@ Your Team"
                       Personalization Tips
                     </p>
                     <p className="text-xs text-muted-foreground mt-1">
-                      Use {"{{name}}"} and {"{{email}}"} placeholders to personalize each
-                      email. They'll be replaced with actual data from your Excel file.
+                      Use {"{{name}}"} and {"{{email}}"} placeholders to
+                      personalize each email. They'll be replaced with actual
+                      data from your Excel file.
                     </p>
                   </div>
                 </div>

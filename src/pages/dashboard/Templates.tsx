@@ -2,12 +2,18 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { FileText, Trash2, Edit, Plus, Loader2, Copy } from "lucide-react";
 import { format } from "date-fns";
-import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useEmail } from "@/contexts/EmailContext";
+import { API_BASE_URL } from "@/lib/auth";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -32,12 +38,13 @@ import {
 } from "@/components/ui/alert-dialog";
 
 interface Template {
-  id: string;
+  _id: string; // MongoDB uses _id
+  id?: string; // Mapped for frontend convenience
   name: string;
   subject: string;
   content: string;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function Templates() {
@@ -47,22 +54,47 @@ export default function Templates() {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingTemplate, setEditingTemplate] = useState<Template | null>(null);
-  const [formData, setFormData] = useState({ name: "", subject: "", content: "" });
+  const [formData, setFormData] = useState({
+    name: "",
+    subject: "",
+    content: "",
+  });
   const [saving, setSaving] = useState(false);
 
   const fetchTemplates = async () => {
-    if (!user) return;
-
-    const { data, error } = await supabase
-      .from("templates")
-      .select("*")
-      .eq("user_id", user.id)
-      .order("created_at", { ascending: false });
-
-    if (!error && data) {
-      setTemplates(data);
+    console.log("Templates: fetching...");
+    if (!user) {
+      console.log("Templates: No user, aborting fetch");
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    try {
+      console.log("Templates: calling API");
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(`${API_BASE_URL}/templates`, {
+        headers: {
+          "x-auth-token": token || "",
+        },
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setTemplates(data);
+        } else {
+          console.error("Templates data is not an array:", data);
+          setTemplates([]);
+        }
+      } else {
+        console.error("Failed to fetch templates:", res.status, res.statusText);
+      }
+    } catch (e) {
+      console.error("Failed to fetch templates:", e);
+      toast.error("Could not load templates");
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
@@ -70,43 +102,56 @@ export default function Templates() {
   }, [user]);
 
   const handleSave = async () => {
-    if (!formData.name.trim() || !formData.subject.trim() || !formData.content.trim()) {
+    if (
+      !formData.name.trim() ||
+      !formData.subject.trim() ||
+      !formData.content.trim()
+    ) {
       toast.error("Please fill in all fields");
       return;
     }
 
     setSaving(true);
 
-    if (editingTemplate) {
-      const { error } = await supabase
-        .from("templates")
-        .update({
-          name: formData.name,
-          subject: formData.subject,
-          content: formData.content,
-        })
-        .eq("id", editingTemplate.id);
+    try {
+      const token = localStorage.getItem("auth_token");
+      const headers = {
+        "Content-Type": "application/json",
+        "x-auth-token": token || "",
+      };
 
-      if (error) {
-        toast.error("Failed to update template");
-      } else {
-        toast.success("Template updated!");
-        fetchTemplates();
-      }
-    } else {
-      const { error } = await supabase.from("templates").insert({
-        user_id: user?.id,
-        name: formData.name,
-        subject: formData.subject,
-        content: formData.content,
-      });
+      if (editingTemplate) {
+        const res = await fetch(
+          `${API_BASE_URL}/templates/${editingTemplate.id}`,
+          {
+            method: "PUT",
+            headers,
+            body: JSON.stringify(formData),
+          },
+        );
 
-      if (error) {
-        toast.error("Failed to create template");
+        if (res.ok) {
+          toast.success("Template updated!");
+          fetchTemplates();
+        } else {
+          throw new Error("Failed to update");
+        }
       } else {
-        toast.success("Template created!");
-        fetchTemplates();
+        const res = await fetch(`${API_BASE_URL}/templates`, {
+          method: "POST",
+          headers,
+          body: JSON.stringify(formData),
+        });
+
+        if (res.ok) {
+          toast.success("Template created!");
+          fetchTemplates();
+        } else {
+          throw new Error("Failed to create");
+        }
       }
+    } catch (e) {
+      toast.error("Failed to save template");
     }
 
     setSaving(false);
@@ -126,13 +171,23 @@ export default function Templates() {
   };
 
   const handleDelete = async (id: string) => {
-    const { error } = await supabase.from("templates").delete().eq("id", id);
+    try {
+      const token = localStorage.getItem("auth_token");
+      const res = await fetch(`${API_BASE_URL}/templates/${id}`, {
+        method: "DELETE",
+        headers: {
+          "x-auth-token": token || "",
+        },
+      });
 
-    if (error) {
+      if (res.ok) {
+        toast.success("Template deleted!");
+        fetchTemplates();
+      } else {
+        throw new Error("Failed to delete");
+      }
+    } catch (e) {
       toast.error("Failed to delete template");
-    } else {
-      toast.success("Template deleted!");
-      fetchTemplates();
     }
   };
 
@@ -150,7 +205,11 @@ export default function Templates() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <div className="p-4 bg-red-100 text-red-800 border border-red-300 rounded mb-4">
+        DEBUG: Templates Component Mounted. Loading:{" "}
+        {loading ? "true" : "false"}, Templates: {templates.length}
+      </div>
+      <div>
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
@@ -165,7 +224,10 @@ export default function Templates() {
           </div>
           <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
             <DialogTrigger asChild>
-              <Button className="gap-2 gradient-primary text-primary-foreground" onClick={openNewDialog}>
+              <Button
+                className="gap-2 gradient-primary text-primary-foreground"
+                onClick={openNewDialog}
+              >
                 <Plus className="h-4 w-4" />
                 New Template
               </Button>
@@ -187,7 +249,9 @@ export default function Templates() {
                   <Input
                     placeholder="e.g., Welcome Email"
                     value={formData.name}
-                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -195,7 +259,9 @@ export default function Templates() {
                   <Input
                     placeholder="Email subject..."
                     value={formData.subject}
-                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, subject: e.target.value })
+                    }
                   />
                 </div>
                 <div className="space-y-2">
@@ -203,7 +269,9 @@ export default function Templates() {
                   <Textarea
                     placeholder="Hello {{name}}..."
                     value={formData.content}
-                    onChange={(e) => setFormData({ ...formData, content: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, content: e.target.value })
+                    }
                     className="min-h-[150px]"
                   />
                 </div>
@@ -212,19 +280,19 @@ export default function Templates() {
                   className="w-full gradient-primary text-primary-foreground"
                   disabled={saving}
                 >
-                  {saving ? "Saving..." : editingTemplate ? "Update Template" : "Create Template"}
+                  {saving
+                    ? "Saving..."
+                    : editingTemplate
+                      ? "Update Template"
+                      : "Create Template"}
                 </Button>
               </div>
             </DialogContent>
           </Dialog>
         </div>
-      </motion.div>
+      </div>
 
-      <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.1 }}
-      >
+      <div>
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-primary" />
@@ -232,10 +300,15 @@ export default function Templates() {
         ) : templates.length > 0 ? (
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
             {templates.map((template) => (
-              <Card key={template.id} className="group hover:shadow-lg transition-shadow">
+              <Card
+                key={template.id}
+                className="group hover:shadow-lg transition-shadow"
+              >
                 <CardHeader className="pb-2">
                   <div className="flex items-start justify-between">
-                    <CardTitle className="text-lg truncate">{template.name}</CardTitle>
+                    <CardTitle className="text-lg truncate">
+                      {template.name}
+                    </CardTitle>
                     <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost"
@@ -247,7 +320,11 @@ export default function Templates() {
                       </Button>
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
-                          <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            className="h-8 w-8 text-destructive"
+                          >
                             <Trash2 className="h-4 w-4" />
                           </Button>
                         </AlertDialogTrigger>
@@ -255,8 +332,8 @@ export default function Templates() {
                           <AlertDialogHeader>
                             <AlertDialogTitle>Delete Template</AlertDialogTitle>
                             <AlertDialogDescription>
-                              Are you sure you want to delete "{template.name}"? This action cannot be
-                              undone.
+                              Are you sure you want to delete "{template.name}"?
+                              This action cannot be undone.
                             </AlertDialogDescription>
                           </AlertDialogHeader>
                           <AlertDialogFooter>
@@ -272,7 +349,9 @@ export default function Templates() {
                       </AlertDialog>
                     </div>
                   </div>
-                  <CardDescription className="truncate">{template.subject}</CardDescription>
+                  <CardDescription className="truncate">
+                    {template.subject}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
                   <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
@@ -280,7 +359,10 @@ export default function Templates() {
                   </p>
                   <div className="flex items-center justify-between">
                     <span className="text-xs text-muted-foreground">
-                      {format(new Date(template.updated_at), "MMM d, yyyy")}
+                      {format(
+                        new Date(template.updatedAt || new Date()),
+                        "MMM d, yyyy",
+                      )}
                     </span>
                     <Button
                       variant="outline"
@@ -310,7 +392,7 @@ export default function Templates() {
             </CardContent>
           </Card>
         )}
-      </motion.div>
+      </div>
     </div>
   );
 }

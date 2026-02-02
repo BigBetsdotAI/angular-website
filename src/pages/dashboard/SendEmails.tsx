@@ -1,14 +1,28 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Send as SendIcon, Mail, Users, CheckCircle2, XCircle, AlertCircle, Loader2 } from "lucide-react";
+import {
+  Send as SendIcon,
+  Mail,
+  Users,
+  CheckCircle2,
+  XCircle,
+  AlertCircle,
+  Loader2,
+} from "lucide-react";
 import { useEmail } from "@/contexts/EmailContext";
 import { useAuth } from "@/contexts/AuthContext";
+import { API_BASE_URL } from "@/lib/auth";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { supabase } from "@/integrations/supabase/client";
 
 export default function SendEmails() {
   const { subject, content, recipients, clearAll } = useEmail();
@@ -33,21 +47,26 @@ export default function SendEmails() {
 
     for (let i = 0; i < recipients.length; i++) {
       const recipient = recipients[i];
-      
+
       try {
-        const { data, error } = await supabase.functions.invoke("send-email", {
-          body: {
+        const token = localStorage.getItem("auth_token");
+        const res = await fetch(`${API_BASE_URL}/email/send-one`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "x-auth-token": token || "",
+          },
+          body: JSON.stringify({
             to: recipient.email,
             subject,
-            content,
-            recipientName: recipient.name || "",
-          },
+            html: content, // content is essentially html here or plain text, simplistic
+            name: recipient.name || recipient["Name"] || "", // Attempt to find a name column
+          }),
         });
 
-        if (error || !data?.success) {
-          throw new Error(error?.message || data?.error || "Failed to send");
-        }
+        if (!res.ok) throw new Error("Failed to send");
 
+        // Mock success -> Real success
         sent++;
         setSentCount(sent);
       } catch (error) {
@@ -60,16 +79,26 @@ export default function SendEmails() {
     }
 
     // Save campaign to database
-    await supabase.from("campaigns").insert({
-      user_id: user?.id,
-      subject,
-      content,
-      total_emails: recipients.length,
-      sent_count: sent,
-      failed_count: failed,
-      status: "completed",
-      completed_at: new Date().toISOString(),
-    });
+    try {
+      const token = localStorage.getItem("auth_token");
+      await fetch(`${API_BASE_URL}/campaigns`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "x-auth-token": token || "",
+        },
+        body: JSON.stringify({
+          subject,
+          content,
+          total_emails: recipients.length,
+          sent_count: sent,
+          failed_count: failed,
+          status: "completed",
+        }),
+      });
+    } catch (e) {
+      console.error("Failed to save campaign history");
+    }
 
     setSending(false);
     setCompleted(true);
@@ -86,7 +115,10 @@ export default function SendEmails() {
 
   return (
     <div className="space-y-6">
-      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
         <h1 className="text-2xl font-bold text-foreground flex items-center gap-3">
           <div className="h-10 w-10 rounded-xl gradient-primary flex items-center justify-center">
             <SendIcon className="h-5 w-5 text-primary-foreground" />
@@ -152,9 +184,11 @@ export default function SendEmails() {
           <Card>
             <CardContent className="pt-6">
               <div className="flex items-center gap-4">
-                <div className={`h-12 w-12 rounded-xl flex items-center justify-center ${
-                  isReady ? "bg-success/10" : "bg-warning/10"
-                }`}>
+                <div
+                  className={`h-12 w-12 rounded-xl flex items-center justify-center ${
+                    isReady ? "bg-success/10" : "bg-warning/10"
+                  }`}
+                >
                   {isReady ? (
                     <CheckCircle2 className="h-6 w-6 text-success" />
                   ) : (
@@ -186,8 +220,8 @@ export default function SendEmails() {
               {sending
                 ? "Sending emails..."
                 : completed
-                ? "Campaign completed"
-                : "Click send to start your campaign"}
+                  ? "Campaign completed"
+                  : "Click send to start your campaign"}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
@@ -223,7 +257,9 @@ export default function SendEmails() {
                     <div className="flex items-center gap-3">
                       <CheckCircle2 className="h-5 w-5 text-success" />
                       <div>
-                        <p className="text-2xl font-bold text-success">{sentCount}</p>
+                        <p className="text-2xl font-bold text-success">
+                          {sentCount}
+                        </p>
                         <p className="text-sm text-muted-foreground">Sent</p>
                       </div>
                     </div>
@@ -232,7 +268,9 @@ export default function SendEmails() {
                     <div className="flex items-center gap-3">
                       <XCircle className="h-5 w-5 text-destructive" />
                       <div>
-                        <p className="text-2xl font-bold text-destructive">{failedCount}</p>
+                        <p className="text-2xl font-bold text-destructive">
+                          {failedCount}
+                        </p>
                         <p className="text-sm text-muted-foreground">Failed</p>
                       </div>
                     </div>
