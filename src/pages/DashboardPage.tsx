@@ -1,44 +1,54 @@
-import { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  Trophy, 
-  Target, 
-  Clock, 
+import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Trophy,
+  Target,
+  Clock,
   TrendingUp,
   Brain,
   Database,
   ChevronRight,
-  Loader2
-} from 'lucide-react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { StatsCard } from '@/components/dashboard/StatsCard';
-import { StreakDisplay } from '@/components/dashboard/StreakDisplay';
-import { Button } from '@/components/ui/button';
-import { StatusBadge } from '@/components/ui/status-badge';
-import { supabase, type Problem, type Submission, type Streak } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
+  Loader2,
+  FileCode,
+} from "lucide-react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { StatsCard } from "@/components/dashboard/StatsCard";
+import { StreakDisplay } from "@/components/dashboard/StreakDisplay";
+import { Button } from "@/components/ui/button";
+import { StatusBadge } from "@/components/ui/status-badge";
+import {
+  supabase,
+  type Problem,
+  type Submission,
+  type Streak,
+} from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
+import { localProblems } from "@/data/localProblems";
 
 export default function DashboardPage() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(true);
   const [streak, setStreak] = useState<Streak | null>(null);
-  const [recentSubmissions, setRecentSubmissions] = useState<(Submission & { problem?: Problem })[]>([]);
+  const [recentSubmissions, setRecentSubmissions] = useState<
+    (Submission & { problem?: Problem })[]
+  >([]);
   const [stats, setStats] = useState({
     totalSolved: 0,
     aiSolved: 0,
     dsSolved: 0,
+    sweSolved: 0,
     totalAttempts: 0,
   });
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    
+
     if (user) {
       fetchDashboardData();
     }
@@ -49,9 +59,9 @@ export default function DashboardPage() {
 
     // Fetch streak
     const { data: streakData } = await supabase
-      .from('streaks')
-      .select('*')
-      .eq('user_id', user.id)
+      .from("streaks")
+      .select("*")
+      .eq("user_id", user.id)
       .maybeSingle();
 
     if (streakData) {
@@ -60,41 +70,105 @@ export default function DashboardPage() {
 
     // Fetch recent submissions with problem info
     const { data: submissionsData } = await supabase
-      .from('submissions')
-      .select('*, problems(*)')
-      .eq('user_id', user.id)
-      .order('created_at', { ascending: false })
+      .from("submissions")
+      .select("*, problems(*)")
+      .eq("user_id", user.id)
+      .order("created_at", { ascending: false })
       .limit(5);
 
     if (submissionsData) {
-      setRecentSubmissions(submissionsData.map((s: Record<string, unknown>) => ({
-        ...s,
-        problem: s.problems as Problem | undefined,
-      })) as (Submission & { problem?: Problem })[]);
+      setRecentSubmissions(
+        submissionsData.map((s: Record<string, unknown>) => ({
+          ...s,
+          problem: s.problems as Problem | undefined,
+        })) as (Submission & { problem?: Problem })[],
+      );
     }
 
     // Fetch progress stats
     const { data: progressData } = await supabase
-      .from('user_problem_progress')
-      .select('*, problems(category)')
-      .eq('user_id', user.id)
-      .eq('solved', true);
+      .from("user_problem_progress")
+      .select("*, problems(category)")
+      .eq("user_id", user.id)
+      .eq("solved", true);
 
-    if (progressData) {
-      const aiSolved = progressData.filter((p: Record<string, unknown>) => 
-        (p.problems as { category: string } | null)?.category === 'ai_engineering'
-      ).length;
-      const dsSolved = progressData.filter((p: Record<string, unknown>) => 
-        (p.problems as { category: string } | null)?.category === 'data_science'
-      ).length;
+    // --- Merge Local Submissions ---
+    const localSubs: Submission[] = JSON.parse(
+      localStorage.getItem("local_submissions") || "[]",
+    );
+    // Filter for current user if needed, though mostly local storage is local to browser/user session
+    const myLocalSubs = localSubs.filter((s) => s.user_id === user.id);
 
-      setStats({
-        totalSolved: progressData.length,
-        aiSolved,
-        dsSolved,
-        totalAttempts: recentSubmissions.length,
-      });
-    }
+    // Enrich local subs with problem data
+    const enrichedLocalSubs = myLocalSubs.map((s) => {
+      const p = localProblems.find((lp) => lp.id === s.problem_id);
+      return { ...s, problem: p };
+    });
+
+    // Merge for Recent Activity
+    const allRecent = [
+      ...enrichedLocalSubs,
+      ...((submissionsData?.map((s: Record<string, unknown>) => ({
+        ...s,
+        problem: s.problems as Problem | undefined,
+      })) as (Submission & { problem?: Problem })[]) || []),
+    ]
+      .sort(
+        (a, b) =>
+          new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+      )
+      .slice(0, 5);
+
+    setRecentSubmissions(allRecent);
+
+    // Calculate Stats
+    let totalSolved = progressData?.length || 0;
+    let aiSolved =
+      progressData?.filter(
+        (p: Record<string, unknown>) =>
+          (p.problems as { category: string } | null)?.category ===
+          "ai_engineering",
+      ).length || 0;
+    let dsSolved =
+      progressData?.filter(
+        (p: Record<string, unknown>) =>
+          (p.problems as { category: string } | null)?.category ===
+          "data_science",
+      ).length || 0;
+
+    // DB doesn't have SWE problems reliably yet, but if it did:
+    let sweSolved =
+      progressData?.filter(
+        (p: Record<string, unknown>) =>
+          (p.problems as { category: string } | null)?.category ===
+          "software_engineering",
+      ).length || 0;
+
+    // Add unique solved local problems to stats
+    const solvedLocalProblemIds = new Set(
+      myLocalSubs
+        .filter((s) => s.status === "accepted")
+        .map((s) => s.problem_id),
+    );
+    totalSolved += solvedLocalProblemIds.size;
+
+    // Count categories for local problems
+    solvedLocalProblemIds.forEach((pid) => {
+      const p = localProblems.find((lp) => lp.id === pid);
+      if (p?.category === "ai_engineering") aiSolved++;
+      if (p?.category === "data_science") dsSolved++;
+      if (p?.category === "software_engineering") sweSolved++;
+    });
+
+    const totalAttempts = (recentSubmissions.length || 0) + myLocalSubs.length; // Approximate total attempts
+
+    setStats({
+      totalSolved,
+      aiSolved,
+      dsSolved,
+      sweSolved,
+      totalAttempts: allRecent.length + (stats.totalAttempts || 0), // Just estimation
+    });
 
     setLoading(false);
   };
@@ -125,7 +199,7 @@ export default function DashboardPage() {
         </motion.div>
 
         {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 mb-8">
           <StatsCard
             title="Problems Solved"
             value={stats.totalSolved}
@@ -146,10 +220,16 @@ export default function DashboardPage() {
             index={2}
           />
           <StatsCard
+            title="Software Eng"
+            value={stats.sweSolved}
+            icon={<FileCode className="w-5 h-5" />}
+            index={3}
+          />
+          <StatsCard
             title="Total Attempts"
             value={stats.totalAttempts}
             icon={<Target className="w-5 h-5" />}
-            index={3}
+            index={4}
           />
         </div>
 
@@ -161,7 +241,9 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2 }}
             >
-              <h2 className="text-lg font-semibold text-foreground mb-4">Your Streak</h2>
+              <h2 className="text-lg font-semibold text-foreground mb-4">
+                Your Streak
+              </h2>
               <StreakDisplay
                 currentStreak={streak?.current_streak || 0}
                 longestStreak={streak?.longest_streak || 0}
@@ -183,11 +265,15 @@ export default function DashboardPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3 }}
             >
-              <h2 className="text-lg font-semibold text-foreground mb-4">Recent Activity</h2>
-              
+              <h2 className="text-lg font-semibold text-foreground mb-4">
+                Recent Activity
+              </h2>
+
               {recentSubmissions.length === 0 ? (
                 <div className="p-8 rounded-xl border border-border bg-card text-center">
-                  <p className="text-muted-foreground mb-4">No submissions yet</p>
+                  <p className="text-muted-foreground mb-4">
+                    No submissions yet
+                  </p>
                   <Link to="/problems">
                     <Button variant="outline">Start Practicing</Button>
                   </Link>
@@ -205,12 +291,14 @@ export default function DashboardPage() {
                       <div className="flex items-center justify-between">
                         <div>
                           <h3 className="font-medium text-foreground">
-                            {submission.problem?.title || 'Unknown Problem'}
+                            {submission.problem?.title || "Unknown Problem"}
                           </h3>
                           <div className="flex items-center gap-3 mt-1 text-sm text-muted-foreground">
                             <span className="flex items-center gap-1">
                               <Clock className="w-3 h-3" />
-                              {new Date(submission.created_at).toLocaleDateString()}
+                              {new Date(
+                                submission.created_at,
+                              ).toLocaleDateString()}
                             </span>
                             {submission.score && (
                               <span className="flex items-center gap-1">

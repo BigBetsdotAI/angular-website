@@ -1,38 +1,39 @@
-import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  Play, 
-  Send, 
-  ChevronLeft, 
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  Play,
+  Send,
+  ChevronLeft,
   Terminal,
   FileCode,
   Info,
   Clock,
-  MemoryStick
-} from 'lucide-react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { CodeEditor } from '@/components/code-editor/CodeEditor';
-import { DifficultyBadge } from '@/components/ui/difficulty-badge';
-import { CategoryBadge } from '@/components/ui/category-badge';
-import { StatusBadge } from '@/components/ui/status-badge';
-import { Button } from '@/components/ui/button';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { supabase, type Problem, type Submission } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'sonner';
+  MemoryStick,
+} from "lucide-react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { CodeEditor } from "@/components/code-editor/CodeEditor";
+import { DifficultyBadge } from "@/components/ui/difficulty-badge";
+import { CategoryBadge } from "@/components/ui/category-badge";
+import { StatusBadge } from "@/components/ui/status-badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { supabase, type Problem, type Submission } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
+import { localProblems } from "@/data/localProblems";
 
 export default function ProblemDetailPage() {
   const { slug } = useParams<{ slug: string }>();
   const [problem, setProblem] = useState<Problem | null>(null);
-  const [code, setCode] = useState('');
+  const [code, setCode] = useState("");
   const [loading, setLoading] = useState(true);
   const [running, setRunning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [output, setOutput] = useState('');
+  const [output, setOutput] = useState("");
   const [submissions, setSubmissions] = useState<Submission[]>([]);
-  const [activeTab, setActiveTab] = useState('description');
-  
+  const [activeTab, setActiveTab] = useState("description");
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -47,31 +48,40 @@ export default function ProblemDetailPage() {
     }
   }, [problem, user]);
 
+  // ... inside component
+
   const fetchProblem = async () => {
     const { data, error } = await supabase
-      .from('problems')
-      .select('*')
-      .eq('slug', slug)
+      .from("problems")
+      .select("*")
+      .eq("slug", slug)
       .maybeSingle();
 
-    if (error) {
-      toast.error('Failed to load problem');
-    } else if (data) {
+    if (data) {
       setProblem(data as Problem);
       setCode(data.starter_code);
+    } else {
+      // Fallback to local problems
+      const localProblem = localProblems.find((p) => p.slug === slug);
+      if (localProblem) {
+        setProblem(localProblem);
+        setCode(localProblem.starter_code);
+      } else if (error) {
+        toast.error("Failed to load problem");
+      }
     }
     setLoading(false);
   };
 
   const fetchSubmissions = async () => {
     if (!problem || !user) return;
-    
+
     const { data, error } = await supabase
-      .from('submissions')
-      .select('*')
-      .eq('user_id', user.id)
-      .eq('problem_id', problem.id)
-      .order('created_at', { ascending: false })
+      .from("submissions")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("problem_id", problem.id)
+      .order("created_at", { ascending: false })
       .limit(10);
 
     if (!error && data) {
@@ -81,42 +91,74 @@ export default function ProblemDetailPage() {
 
   const handleRun = async () => {
     setRunning(true);
-    setOutput('Running code...\n');
-    
+    setOutput("Running code...\n");
+
     // Simulate code execution (in production, this would call a secure backend)
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    setOutput(`>>> Running solution...\n\nNote: Code execution requires a Python backend.\nIn production, your code would run in a secure sandbox.\n\n[Simulated Output]\nParsing dataset...\nTraining model...\nEvaluating on test set...\n\nMetric: ${problem?.evaluation_metric.toUpperCase()}\nScore: 0.85`);
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+
+    setOutput(
+      `>>> Running solution...\n\nNote: Code execution requires a Python backend.\nIn production, your code would run in a secure sandbox.\n\n[Simulated Output]\nParsing dataset...\nTraining model...\nEvaluating on test set...\n\nMetric: ${problem?.evaluation_metric.toUpperCase()}\nScore: 0.85`,
+    );
     setRunning(false);
   };
 
   const handleSubmit = async () => {
     if (!user) {
-      toast.error('Please sign in to submit solutions');
+      toast.error("Please sign in to submit solutions");
       return;
     }
 
     if (!problem) return;
 
     setSubmitting(true);
-    
+
     // In production, this would send code to a secure backend for evaluation
-    const { error } = await supabase
-      .from('submissions')
-      .insert({
+
+    // Handle local problems (not in DB)
+    if (problem.id.startsWith("local-")) {
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate delay
+      const mockSubmission: Submission = {
+        id: crypto.randomUUID(),
         user_id: user.id,
         problem_id: problem.id,
         code,
-        status: 'pending',
-      });
+        status: "accepted",
+        score: 1.0,
+        runtime_ms: Math.floor(Math.random() * 100) + 20,
+        memory_kb: Math.floor(Math.random() * 1024) + 1024,
+        output: "Simulated output for local problem.",
+        error_message: null,
+        created_at: new Date().toISOString(),
+      };
+
+      const submissions = JSON.parse(
+        localStorage.getItem("local_submissions") || "[]",
+      );
+      localStorage.setItem(
+        "local_submissions",
+        JSON.stringify([mockSubmission, ...submissions]),
+      );
+
+      setSubmissions((prev) => [mockSubmission, ...prev]);
+      toast.success("Solution submitted successfully! (Local simulation)");
+      setSubmitting(false);
+      return;
+    }
+
+    const { error } = await supabase.from("submissions").insert({
+      user_id: user.id,
+      problem_id: problem.id,
+      code,
+      status: "pending",
+    });
 
     if (error) {
-      toast.error('Failed to submit solution');
+      toast.error("Failed to submit solution");
     } else {
-      toast.success('Solution submitted successfully!');
+      toast.success("Solution submitted successfully!");
       fetchSubmissions();
     }
-    
+
     setSubmitting(false);
   };
 
@@ -124,7 +166,9 @@ export default function ProblemDetailPage() {
     return (
       <MainLayout>
         <div className="flex items-center justify-center h-screen">
-          <div className="animate-pulse text-muted-foreground">Loading problem...</div>
+          <div className="animate-pulse text-muted-foreground">
+            Loading problem...
+          </div>
         </div>
       </MainLayout>
     );
@@ -159,14 +203,16 @@ export default function ProblemDetailPage() {
               </Button>
             </Link>
             <div>
-              <h1 className="text-lg font-semibold text-foreground">{problem.title}</h1>
+              <h1 className="text-lg font-semibold text-foreground">
+                {problem.title}
+              </h1>
               <div className="flex items-center gap-2 mt-1">
                 <DifficultyBadge difficulty={problem.difficulty} />
                 <CategoryBadge category={problem.category} />
               </div>
             </div>
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -175,7 +221,7 @@ export default function ProblemDetailPage() {
               className="border-border"
             >
               <Play className="w-4 h-4 mr-2" />
-              {running ? 'Running...' : 'Run'}
+              {running ? "Running..." : "Run"}
             </Button>
             <Button
               onClick={handleSubmit}
@@ -183,7 +229,7 @@ export default function ProblemDetailPage() {
               className="bg-gradient-primary hover:opacity-90"
             >
               <Send className="w-4 h-4 mr-2" />
-              {submitting ? 'Submitting...' : 'Submit'}
+              {submitting ? "Submitting..." : "Submit"}
             </Button>
           </div>
         </div>
@@ -192,28 +238,45 @@ export default function ProblemDetailPage() {
         <div className="flex-1 flex overflow-hidden">
           {/* Left panel - Problem description */}
           <div className="w-1/2 border-r border-border overflow-hidden flex flex-col">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+            <Tabs
+              value={activeTab}
+              onValueChange={setActiveTab}
+              className="flex-1 flex flex-col"
+            >
               <TabsList className="px-4 pt-4 bg-transparent justify-start gap-2">
-                <TabsTrigger value="description" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <TabsTrigger
+                  value="description"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
                   <Info className="w-4 h-4 mr-2" />
                   Description
                 </TabsTrigger>
-                <TabsTrigger value="submissions" className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground">
+                <TabsTrigger
+                  value="submissions"
+                  className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground"
+                >
                   <FileCode className="w-4 h-4 mr-2" />
                   Submissions
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="description" className="flex-1 overflow-auto p-6 m-0">
+              <TabsContent
+                value="description"
+                className="flex-1 overflow-auto p-6 m-0"
+              >
                 <motion.div
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   className="prose prose-invert max-w-none"
                 >
-                  <p className="text-muted-foreground mb-6">{problem.description}</p>
-                  
+                  <div className="prose-h1:text-2xl prose-h2:text-xl prose-p:text-muted-foreground prose-strong:text-foreground mb-6">
+                    <p className="whitespace-pre-wrap">{problem.description}</p>
+                  </div>
+
                   <div className="bg-card rounded-xl p-6 border border-border">
-                    <h3 className="text-lg font-semibold text-foreground mb-4">Instructions</h3>
+                    <h3 className="text-lg font-semibold text-foreground mb-4">
+                      Instructions
+                    </h3>
                     <div className="text-sm text-muted-foreground whitespace-pre-wrap">
                       {problem.instructions}
                     </div>
@@ -221,34 +284,47 @@ export default function ProblemDetailPage() {
 
                   <div className="mt-6 flex items-center gap-4 text-sm text-muted-foreground">
                     <div className="flex items-center gap-2">
-                      <span className="font-medium text-foreground">Metric:</span>
-                      <span className="font-mono text-primary">{problem.evaluation_metric.toUpperCase()}</span>
+                      <span className="font-medium text-foreground">
+                        Metric:
+                      </span>
+                      <span className="font-mono text-primary">
+                        {problem.evaluation_metric.toUpperCase()}
+                      </span>
                     </div>
                     {problem.target_threshold && (
                       <div className="flex items-center gap-2">
-                        <span className="font-medium text-foreground">Target:</span>
-                        <span className="font-mono text-primary">{"< "}{problem.target_threshold}</span>
+                        <span className="font-medium text-foreground">
+                          Target:
+                        </span>
+                        <span className="font-mono text-primary">
+                          {"< "}
+                          {problem.target_threshold}
+                        </span>
                       </div>
                     )}
                   </div>
                 </motion.div>
               </TabsContent>
 
-              <TabsContent value="submissions" className="flex-1 overflow-auto p-6 m-0">
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                >
+              <TabsContent
+                value="submissions"
+                className="flex-1 overflow-auto p-6 m-0"
+              >
+                <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                   {!user ? (
                     <div className="text-center py-8">
-                      <p className="text-muted-foreground mb-4">Sign in to view your submissions</p>
+                      <p className="text-muted-foreground mb-4">
+                        Sign in to view your submissions
+                      </p>
                       <Link to="/login">
                         <Button className="bg-gradient-primary">Sign In</Button>
                       </Link>
                     </div>
                   ) : submissions.length === 0 ? (
                     <div className="text-center py-8">
-                      <p className="text-muted-foreground">No submissions yet</p>
+                      <p className="text-muted-foreground">
+                        No submissions yet
+                      </p>
                     </div>
                   ) : (
                     <div className="space-y-3">
@@ -293,22 +369,20 @@ export default function ProblemDetailPage() {
           <div className="w-1/2 flex flex-col overflow-hidden">
             {/* Code editor */}
             <div className="flex-1 overflow-hidden">
-              <CodeEditor
-                value={code}
-                onChange={setCode}
-                language="python"
-              />
+              <CodeEditor value={code} onChange={setCode} language="python" />
             </div>
 
             {/* Output panel */}
             <div className="h-48 border-t border-border flex flex-col">
               <div className="px-4 py-2 border-b border-border flex items-center gap-2">
                 <Terminal className="w-4 h-4 text-muted-foreground" />
-                <span className="text-sm font-medium text-muted-foreground">Output</span>
+                <span className="text-sm font-medium text-muted-foreground">
+                  Output
+                </span>
               </div>
               <div className="flex-1 overflow-auto p-4 bg-editor-background">
                 <pre className="text-sm font-mono text-muted-foreground whitespace-pre-wrap">
-                  {output || 'Run your code to see the output here...'}
+                  {output || "Run your code to see the output here..."}
                 </pre>
               </div>
             </div>

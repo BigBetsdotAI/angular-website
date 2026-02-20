@@ -1,31 +1,31 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { 
-  User, 
-  Mail, 
+import { useState, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  User,
+  Mail,
   Calendar,
   Trophy,
   Flame,
   Brain,
   Database,
   Loader2,
-  Camera
-} from 'lucide-react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { StatsCard } from '@/components/dashboard/StatsCard';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { supabase, type Profile, type Streak } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
-import { toast } from 'sonner';
+  Camera,
+} from "lucide-react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { StatsCard } from "@/components/dashboard/StatsCard";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { supabase, type Profile, type Streak } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
+import { toast } from "sonner";
 
 export default function ProfilePage() {
   const { user, loading: authLoading } = useAuth();
   const navigate = useNavigate();
-  
+
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -37,17 +37,65 @@ export default function ProfilePage() {
   });
 
   const [formData, setFormData] = useState({
-    username: '',
-    full_name: '',
-    bio: '',
+    username: "",
+    full_name: "",
+    bio: "",
   });
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [uploading, setUploading] = useState(false);
+
+  const handleAvatarUpload = async (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    try {
+      if (!user) return;
+      if (!event.target.files || event.target.files.length === 0) {
+        return;
+      }
+
+      setUploading(true);
+      const file = event.target.files[0];
+      const fileExt = file.name.split(".").pop();
+      const filePath = `${user.id}/${Math.random()}.${fileExt}`;
+
+      const { error: uploadError } = await supabase.storage
+        .from("avatars")
+        .upload(filePath, file);
+
+      if (uploadError) {
+        throw uploadError;
+      }
+
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("avatars").getPublicUrl(filePath);
+
+      const { error: updateError } = await supabase
+        .from("profiles")
+        .update({ avatar_url: publicUrl })
+        .eq("user_id", user.id);
+
+      if (updateError) {
+        throw updateError;
+      }
+
+      setProfile((prev) => (prev ? { ...prev, avatar_url: publicUrl } : null));
+      toast.success("Avatar updated successfully");
+    } catch (error: any) {
+      console.error("Error uploading avatar:", error.message);
+      toast.error("Error uploading avatar");
+    } finally {
+      setUploading(false);
+    }
+  };
 
   useEffect(() => {
     if (!authLoading && !user) {
-      navigate('/login');
+      navigate("/login");
       return;
     }
-    
+
     if (user) {
       fetchProfileData();
     }
@@ -58,25 +106,25 @@ export default function ProfilePage() {
 
     // Fetch profile
     const { data: profileData } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('user_id', user.id)
+      .from("profiles")
+      .select("*")
+      .eq("user_id", user.id)
       .maybeSingle();
 
     if (profileData) {
       setProfile(profileData as Profile);
       setFormData({
-        username: profileData.username || '',
-        full_name: profileData.full_name || '',
-        bio: profileData.bio || '',
+        username: profileData.username || "",
+        full_name: profileData.full_name || "",
+        bio: profileData.bio || "",
       });
     }
 
     // Fetch streak
     const { data: streakData } = await supabase
-      .from('streaks')
-      .select('*')
-      .eq('user_id', user.id)
+      .from("streaks")
+      .select("*")
+      .eq("user_id", user.id)
       .maybeSingle();
 
     if (streakData) {
@@ -85,17 +133,21 @@ export default function ProfilePage() {
 
     // Fetch progress stats
     const { data: progressData } = await supabase
-      .from('user_problem_progress')
-      .select('*, problems(category)')
-      .eq('user_id', user.id)
-      .eq('solved', true);
+      .from("user_problem_progress")
+      .select("*, problems(category)")
+      .eq("user_id", user.id)
+      .eq("solved", true);
 
     if (progressData) {
-      const aiSolved = progressData.filter((p: Record<string, unknown>) => 
-        (p.problems as { category: string } | null)?.category === 'ai_engineering'
+      const aiSolved = progressData.filter(
+        (p: Record<string, unknown>) =>
+          (p.problems as { category: string } | null)?.category ===
+          "ai_engineering",
       ).length;
-      const dsSolved = progressData.filter((p: Record<string, unknown>) => 
-        (p.problems as { category: string } | null)?.category === 'data_science'
+      const dsSolved = progressData.filter(
+        (p: Record<string, unknown>) =>
+          (p.problems as { category: string } | null)?.category ===
+          "data_science",
       ).length;
 
       setStats({
@@ -110,24 +162,24 @@ export default function ProfilePage() {
 
   const handleSave = async () => {
     if (!user) return;
-    
+
     setSaving(true);
-    
+
     const { error } = await supabase
-      .from('profiles')
+      .from("profiles")
       .update({
         username: formData.username,
         full_name: formData.full_name,
         bio: formData.bio,
       })
-      .eq('user_id', user.id);
+      .eq("user_id", user.id);
 
     if (error) {
-      toast.error('Failed to update profile');
+      toast.error("Failed to update profile");
     } else {
-      toast.success('Profile updated successfully');
+      toast.success("Profile updated successfully");
     }
-    
+
     setSaving(false);
   };
 
@@ -165,19 +217,56 @@ export default function ProfilePage() {
             className="lg:col-span-2"
           >
             <div className="p-6 rounded-2xl border border-border bg-card">
-              <h2 className="text-lg font-semibold text-foreground mb-6">Account Details</h2>
-              
+              <h2 className="text-lg font-semibold text-foreground mb-6">
+                Account Details
+              </h2>
+
               {/* Avatar section */}
-              <div className="flex items-center gap-4 mb-6 pb-6 border-b border-border">
-                <div className="w-20 h-20 rounded-full bg-gradient-primary flex items-center justify-center">
-                  <User className="w-10 h-10 text-primary-foreground" />
+              <div className="flex items-center gap-6 mb-8 pb-8 border-b border-border">
+                <div className="w-24 h-24 rounded-full bg-gradient-primary flex items-center justify-center overflow-hidden border-4 border-background shadow-xl shrink-0">
+                  {profile?.avatar_url ? (
+                    <img
+                      src={profile.avatar_url}
+                      alt={profile.username || "Profile"}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <User className="w-10 h-10 text-primary-foreground" />
+                  )}
                 </div>
-                <div>
-                  <Button variant="outline" size="sm" className="mb-2" disabled>
-                    <Camera className="w-4 h-4 mr-2" />
-                    Upload Photo
+
+                <div className="space-y-2">
+                  <h3 className="font-semibold text-lg">
+                    {formData.full_name || "Your Name"}
+                  </h3>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    className="hidden"
+                    ref={fileInputRef}
+                    onChange={handleAvatarUpload}
+                  />
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={uploading}
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    {uploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Uploading...
+                      </>
+                    ) : (
+                      <>
+                        <Camera className="w-4 h-4 mr-2" />
+                        Upload Photo
+                      </>
+                    )}
                   </Button>
-                  <p className="text-xs text-muted-foreground">Coming soon</p>
+                  <p className="text-xs text-muted-foreground">
+                    Recommended: Square JPG, PNG. Max 2MB.
+                  </p>
                 </div>
               </div>
 
@@ -188,7 +277,12 @@ export default function ProfilePage() {
                     <Input
                       id="username"
                       value={formData.username}
-                      onChange={(e) => setFormData(prev => ({ ...prev, username: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          username: e.target.value,
+                        }))
+                      }
                       className="bg-background border-border"
                     />
                   </div>
@@ -198,7 +292,12 @@ export default function ProfilePage() {
                     <Input
                       id="full_name"
                       value={formData.full_name}
-                      onChange={(e) => setFormData(prev => ({ ...prev, full_name: e.target.value }))}
+                      onChange={(e) =>
+                        setFormData((prev) => ({
+                          ...prev,
+                          full_name: e.target.value,
+                        }))
+                      }
                       className="bg-background border-border"
                     />
                   </div>
@@ -217,7 +316,9 @@ export default function ProfilePage() {
                   <Textarea
                     id="bio"
                     value={formData.bio}
-                    onChange={(e) => setFormData(prev => ({ ...prev, bio: e.target.value }))}
+                    onChange={(e) =>
+                      setFormData((prev) => ({ ...prev, bio: e.target.value }))
+                    }
                     placeholder="Tell us about yourself..."
                     className="bg-background border-border resize-none h-24"
                   />
@@ -225,7 +326,15 @@ export default function ProfilePage() {
 
                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                   <Calendar className="w-4 h-4" />
-                  <span>Member since {profile ? new Date(profile.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' }) : 'Unknown'}</span>
+                  <span>
+                    Member since{" "}
+                    {profile
+                      ? new Date(profile.created_at).toLocaleDateString(
+                          "en-US",
+                          { month: "long", year: "numeric" },
+                        )
+                      : "Unknown"}
+                  </span>
                 </div>
 
                 <Button
@@ -239,7 +348,7 @@ export default function ProfilePage() {
                       Saving...
                     </>
                   ) : (
-                    'Save Changes'
+                    "Save Changes"
                   )}
                 </Button>
               </div>

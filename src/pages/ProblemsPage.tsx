@@ -1,35 +1,36 @@
-import { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Search, Filter, X } from 'lucide-react';
-import { MainLayout } from '@/components/layout/MainLayout';
-import { ProblemCard } from '@/components/problems/ProblemCard';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { supabase, type Problem } from '@/lib/supabase';
-import { useAuth } from '@/contexts/AuthContext';
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import { Search, Filter, X } from "lucide-react";
+import { MainLayout } from "@/components/layout/MainLayout";
+import { ProblemCard } from "@/components/problems/ProblemCard";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { supabase, type Problem } from "@/lib/supabase";
+import { useAuth } from "@/contexts/AuthContext";
+import { localProblems } from "@/data/localProblems";
 
 type FilterState = {
   difficulty: string[];
   category: string[];
 };
 
-const difficulties = ['easy', 'medium', 'hard'];
+const difficulties = ["easy", "medium", "hard"];
 const categories = [
-  { value: 'ai_engineering', label: 'AI Engineering' },
-  { value: 'data_science', label: 'Data Science' },
-  { value: 'software_engineering', label: 'Software Engineering' },
+  { value: "ai_engineering", label: "AI Engineering" },
+  { value: "data_science", label: "Data Science" },
+  { value: "software_engineering", label: "Software Engineering" },
 ];
 
 export default function ProblemsPage() {
   const [problems, setProblems] = useState<Problem[]>([]);
   const [loading, setLoading] = useState(true);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [filters, setFilters] = useState<FilterState>({
     difficulty: [],
     category: [],
   });
   const [solvedProblems, setSolvedProblems] = useState<Set<string>>(new Set());
-  
+
   const { user } = useAuth();
 
   useEffect(() => {
@@ -39,60 +40,96 @@ export default function ProblemsPage() {
     }
   }, [user]);
 
+  // ... inside component
+
   const fetchProblems = async () => {
     const { data, error } = await supabase
-      .from('problems')
-      .select('*')
-      .order('created_at', { ascending: true });
+      .from("problems")
+      .select("*")
+      .order("created_at", { ascending: true });
+
+    let allProblems = [...localProblems];
 
     if (!error && data) {
-      setProblems(data as Problem[]);
+      // Filter out any local problems that might conflict with DB problems by slug (if they existed)
+      const dbSlugs = new Set(data.map((p) => p.slug));
+      const newLocalProblems = localProblems.filter(
+        (p) => !dbSlugs.has(p.slug),
+      );
+
+      allProblems = [...(data as Problem[]), ...newLocalProblems];
+    } else if (error) {
+      console.error("Error fetching problems:", error);
+      // Keep local problems even if DB fails
     }
+
+    setProblems(allProblems);
     setLoading(false);
   };
 
   const fetchProgress = async () => {
     if (!user) return;
-    
-    const { data, error } = await supabase
-      .from('user_problem_progress')
-      .select('problem_id')
-      .eq('user_id', user.id)
-      .eq('solved', true);
 
+    const { data, error } = await supabase
+      .from("user_problem_progress")
+      .select("problem_id")
+      .eq("user_id", user.id)
+      .eq("solved", true);
+
+    const solvedIds = new Set<string>();
+
+    // Add DB solved problems
     if (!error && data) {
-      setSolvedProblems(new Set(data.map(p => p.problem_id)));
+      data.forEach((p) => solvedIds.add(p.problem_id));
     }
+
+    // Add local solved problems
+    const localSubs = JSON.parse(
+      localStorage.getItem("local_submissions") || "[]",
+    );
+    localSubs.forEach((s: any) => {
+      if (s.user_id === user.id && s.status === "accepted") {
+        solvedIds.add(s.problem_id);
+      }
+    });
+
+    setSolvedProblems(solvedIds);
   };
 
-  const toggleFilter = (type: 'difficulty' | 'category', value: string) => {
-    setFilters(prev => ({
+  const toggleFilter = (type: "difficulty" | "category", value: string) => {
+    setFilters((prev) => ({
       ...prev,
       [type]: prev[type].includes(value)
-        ? prev[type].filter(v => v !== value)
+        ? prev[type].filter((v) => v !== value)
         : [...prev[type], value],
     }));
   };
 
   const clearFilters = () => {
     setFilters({ difficulty: [], category: [] });
-    setSearch('');
+    setSearch("");
   };
 
-  const filteredProblems = problems.filter(problem => {
-    const matchesSearch = problem.title.toLowerCase().includes(search.toLowerCase()) ||
+  const filteredProblems = problems.filter((problem) => {
+    const matchesSearch =
+      problem.title.toLowerCase().includes(search.toLowerCase()) ||
       problem.description.toLowerCase().includes(search.toLowerCase());
-    
-    const matchesDifficulty = filters.difficulty.length === 0 || 
+
+    const matchesDifficulty =
+      filters.difficulty.length === 0 ||
       filters.difficulty.includes(problem.difficulty);
-    
-    const matchesCategory = filters.category.length === 0 || 
+
+    const matchesCategory =
+      filters.category.length === 0 ||
       filters.category.includes(problem.category);
 
     return matchesSearch && matchesDifficulty && matchesCategory;
   });
 
-  const hasActiveFilters = filters.difficulty.length > 0 || filters.category.length > 0 || search.length > 0;
+  const hasActiveFilters =
+    filters.difficulty.length > 0 ||
+    filters.category.length > 0 ||
+    search.length > 0;
 
   return (
     <MainLayout>
@@ -135,12 +172,16 @@ export default function ProblemsPage() {
               {difficulties.map((diff) => (
                 <Button
                   key={diff}
-                  variant={filters.difficulty.includes(diff) ? "default" : "outline"}
+                  variant={
+                    filters.difficulty.includes(diff) ? "default" : "outline"
+                  }
                   size="sm"
-                  onClick={() => toggleFilter('difficulty', diff)}
-                  className={filters.difficulty.includes(diff) 
-                    ? "bg-primary text-primary-foreground" 
-                    : "border-border hover:bg-card"}
+                  onClick={() => toggleFilter("difficulty", diff)}
+                  className={
+                    filters.difficulty.includes(diff)
+                      ? "bg-primary text-primary-foreground"
+                      : "border-border hover:bg-card"
+                  }
                 >
                   {diff.charAt(0).toUpperCase() + diff.slice(1)}
                 </Button>
@@ -152,12 +193,16 @@ export default function ProblemsPage() {
               {categories.map((cat) => (
                 <Button
                   key={cat.value}
-                  variant={filters.category.includes(cat.value) ? "default" : "outline"}
+                  variant={
+                    filters.category.includes(cat.value) ? "default" : "outline"
+                  }
                   size="sm"
-                  onClick={() => toggleFilter('category', cat.value)}
-                  className={filters.category.includes(cat.value) 
-                    ? "bg-primary text-primary-foreground" 
-                    : "border-border hover:bg-card"}
+                  onClick={() => toggleFilter("category", cat.value)}
+                  className={
+                    filters.category.includes(cat.value)
+                      ? "bg-primary text-primary-foreground"
+                      : "border-border hover:bg-card"
+                  }
                 >
                   {cat.label}
                 </Button>
@@ -186,7 +231,8 @@ export default function ProblemsPage() {
           className="mb-6"
         >
           <span className="text-sm text-muted-foreground">
-            {filteredProblems.length} problem{filteredProblems.length !== 1 ? 's' : ''} found
+            {filteredProblems.length} problem
+            {filteredProblems.length !== 1 ? "s" : ""} found
           </span>
         </motion.div>
 
@@ -200,9 +246,9 @@ export default function ProblemsPage() {
         ) : (
           <div className="space-y-4">
             {filteredProblems.map((problem, index) => (
-              <ProblemCard 
-                key={problem.id} 
-                problem={problem} 
+              <ProblemCard
+                key={problem.id}
+                problem={problem}
                 solved={solvedProblems.has(problem.id)}
                 index={index}
               />
@@ -210,8 +256,14 @@ export default function ProblemsPage() {
 
             {filteredProblems.length === 0 && (
               <div className="text-center py-16">
-                <p className="text-muted-foreground">No problems found matching your criteria.</p>
-                <Button variant="link" onClick={clearFilters} className="mt-2 text-primary">
+                <p className="text-muted-foreground">
+                  No problems found matching your criteria.
+                </p>
+                <Button
+                  variant="link"
+                  onClick={clearFilters}
+                  className="mt-2 text-primary"
+                >
                   Clear filters
                 </Button>
               </div>
