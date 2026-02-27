@@ -1,3 +1,5 @@
+import { useScrollAnimation, useStaggerAnimation } from "@/hooks/useScrollAnimation";
+
 const agendaItems = [
   { time: "08:30 – 09:30", title: "Registration & Networking", desc: "" },
   { time: "09:30 – 09:40", title: "Opening & Welcome Address", desc: "" },
@@ -19,20 +21,37 @@ const agendaItems = [
 ];
 
 const AgendaSection = () => {
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: listRef, isVisible: listVisible, getDelay } = useStaggerAnimation(agendaItems.length, { threshold: 0.05 });
+
   return (
     <section id="agenda" className="section-white py-20">
       <div className="container mx-auto px-4">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-center mb-4 text-secondary">
-          Full Day Agenda
-        </h2>
-        <p className="text-center text-muted-foreground mb-12 font-heading">
-          Future of AI in Data Analytics Summit (FAIDAS) – Hyderabad Edition
-        </p>
-        <div className="max-w-4xl mx-auto space-y-0">
+        <div ref={titleRef}>
+          <h2
+            className={`font-heading font-bold text-3xl md:text-4xl text-center mb-4 text-secondary opacity-0 ${
+              titleVisible ? "animate-fade-in-up" : ""
+            }`}
+          >
+            Full Day Agenda
+          </h2>
+          <p
+            className={`text-center text-muted-foreground mb-12 font-heading opacity-0 ${
+              titleVisible ? "animate-fade-in-up" : ""
+            }`}
+            style={{ animationDelay: "0.15s" }}
+          >
+            Future of AI in Data Analytics Summit (FAIDAS) – Hyderabad Edition
+          </p>
+        </div>
+        <div ref={listRef} className="max-w-4xl mx-auto space-y-0">
           {agendaItems.map((item, i) => (
             <div
               key={i}
-              className={`flex gap-6 py-5 ${i < agendaItems.length - 1 ? "border-b border-border" : ""}`}
+              className={`flex gap-6 py-5 opacity-0 ${i < agendaItems.length - 1 ? "border-b border-border" : ""} ${
+                listVisible ? "animate-fade-in-up" : ""
+              }`}
+              style={listVisible ? { transitionDelay: `${i * 60}ms`, animationDelay: `${i * 60}ms` } : {}}
             >
               <div className="w-32 shrink-0">
                 <span className="font-heading font-bold text-sm text-primary">{item.time}</span>

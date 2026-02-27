@@ -1,19 +1,39 @@
 import overviewImg from "@/assets/overview-img.jpg";
+import { useScrollAnimation } from "@/hooks/useScrollAnimation";
 
 const OverviewSection = () => {
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: imgRef, isVisible: imgVisible } = useScrollAnimation();
+  const { ref: textRef, isVisible: textVisible } = useScrollAnimation();
+
   return (
     <section id="overview" className="section-white py-20">
       <div className="container mx-auto px-4">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary">
-          Overview
-        </h2>
+        <div ref={titleRef}>
+          <h2
+            className={`font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary opacity-0 ${
+              titleVisible ? "animate-fade-in-up" : ""
+            }`}
+          >
+            Overview
+          </h2>
+        </div>
         <div className="grid md:grid-cols-2 gap-12 items-start">
-          <img
-            src={overviewImg}
-            alt="FAIDAS event overview showing professionals at a tech conference"
-            className="rounded-lg shadow-lg w-full object-cover aspect-video"
-          />
-          <div className="space-y-5 text-muted-foreground leading-relaxed text-sm md:text-base">
+          <div ref={imgRef}>
+            <img
+              src={overviewImg}
+              alt="FAIDAS event overview showing professionals at a tech conference"
+              className={`rounded-lg shadow-lg w-full object-cover aspect-video opacity-0 ${
+                imgVisible ? "animate-fade-in-left" : ""
+              }`}
+            />
+          </div>
+          <div
+            ref={textRef}
+            className={`space-y-5 text-muted-foreground leading-relaxed text-sm md:text-base opacity-0 ${
+              textVisible ? "animate-fade-in-right" : ""
+            }`}
+          >
             <p>
               Following the tremendous success of our inaugural edition in Bengaluru, the{" "}
               <strong className="text-secondary">FUTURE OF AI IN DATA ANALYTICS SUMMIT (FAIDAS)</strong>{" "}

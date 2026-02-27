@@ -1,3 +1,5 @@
+import { useScrollAnimation, useStaggerAnimation } from "@/hooks/useScrollAnimation";
+
 const reasons = [
   {
     num: "01",
@@ -37,17 +39,29 @@ const reasons = [
 ];
 
 const WhyAttendSection = () => {
+  const { ref: titleRef, isVisible: titleVisible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggerAnimation(reasons.length);
+
   return (
     <section className="section-navy py-20">
       <div className="container mx-auto px-4">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-primary-foreground">
-          Why Attend – Hyderabad Edition
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {reasons.map((r) => (
+        <div ref={titleRef}>
+          <h2
+            className={`font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-primary-foreground opacity-0 ${
+              titleVisible ? "animate-fade-in-up" : ""
+            }`}
+          >
+            Why Attend – Hyderabad Edition
+          </h2>
+        </div>
+        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {reasons.map((r, i) => (
             <div
               key={r.num}
-              className="bg-navy-light/50 border border-teal/20 rounded-lg p-6 hover:border-teal/60 transition-colors"
+              className={`bg-navy-light/50 border border-teal/20 rounded-lg p-6 hover:border-teal/60 transition-colors opacity-0 ${
+                gridVisible ? "animate-fade-in-up" : ""
+              }`}
+              style={gridVisible ? getDelay(i) : {}}
             >
               <span className="number-badge mb-4">{r.num}</span>
               <h3 className="font-heading font-bold text-lg text-primary-foreground mt-4 mb-2">

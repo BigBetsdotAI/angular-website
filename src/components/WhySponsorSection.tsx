@@ -1,3 +1,5 @@
+import { useScrollAnimation, useStaggerAnimation } from "@/hooks/useScrollAnimation";
+
 const sponsorPoints = [
   {
     title: "Engage buyers at the \"data strategy to AI strategy\" stage",
@@ -57,27 +59,56 @@ const benefits = [
 ];
 
 const WhySponsorSection = () => {
+  const { ref: t1Ref, isVisible: t1Visible } = useScrollAnimation();
+  const { ref: gridRef, isVisible: gridVisible, getDelay } = useStaggerAnimation(sponsorPoints.length);
+  const { ref: t2Ref, isVisible: t2Visible } = useScrollAnimation();
+  const { ref: benefitsRef, isVisible: benefitsVisible, getDelay: getBenDelay } = useStaggerAnimation(benefits.length);
+
   return (
     <section id="why-sponsor" className="section-white py-20">
       <div className="container mx-auto px-4">
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary">
-          Critical Sponsor Value Points – Why Sponsor?
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
+        <div ref={t1Ref}>
+          <h2
+            className={`font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary opacity-0 ${
+              t1Visible ? "animate-fade-in-up" : ""
+            }`}
+          >
+            Critical Sponsor Value Points – Why Sponsor?
+          </h2>
+        </div>
+        <div ref={gridRef} className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-20">
           {sponsorPoints.map((p, i) => (
-            <div key={i} className="border border-border rounded-lg p-6 hover:shadow-lg transition-shadow">
+            <div
+              key={i}
+              className={`border border-border rounded-lg p-6 hover:shadow-lg transition-shadow opacity-0 ${
+                gridVisible ? "animate-fade-in-up" : ""
+              }`}
+              style={gridVisible ? getDelay(i) : {}}
+            >
               <h4 className="font-heading font-bold text-base text-secondary mb-3">{p.title}</h4>
               <p className="text-sm text-muted-foreground leading-relaxed">{p.desc}</p>
             </div>
           ))}
         </div>
 
-        <h2 className="font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary">
-          Sponsor Benefits Mapped to ROI
-        </h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {benefits.map((b) => (
-            <div key={b.title} className="bg-muted rounded-lg p-6">
+        <div ref={t2Ref}>
+          <h2
+            className={`font-heading font-bold text-3xl md:text-4xl text-center mb-12 text-secondary opacity-0 ${
+              t2Visible ? "animate-fade-in-up" : ""
+            }`}
+          >
+            Sponsor Benefits Mapped to ROI
+          </h2>
+        </div>
+        <div ref={benefitsRef} className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {benefits.map((b, i) => (
+            <div
+              key={b.title}
+              className={`bg-muted rounded-lg p-6 opacity-0 ${
+                benefitsVisible ? "animate-fade-in-up" : ""
+              }`}
+              style={benefitsVisible ? getBenDelay(i) : {}}
+            >
               <h4 className="font-heading font-bold text-base text-secondary mb-4">{b.title}</h4>
               <ul className="space-y-2">
                 {b.items.map((item, i) => (
