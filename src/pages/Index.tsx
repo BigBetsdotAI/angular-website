@@ -9,6 +9,8 @@ import AttendingSection from "@/components/AttendingSection";
 import SpotlightSection from "@/components/SpotlightSection";
 import AgendaSection from "@/components/AgendaSection";
 import RegistrationForm from "@/components/RegistrationForm";
+import FloatingContactIcons from "@/components/FloatingContactIcons";
+import ChatBot from "@/components/ChatBot";
 
 const Index = () => {
   return (
@@ -16,9 +18,15 @@ const Index = () => {
       <Navbar />
       <HeroSection />
       <OverviewSection />
-      <WhyAttendSection />
-      <SpeakersSection />
-      <ObjectivesSection />
+      <div id="why-attend">
+        <WhyAttendSection />
+      </div>
+      <div id="speakers">
+        <SpeakersSection />
+      </div>
+      <div id="objectives">
+        <ObjectivesSection />
+      </div>
       <WhySponsorSection />
       <AttendingSection />
       <SpotlightSection />
@@ -29,6 +37,8 @@ const Index = () => {
           © 2026 FAIDAS – Future of AI in Data Analytics Summit. All rights reserved.
         </p>
       </footer>
+      <FloatingContactIcons />
+      <ChatBot />
     </div>
   );
 };
