@@ -1,4 +1,4 @@
-import heroBg from "@/assets/hero-bg.jpg";
+import heroBgVideo from "@/assets/faidas-2026-hyderabad (1).mp4";
 import { useEffect, useState } from "react";
 
 const HeroSection = () => {
@@ -11,10 +11,15 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-start overflow-hidden">
-      <div
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroBg})` }}
-      />
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={heroBgVideo} type="video/mp4" />
+      </video>
       <div className="absolute inset-0 bg-navy/70" />
       <div className="relative z-10 container mx-auto px-4 pt-24 pb-16">
         <p
